@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ServicePlansSection } from "@/components/public-profile/ServicePlansSection";
 import { useToast } from "@/hooks/use-toast";
 import { WalkerPublicProfileService } from "@/services/WalkerPublicProfileService";
+import { Header } from "@/components/shared/Header";
 import {
   MapPin,
   Phone,
@@ -180,19 +181,7 @@ const PublicProfile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-blue-600">PetWalker</h1>
-            </div>
-            <Button onClick={() => navigate("/")} variant="outline">
-              Voltar ao início
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

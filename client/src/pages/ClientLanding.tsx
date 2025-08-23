@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Header } from "@/components/shared/Header";
 import { 
   Heart, 
   Calendar, 
@@ -69,8 +70,9 @@ const ClientLanding = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <Header />
       {/* Header */}
-      <header className="container mx-auto px-4 py-6">
+      <header className="container mx-auto px-4 py-6" style={{ display: 'none' }}>
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <Heart className="h-8 w-8 text-blue-600" />

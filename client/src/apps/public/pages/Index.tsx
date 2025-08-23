@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart, MapPin, Shield, Star, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Header } from "@/components/shared/Header";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <Header />
       {/* Hero Section */}
-      <section className="relative px-4 pt-16 pb-20 sm:px-6 lg:px-8">
+      <section className="relative px-4 pt-8 pb-20 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">

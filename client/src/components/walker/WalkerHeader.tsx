@@ -2,6 +2,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import logoUrl from "@/assets/logo.png";
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -32,8 +33,15 @@ export const WalkerHeader = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <Link to="/dashboard" className="text-xl font-bold text-blue-600">
-              DogWalker Pro
+            <Link to="/dashboard" className="flex items-center space-x-3">
+              <img 
+                src={logoUrl} 
+                alt="Walki Pet Logo" 
+                className="h-8 w-auto hover:opacity-80 transition-opacity"
+              />
+              <span className="text-xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                Walki Pet
+              </span>
             </Link>
             
             <nav className="hidden md:flex space-x-4">

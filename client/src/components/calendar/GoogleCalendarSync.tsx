@@ -77,28 +77,19 @@ export const GoogleCalendarSync = ({
   const handleConnect = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/google-calendar/auth-url`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user_id: user?.id
-        })
+      // Mock implementation - just show development message
+      toast({
+        title: "Em Desenvolvimento",
+        description: "A integração com Google Calendar será implementada em breve!",
+        variant: "default"
       });
-
-      if (!response.ok) {
-        throw new Error(`Erro ${response.status}`);
-      }
-
-      const data = await response.json();
       
-      // Redirect directly to Google OAuth (no popup)  
-      window.location.href = data.auth_url;
+      // Don't actually redirect, just simulate the flow
+      setLoading(false);
     } catch (error: any) {
       console.error('Erro ao conectar Google Calendar:', error);
       toast({
-        title: "Aviso",
+        title: "Aviso", 
         description: "Funcionalidade do Google Calendar em desenvolvimento.",
         variant: "destructive"
       });

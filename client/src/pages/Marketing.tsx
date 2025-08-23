@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -8,13 +8,25 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { WalkerHeader } from "@/components/walker/WalkerHeader";
 import { RegionInput } from "@/components/dashboard/RegionInput";
 import { MultiSelectInput } from "@/components/dashboard/MultiSelectInput";
 import { useToast } from "@/hooks/use-toast";
 // Removed supabase import - using localStorage instead
 import { useAuth } from "@/hooks/useAuth";
-import { Share2, Link, QrCode, Eye, ExternalLink, ChevronDown, ChevronUp, Instagram, BarChart3 } from "lucide-react";
+import { Share2, Link, QrCode, Eye, ExternalLink, ChevronDown, ChevronUp, Instagram, BarChart3, Copy, Download, Mail, MessageCircle } from "lucide-react";
+import { 
+  WhatsappShareButton, 
+  FacebookShareButton, 
+  TwitterShareButton, 
+  EmailShareButton,
+  WhatsappIcon,
+  FacebookIcon,
+  TwitterIcon,
+  EmailIcon
+} from 'react-share';
+import QRCodeLib from 'qrcode';
 import { PerformanceStats } from "@/components/marketing/PerformanceStats";
 import { ServiceStats } from "@/components/marketing/ServiceStats";
 import { SchedulingStats } from "@/components/marketing/SchedulingStats";
@@ -29,6 +41,12 @@ interface Region {
 const Marketing = () => {
   const [loading, setLoading] = useState(false);
   const [walkerData, setWalkerData] = useState<any>(null);
+  
+  // Estados para modais
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
+  const qrCanvasRef = useRef<HTMLCanvasElement>(null);
   
   // Estado para controlar quais cards estão expandidos
   const [expandedCards, setExpandedCards] = useState({
@@ -254,6 +272,65 @@ const Marketing = () => {
     if (formData.slug) {
       window.open(`/profile/${formData.slug}`, '_blank');
     }
+  };
+
+  const handleShareClick = () => {
+    setShowShareModal(true);
+  };
+
+  const handleQRClick = async () => {
+    try {
+      const qrDataUrl = await QRCodeLib.toDataURL(publicUrl, {
+        width: 256,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF',
+        },
+      });
+      setQrCodeDataUrl(qrDataUrl);
+      setShowQRModal(true);
+    } catch (error) {
+      console.error('Erro ao gerar QR Code:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível gerar o QR Code",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleCopyQRImage = async () => {
+    try {
+      // Converter data URL para blob
+      const response = await fetch(qrCodeDataUrl);
+      const blob = await response.blob();
+      
+      // Criar item para clipboard
+      const item = new ClipboardItem({ 'image/png': blob });
+      await navigator.clipboard.write([item]);
+      
+      toast({
+        title: "Sucesso!",
+        description: "QR Code copiado para a área de transferência"
+      });
+    } catch (error) {
+      console.error('Erro ao copiar QR Code:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível copiar o QR Code",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleDownloadQR = () => {
+    const link = document.createElement('a');
+    link.href = qrCodeDataUrl;
+    link.download = `qr-code-${formData.slug || 'perfil'}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
 
@@ -701,11 +778,11 @@ const Marketing = () => {
                 </div>
 
                 <div className="flex space-x-2">
-                  <Button className="flex-1">
+                  <Button className="flex-1" onClick={handleShareClick}>
                     <Share2 className="h-4 w-4 mr-2" />
                     Compartilhar
                   </Button>
-                  <Button variant="outline" className="flex-1">
+                  <Button variant="outline" className="flex-1" onClick={handleQRClick}>
                     <QrCode className="h-4 w-4 mr-2" />
                     QR Code
                   </Button>
@@ -731,6 +808,132 @@ const Marketing = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Modal de Compartilhamento */}
+      <Dialog open={showShareModal} onOpenChange={setShowShareModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Compartilhar Perfil</DialogTitle>
+            <DialogDescription>
+              Escolha onde você gostaria de compartilhar seu perfil
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <WhatsappShareButton
+                url={publicUrl}
+                title="Confira meu perfil como dog walker!"
+                className="w-full"
+              >
+                <div className="flex items-center justify-center w-full p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <MessageCircle className="h-5 w-5 mr-2 text-green-600" />
+                  <span className="text-sm font-medium">WhatsApp</span>
+                </div>
+              </WhatsappShareButton>
+
+              <FacebookShareButton
+                url={publicUrl}
+                className="w-full"
+              >
+                <div className="flex items-center justify-center w-full p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <FacebookIcon size={20} className="mr-2" />
+                  <span className="text-sm font-medium">Facebook</span>
+                </div>
+              </FacebookShareButton>
+
+              <TwitterShareButton
+                url={publicUrl}
+                title="Confira meu perfil como dog walker!"
+                className="w-full"
+              >
+                <div className="flex items-center justify-center w-full p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <TwitterIcon size={20} className="mr-2" />
+                  <span className="text-sm font-medium">Twitter</span>
+                </div>
+              </TwitterShareButton>
+
+              <EmailShareButton
+                url={publicUrl}
+                subject="Confira meu perfil como dog walker!"
+                body="Olá! Gostaria de compartilhar meu perfil profissional como dog walker. Você pode ver meus serviços em:"
+                className="w-full"
+              >
+                <div className="flex items-center justify-center w-full p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <Mail className="h-5 w-5 mr-2 text-blue-600" />
+                  <span className="text-sm font-medium">Email</span>
+                </div>
+              </EmailShareButton>
+            </div>
+            
+            <div className="pt-4 border-t">
+              <div className="flex space-x-2">
+                <Input value={publicUrl} readOnly className="flex-1" />
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => {
+                    navigator.clipboard.writeText(publicUrl);
+                    toast({
+                      title: "Copiado!",
+                      description: "Link copiado para a área de transferência"
+                    });
+                  }}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal do QR Code */}
+      <Dialog open={showQRModal} onOpenChange={setShowQRModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>QR Code do Perfil</DialogTitle>
+            <DialogDescription>
+              Escaneie para acessar o perfil diretamente
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex justify-center">
+              {qrCodeDataUrl && (
+                <img 
+                  src={qrCodeDataUrl} 
+                  alt="QR Code do perfil" 
+                  className="w-64 h-64 border rounded-lg"
+                />
+              )}
+            </div>
+            
+            <div className="flex space-x-2">
+              <Button 
+                onClick={handleCopyQRImage}
+                className="flex-1"
+                variant="outline"
+              >
+                <Copy className="h-4 w-4 mr-2" />
+                Copiar Imagem
+              </Button>
+              <Button 
+                onClick={handleDownloadQR}
+                className="flex-1"
+                variant="outline"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Baixar
+              </Button>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-sm text-gray-500">
+                URL: {publicUrl}
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
     </div>
   );

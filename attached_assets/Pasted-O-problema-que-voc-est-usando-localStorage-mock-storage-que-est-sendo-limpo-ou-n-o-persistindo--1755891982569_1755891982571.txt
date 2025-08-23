@@ -1,0 +1,141 @@
+O problema é que você está usando localStorage/mock storage que está sendo limpo ou não persistindo corretamente entre sessões. Vamos analisar e resolver:
+Problemas identificados:
+1. Mock Storage não persiste após reload
+📋 Loading service plans from mock storage: Array(0)  // Vazio após reload!
+2. Região não aparece na lista
+A região está sendo configurada, mas não está sendo salva ou carregada corretamente.
+Soluções:
+Solução 1: Corrigir a persistência no localStorage
+tsx// services/mockStorage.ts ou similar
+const STORAGE_KEY = 'service_plans';
+
+export const savePlansToStorage = (plans) => {
+  try {
+    const dataToSave = JSON.stringify(plans);
+    localStorage.setItem(STORAGE_KEY, dataToSave);
+    console.log('💾 Plans saved to localStorage:', plans);
+  } catch (error) {
+    console.error('❌ Error saving to localStorage:', error);
+  }
+};
+
+export const loadPlansFromStorage = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) {
+      console.log('📋 No plans found in localStorage');
+      return [];
+    }
+    
+    const parsed = JSON.parse(stored);
+    console.log('📋 Plans loaded from localStorage:', parsed);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.error('❌ Error loading from localStorage:', error);
+    return [];
+  }
+};
+Solução 2: Verificar se está salvando corretamente
+tsx// No seu hook ou service para criar planos
+export const createServicePlan = async (planData) => {
+  try {
+    // Criar o plano com todos os dados necessários
+    const newPlan = {
+      id: `plan-${Date.now()}`,
+      ...planData,
+      is_active: true,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      // 🚨 IMPORTANTE: Garantir que a região está incluída
+      region: planData.region || planData.service_region || 'default'
+    };
+
+    // Carregar planos existentes
+    const existingPlans = loadPlansFromStorage();
+    
+    // Adicionar o novo plano
+    const updatedPlans = [...existingPlans, newPlan];
+    
+    // Salvar de volta
+    savePlansToStorage(updatedPlans);
+    
+    console.log('✅ Plan saved to storage:', newPlan);
+    console.log('📋 All plans in storage:', updatedPlans);
+    
+    return newPlan;
+  } catch (error) {
+    console.error('❌ Error creating plan:', error);
+    throw error;
+  }
+};
+Solução 3: Debug da persistência
+Adicione este código para debugar:
+tsx// Em um useEffect no componente principal
+useEffect(() => {
+  // Debug do localStorage
+  console.log('🔍 Checking localStorage on mount:');
+  console.log('Raw localStorage:', localStorage.getItem('service_plans'));
+  
+  try {
+    const parsed = JSON.parse(localStorage.getItem('service_plans') || '[]');
+    console.log('Parsed plans:', parsed);
+  } catch (error) {
+    console.error('Error parsing localStorage:', error);
+  }
+}, []);
+Solução 4: Verificar se a região está sendo passada
+tsx// No formulário de criação do plano
+const handleSubmit = async (formData) => {
+  const planData = {
+    ...formData,
+    // 🚨 GARANTIR que a região está sendo passada
+    region: formData.region || selectedRegion,
+    service_region: formData.service_region || selectedRegion,
+    walker_id: currentWalkerId
+  };
+  
+  console.log('🔍 Plan data with region:', planData);
+  
+  const result = await createServicePlan(planData);
+  
+  // Forçar reload da lista
+  await refetchPlans();
+};
+Solução 5: Fallback para quando localStorage falha
+tsx// Usar sessionStorage como fallback
+const FALLBACK_KEY = 'service_plans_session';
+
+export const saveWithFallback = (plans) => {
+  try {
+    localStorage.setItem('service_plans', JSON.stringify(plans));
+  } catch (error) {
+    console.warn('localStorage failed, using sessionStorage');
+    sessionStorage.setItem(FALLBACK_KEY, JSON.stringify(plans));
+  }
+};
+
+export const loadWithFallback = () => {
+  try {
+    let data = localStorage.getItem('service_plans');
+    if (!data) {
+      data = sessionStorage.getItem(FALLBACK_KEY);
+    }
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    console.error('Both storage methods failed:', error);
+    return [];
+  }
+};
+Teste rápido:
+
+Abra o DevTools → Application → Local Storage
+Verifique se a key service_plans existe após criar um plano
+Veja se os dados estão lá após recarregar a página
+
+Provavelmente o problema está em:
+
+❌ localStorage não sendo salvo corretamente
+❌ Região não sendo incluída no objeto do plano
+❌ Chave do localStorage sendo limpa por algum motivo
+
+Você pode mostrar o código onde você está salvando e carregando os planos do storage?

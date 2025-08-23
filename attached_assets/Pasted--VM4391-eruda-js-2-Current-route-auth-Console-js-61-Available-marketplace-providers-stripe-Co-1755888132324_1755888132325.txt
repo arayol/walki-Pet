@@ -1,0 +1,41 @@
+
+VM4391 eruda.js:2 Current route: /auth
+Console.js:61 Available marketplace providers: ['stripe']
+Console.js:61 Current route: /dashboard
+injected.js:253  GET https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/api/walkers/af206421-095c-4d4c-a92c-50295d9de7c4 404 (Not Found)
+window.fetch @ Network.js:219
+apply @ injected.js:253
+fetchWalkerData @ useDashboardData.tsx:18
+refetch @ useDashboardData.tsx:43
+(anonymous) @ useDashboardData.tsx:50
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=6c352090:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=6c352090:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=6c352090:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=6c352090:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=6c352090:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=6c352090:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=6c352090:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=6c352090:19328
+workLoop @ chunk-RPCDYKBN.js?v=6c352090:197
+flushWork @ chunk-RPCDYKBN.js?v=6c352090:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=6c352090:384
+Console.js:61 🔍 [useRecentBookings] Iniciando busca de dados para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [useRecentBookings] Buscando dados dos últimos 14 dias: {start: '2025-08-08T03:00:00.000Z', end: '2025-08-23T02:59:59.999Z'}
+Console.js:61 🔍 [BookingQueries] Buscando walks para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [BookingQueries] Período: {start: '2025-08-08T03:00:00.000Z', end: '2025-08-23T02:59:59.999Z'}
+Console.js:61 🔍 [BookingQueries] Buscando service_bookings para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [BookingQueries] Resultado service_bookings: {error: null, count: 0, data: Array(0)}
+Console.js:61 🔍 [BookingQueries] Buscando payments para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [BookingQueries] Resultado payments: {error: null, count: 0, data: Array(0)}
+Console.js:61 🔄 Buscando agendamentos recorrentes para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 💥 [useRecentBookings] Erro geral: TypeError: supabase.from is not a function
+    at BookingQueries.fetchWalks (BookingQueries.ts:13:8)
+    at fetchBookings (useRecentBookings.tsx:34:24)
+    at useRecentBookings.tsx:92:5
+    at commitHookEffectListMount (chunk-RPCDYKBN.js?v=6c352090:16915:34)
+    at commitPassiveMountOnFiber (chunk-RPCDYKBN.js?v=6c352090:18156:19)
+    at commitPassiveMountEffects_complete (chunk-RPCDYKBN.js?v=6c352090:18129:17)
+    at commitPassiveMountEffects_begin (chunk-RPCDYKBN.js?v=6c352090:18119:15)
+    at commitPassiveMountEffects (chunk-RPCDYKBN.js?v=6c352090:18109:11)
+    at flushPassiveEffectsImpl (chunk-RPCDYKBN.js?v=6c352090:19490:11)
+    at flushPassiveEffects (chunk-RPCDYKBN.js?v=6c352090:19447:22)

@@ -1,0 +1,33 @@
+Current route: /auth
+Console.js:61 Available marketplace providers: Array(1)
+Console.js:61 Current route: /dashboard
+Console.js:61 🔍 [useRecentBookings] Iniciando busca de dados para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [useRecentBookings] Buscando dados dos últimos 14 dias: Object
+Console.js:61 🔍 [BookingQueries] Buscando walks para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [BookingQueries] Período: Object
+Console.js:61 🔍 [BookingQueries] Resultado walks: Object
+Console.js:61 🔍 [BookingQueries] Buscando service_bookings para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [BookingQueries] Resultado service_bookings: Object
+Console.js:61 🔍 [BookingQueries] Buscando payments para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [BookingQueries] Resultado payments: Object
+Console.js:61 🔄 Buscando agendamentos recorrentes para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [BookingDataProcessor] Processando 0 walks
+Console.js:61 🔍 [BookingDataProcessor] Walks processados: 0
+Console.js:61 ✅ [useRecentBookings] Walks processados: 0
+Console.js:61 🔍 [BookingDataProcessor] Processando 0 service bookings
+Console.js:61 🔍 [BookingDataProcessor] Service bookings processados: 0
+Console.js:61 ✅ [useRecentBookings] Service bookings processados: 0
+Console.js:61 🔍 [BookingDataProcessor] Processando 0 payments
+Console.js:61 🔍 [BookingDataProcessor] Payments processados: 0
+Console.js:61 ✅ [useRecentBookings] Payments processados: 0
+Console.js:61 🎉 [useRecentBookings] Total de itens processados: 0
+Console.js:61 🔍 [useRecentBookings] Dados finais: Array(0)
+Console.js:61 📋 Loading service plans from mock storage: Array(0)
+Console.js:61 Current route: /service-plans
+Console.js:61 🔧 Starting migration for walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 📋 Plans without regions found: 0
+Console.js:61 🎉 Migration completed: {migrated: 0, message: 'All plans already have regions configured'}
+Console.js:61 Current route: /service-plans
+Console.js:61 Available marketplace providers: ['stripe']
+Console.js:61 Current route: /service-plans
+Console.js:61 📋 Loading service plans from mock storage: []

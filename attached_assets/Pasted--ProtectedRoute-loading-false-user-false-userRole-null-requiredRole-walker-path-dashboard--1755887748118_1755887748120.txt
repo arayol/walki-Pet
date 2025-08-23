@@ -1,0 +1,156 @@
+🔍 ProtectedRoute - loading: false user: false userRole: null requiredRole: walker path: /dashboard
+VM2423 eruda.js:2 🔄 Redirecionando para /auth - usuário não logado
+VM2423 eruda.js:2 Current route: /auth
+VM2747 eruda.js:2 Available marketplace providers: ['stripe']
+VM2747 eruda.js:2 Current route: /
+VM2747 eruda.js:2 🔍 initializeAuth - savedSession: null
+VM2747 eruda.js:2 Current route: /auth
+VM2747 eruda.js:2 💾 Salvando sessão no localStorage: {user: {…}, access_token: 'token_af206421-095c-4d4c-a92c-50295d9de7c4_1755887665504'}
+Console.js:61 Available marketplace providers: ['stripe']
+Console.js:61 🔍 ProtectedRoute - loading: true user: false userRole: null requiredRole: walker path: /dashboard
+Console.js:61 Current route: /dashboard
+Console.js:61 🔍 initializeAuth - savedSession: {"user":{"id":"af206421-095c-4d4c-a92c-50295d9de7c4","email":"rayol@uplay.com.br","name":"Adriano Rayol"},"access_token":"token_af206421-095c-4d4c-a92c-50295d9de7c4_1755887665504"}
+Console.js:61 🔍 initializeAuth - parsed session: {user: {…}, access_token: 'token_af206421-095c-4d4c-a92c-50295d9de7c4_1755887665504'}
+Console.js:61 🔍 ProtectedRoute - loading: true user: true userRole: null requiredRole: walker path: /dashboard
+Console.js:61 🔍 fetchUserRole - data received: {id: 'af206421-095c-4d4c-a92c-50295d9de7c4', email: 'rayol@uplay.com.br', name: 'Adriano Rayol', role: 'walker', avatar_url: null, …}
+Console.js:61 🔍 fetchUserRole - currentPath: /dashboard role: walker
+Console.js:61 🔍 ProtectedRoute - loading: false user: true userRole: walker requiredRole: walker path: /dashboard
+Console.js:61 Error fetching walker data: TypeError: supabase.from is not a function
+    at fetchWalkerData (useDashboardData.tsx:20:10)
+    at refetch (useDashboardData.tsx:81:13)
+    at useDashboardData.tsx:88:5
+    at commitHookEffectListMount (chunk-RPCDYKBN.js?v=6c352090:16915:34)
+    at commitPassiveMountOnFiber (chunk-RPCDYKBN.js?v=6c352090:18156:19)
+    at commitPassiveMountEffects_complete (chunk-RPCDYKBN.js?v=6c352090:18129:17)
+    at commitPassiveMountEffects_begin (chunk-RPCDYKBN.js?v=6c352090:18119:15)
+    at commitPassiveMountEffects (chunk-RPCDYKBN.js?v=6c352090:18109:11)
+    at flushPassiveEffectsImpl (chunk-RPCDYKBN.js?v=6c352090:19490:11)
+    at flushPassiveEffects (chunk-RPCDYKBN.js?v=6c352090:19447:22)
+Mt.forEach.n.<computed> @ Console.js:61
+fetchWalkerData @ useDashboardData.tsx:35
+refetch @ useDashboardData.tsx:81
+(anonymous) @ useDashboardData.tsx:88
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=6c352090:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=6c352090:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=6c352090:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=6c352090:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=6c352090:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=6c352090:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=6c352090:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=6c352090:19328
+workLoop @ chunk-RPCDYKBN.js?v=6c352090:197
+flushWork @ chunk-RPCDYKBN.js?v=6c352090:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=6c352090:384
+Console.js:61 Erro ao verificar limites: TypeError: supabase.rpc is not a function
+    at checkLimits (usePlanLimits.tsx:24:46)
+    at usePlanLimits.tsx:42:5
+    at commitHookEffectListMount (chunk-RPCDYKBN.js?v=6c352090:16915:34)
+    at commitPassiveMountOnFiber (chunk-RPCDYKBN.js?v=6c352090:18156:19)
+    at commitPassiveMountEffects_complete (chunk-RPCDYKBN.js?v=6c352090:18129:17)
+    at commitPassiveMountEffects_begin (chunk-RPCDYKBN.js?v=6c352090:18119:15)
+    at commitPassiveMountEffects (chunk-RPCDYKBN.js?v=6c352090:18109:11)
+    at flushPassiveEffectsImpl (chunk-RPCDYKBN.js?v=6c352090:19490:11)
+    at flushPassiveEffects (chunk-RPCDYKBN.js?v=6c352090:19447:22)
+    at chunk-RPCDYKBN.js?v=6c352090:19328:17
+Mt.forEach.n.<computed> @ Console.js:61
+checkLimits @ usePlanLimits.tsx:35
+(anonymous) @ usePlanLimits.tsx:42
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=6c352090:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=6c352090:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=6c352090:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=6c352090:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=6c352090:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=6c352090:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=6c352090:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=6c352090:19328
+workLoop @ chunk-RPCDYKBN.js?v=6c352090:197
+flushWork @ chunk-RPCDYKBN.js?v=6c352090:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=6c352090:384
+Console.js:61 🔍 ProtectedRoute - loading: false user: true userRole: walker requiredRole: walker path: /dashboard
+Console.js:61 Error fetching stats: TypeError: supabase.from is not a function
+    at fetchStats (useDashboardData.tsx:44:10)
+    at refetch (useDashboardData.tsx:82:13)
+Mt.forEach.n.<computed> @ Console.js:61
+fetchStats @ useDashboardData.tsx:74
+refetch @ useDashboardData.tsx:82
+await in refetch
+(anonymous) @ useDashboardData.tsx:88
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=6c352090:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=6c352090:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=6c352090:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=6c352090:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=6c352090:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=6c352090:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=6c352090:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=6c352090:19328
+workLoop @ chunk-RPCDYKBN.js?v=6c352090:197
+flushWork @ chunk-RPCDYKBN.js?v=6c352090:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=6c352090:384
+Console.js:61 🔍 [useRecentBookings] Iniciando busca de dados para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [useRecentBookings] Buscando dados dos últimos 14 dias: {start: '2025-08-08T03:00:00.000Z', end: '2025-08-23T02:59:59.999Z'}
+Console.js:61 🔍 [BookingQueries] Buscando walks para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [BookingQueries] Período: {start: '2025-08-08T03:00:00.000Z', end: '2025-08-23T02:59:59.999Z'}
+Console.js:61 🔍 [BookingQueries] Buscando service_bookings para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔍 [BookingQueries] Buscando payments para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 🔄 Buscando agendamentos recorrentes para walker: af206421-095c-4d4c-a92c-50295d9de7c4
+Console.js:61 Error fetching recurring bookings: TypeError: supabase.from is not a function
+    at fetchRecurringBookings (RecurringBookingsCard.tsx:51:10)
+    at RecurringBookingsCard.tsx:42:7
+    at commitHookEffectListMount (chunk-RPCDYKBN.js?v=6c352090:16915:34)
+    at commitPassiveMountOnFiber (chunk-RPCDYKBN.js?v=6c352090:18156:19)
+    at commitPassiveMountEffects_complete (chunk-RPCDYKBN.js?v=6c352090:18129:17)
+    at commitPassiveMountEffects_begin (chunk-RPCDYKBN.js?v=6c352090:18119:15)
+    at commitPassiveMountEffects (chunk-RPCDYKBN.js?v=6c352090:18109:11)
+    at flushPassiveEffectsImpl (chunk-RPCDYKBN.js?v=6c352090:19490:11)
+    at flushPassiveEffects (chunk-RPCDYKBN.js?v=6c352090:19447:22)
+    at performSyncWorkOnRoot (chunk-RPCDYKBN.js?v=6c352090:18868:11)
+Mt.forEach.n.<computed> @ Console.js:61
+fetchRecurringBookings @ RecurringBookingsCard.tsx:98
+(anonymous) @ RecurringBookingsCard.tsx:42
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=6c352090:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=6c352090:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=6c352090:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=6c352090:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=6c352090:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=6c352090:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=6c352090:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=6c352090:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=6c352090:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=6c352090:19432
+commitRoot @ chunk-RPCDYKBN.js?v=6c352090:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=6c352090:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=6c352090:18718
+workLoop @ chunk-RPCDYKBN.js?v=6c352090:197
+flushWork @ chunk-RPCDYKBN.js?v=6c352090:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=6c352090:384
+Console.js:61 💥 [useRecentBookings] Erro geral: TypeError: supabase.from is not a function
+    at BookingQueries.fetchWalks (BookingQueries.ts:13:8)
+    at fetchBookings (useRecentBookings.tsx:34:24)
+    at useRecentBookings.tsx:92:5
+    at commitHookEffectListMount (chunk-RPCDYKBN.js?v=6c352090:16915:34)
+    at commitPassiveMountOnFiber (chunk-RPCDYKBN.js?v=6c352090:18156:19)
+    at commitPassiveMountEffects_complete (chunk-RPCDYKBN.js?v=6c352090:18129:17)
+    at commitPassiveMountEffects_begin (chunk-RPCDYKBN.js?v=6c352090:18119:15)
+    at commitPassiveMountEffects (chunk-RPCDYKBN.js?v=6c352090:18109:11)
+    at flushPassiveEffectsImpl (chunk-RPCDYKBN.js?v=6c352090:19490:11)
+    at flushPassiveEffects (chunk-RPCDYKBN.js?v=6c352090:19447:22)
+Mt.forEach.n.<computed> @ Console.js:61
+fetchBookings @ useRecentBookings.tsx:85
+await in fetchBookings
+(anonymous) @ useRecentBookings.tsx:92
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=6c352090:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=6c352090:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=6c352090:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=6c352090:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=6c352090:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=6c352090:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=6c352090:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=6c352090:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=6c352090:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=6c352090:19432
+commitRoot @ chunk-RPCDYKBN.js?v=6c352090:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=6c352090:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=6c352090:18718
+workLoop @ chunk-RPCDYKBN.js?v=6c352090:197
+flushWork @ chunk-RPCDYKBN.js?v=6c352090:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=6c352090:384

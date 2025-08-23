@@ -1,0 +1,33 @@
+Available marketplace providers: Array(1)
+Console.js:61 Current route: /
+Console.js:61 Failed to initialize auth: TypeError: Cannot read properties of undefined (reading 'onAuthStateChange')
+    at initializeAuth (useAuth.tsx:69:58)
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Current route: /pricing
+Console.js:61 Current route: /plan-signup
+Console.js:61 Plano pago selecionado, redirecionando para pagamento...
+Console.js:61 Erro ao criar checkout: TypeError: Cannot read properties of undefined (reading 'invoke')
+    at createStripeCheckout (PlanSignup.tsx:245:56)
+    at handleSignup (PlanSignup.tsx:217:15)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=d5d2d4b2:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=d5d2d4b2:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=d5d2d4b2:3733:39)
+    at invokeGuardedCallbackAndCatchFirstError (chunk-RPCDYKBN.js?v=d5d2d4b2:3736:33)
+    at executeDispatch (chunk-RPCDYKBN.js?v=d5d2d4b2:7014:11)
+    at processDispatchQueueItemsInOrder (chunk-RPCDYKBN.js?v=d5d2d4b2:7034:15)
+    at processDispatchQueue (chunk-RPCDYKBN.js?v=d5d2d4b2:7043:13)
+    at dispatchEventsForPlugins (chunk-RPCDYKBN.js?v=d5d2d4b2:7051:11)
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Plano pago selecionado, redirecionando para pagamento...
+Console.js:61 Erro ao criar checkout: TypeError: Cannot read properties of undefined (reading 'invoke')
+    at createStripeCheckout (PlanSignup.tsx:245:56)
+    at handleSignup (PlanSignup.tsx:217:15)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=d5d2d4b2:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=d5d2d4b2:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=d5d2d4b2:3733:39)
+    at invokeGuardedCallbackAndCatchFirstError (chunk-RPCDYKBN.js?v=d5d2d4b2:3736:33)
+    at executeDispatch (chunk-RPCDYKBN.js?v=d5d2d4b2:7014:11)
+    at processDispatchQueueItemsInOrder (chunk-RPCDYKBN.js?v=d5d2d4b2:7034:15)
+    at processDispatchQueue (chunk-RPCDYKBN.js?v=d5d2d4b2:7043:13)
+    at dispatchEventsForPlugins (chunk-RPCDYKBN.js?v=d5d2d4b2:7051:11)
+Mt.forEach.n.<computed> @ Console.js:61

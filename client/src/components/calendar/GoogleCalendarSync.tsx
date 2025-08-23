@@ -56,47 +56,50 @@ export const GoogleCalendarSync = ({
   const checkConnectionStatus = async () => {
     if (!user) return;
     try {
-      const {
-        data,
-        error
-      } = await supabase.from('walkers').select('google_calendar_connected, google_last_sync, plan_type').eq('walker_id', user.id).single();
-      if (error) throw error;
+      const response = await fetch(`/api/walkers/${user.id}`);
+      
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}`);
+      }
+      
+      const data = await response.json();
       setIsConnected(data?.google_calendar_connected || false);
       setLastSyncTime(data?.google_last_sync);
       setWalkerPlan(data?.plan_type || 'free');
     } catch (error) {
       console.error('Erro ao verificar status da conexão:', error);
+      // Use defaults for development
+      setIsConnected(false);
+      setLastSyncTime(null);
+      setWalkerPlan('free');
     }
   };
   const handleConnect = async () => {
     setLoading(true);
     try {
-      const session = await supabase.auth.getSession();
-      
-      if (!session.data.session) {
-        throw new Error('Usuário não autenticado');
+      const response = await fetch(`/api/google-calendar/auth-url`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: user?.id
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}`);
       }
 
-      const {
-        data,
-        error
-      } = await supabase.functions.invoke('google-calendar-sync', {
-        headers: {
-          Authorization: `Bearer ${session.data.session.access_token}`
-        },
-        body: {
-          action: 'get_auth_url'
-        }
-      });
-      if (error) throw error;
-
-      // Redirect directly to Google OAuth (no popup)
+      const data = await response.json();
+      
+      // Redirect directly to Google OAuth (no popup)  
       window.location.href = data.auth_url;
     } catch (error: any) {
       console.error('Erro ao conectar Google Calendar:', error);
       toast({
-        title: "Erro",
-        description: "Não foi possível conectar ao Google Calendar.",
+        title: "Aviso",
+        description: "Funcionalidade do Google Calendar em desenvolvimento.",
         variant: "destructive"
       });
       setLoading(false);
@@ -105,16 +108,14 @@ export const GoogleCalendarSync = ({
 
   const handleDisconnect = async () => {
     try {
-      const {
-        error
-      } = await supabase.from('walkers').update({
-        google_access_token: null,
-        google_refresh_token: null,
-        google_calendar_connected: false,
-        google_last_sync: null,
-        updated_at: new Date().toISOString()
-      }).eq('walker_id', user?.id);
-      if (error) throw error;
+      const response = await fetch(`/api/walkers/${user?.id}/google-calendar`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}`);
+      }
+
       setIsConnected(false);
       setLastSyncTime(null);
       setShowDisconnectDialog(false);
@@ -125,8 +126,8 @@ export const GoogleCalendarSync = ({
     } catch (error: any) {
       console.error('Erro ao desconectar Google Calendar:', error);
       toast({
-        title: "Erro",
-        description: "Não foi possível desconectar o Google Calendar.",
+        title: "Aviso",
+        description: "Funcionalidade do Google Calendar em desenvolvimento.",
         variant: "destructive"
       });
     }
@@ -134,21 +135,19 @@ export const GoogleCalendarSync = ({
   const handleSync = async () => {
     setSyncing(true);
     try {
-      const {
-        data,
-        error
-      } = await supabase.functions.invoke('google-calendar-sync', {
-        body: {
-          action: 'sync_events'
+      const response = await fetch(`/api/walkers/${user?.id}/google-calendar/sync`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         }
       });
-      if (error) throw error;
 
-      // Atualizar último sync
-      await supabase.from('walkers').update({
-        google_last_sync: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }).eq('walker_id', user?.id);
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}`);
+      }
+
+      const data = await response.json();
+      
       setLastSyncTime(new Date().toISOString());
       toast({
         title: "Sincronização Concluída",
@@ -158,8 +157,8 @@ export const GoogleCalendarSync = ({
     } catch (error: any) {
       console.error('Erro ao sincronizar:', error);
       toast({
-        title: "Erro na Sincronização",
-        description: error.message || "Não foi possível sincronizar com o Google Calendar.",
+        title: "Aviso",
+        description: "Funcionalidade do Google Calendar em desenvolvimento.",
         variant: "destructive"
       });
     } finally {

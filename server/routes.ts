@@ -814,8 +814,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Walk routes
   app.get("/api/walkers/:walkerId/walks", async (req, res) => {
     try {
-      const walks = await storage.getWalksByWalker(req.params.walkerId);
+      const walkerId = req.params.walkerId;
+      const { start, end } = req.query;
+      
+      let walks = await storage.getWalksByWalker(walkerId);
+      
+      // Filter by date range if provided
+      if (start && end) {
+        walks = walks.filter((walk: any) => {
+          const walkDate = new Date(walk.scheduled_at);
+          return walkDate >= new Date(start as string) && walkDate <= new Date(end as string);
+        });
+      }
+      
       res.json(walks);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Service bookings routes
+  app.get("/api/walkers/:walkerId/service-bookings", async (req, res) => {
+    try {
+      const walkerId = req.params.walkerId;
+      const { start, end } = req.query;
+      
+      // For now, return empty array as service bookings aren't implemented yet
+      // This can be expanded when the service booking system is implemented
+      const serviceBookings: any[] = [];
+      
+      res.json(serviceBookings);
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
@@ -975,6 +1003,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ success: true, message: "Payment cancelled successfully" });
     } catch (error) {
       console.error("Error cancelling payment:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Google Calendar integration endpoints (stubs for development)
+  app.post("/api/google-calendar/auth-url", async (req, res) => {
+    try {
+      // Stub implementation - return mock auth URL
+      res.json({
+        auth_url: "https://accounts.google.com/oauth/mock-auth-url",
+        message: "Google Calendar integration in development"
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.delete("/api/walkers/:walkerId/google-calendar", async (req, res) => {
+    try {
+      const walkerId = req.params.walkerId;
+      
+      // Stub implementation - just return success
+      res.json({ 
+        success: true, 
+        message: "Google Calendar disconnected successfully" 
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/walkers/:walkerId/google-calendar/sync", async (req, res) => {
+    try {
+      const walkerId = req.params.walkerId;
+      
+      // Stub implementation - just return success
+      res.json({ 
+        success: true, 
+        message: "Agendamentos sincronizados com sucesso!",
+        synced_events: 0
+      });
+    } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
   });

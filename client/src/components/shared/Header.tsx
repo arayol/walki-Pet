@@ -38,12 +38,15 @@ export const Header: React.FC<HeaderProps> = ({ className = "" }) => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center space-x-3">
               <img 
                 src={logoUrl} 
-                alt="Logo" 
+                alt="Walki Pet Logo" 
                 className="h-10 w-auto hover:opacity-80 transition-opacity"
               />
+              <span className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+                Walki Pet
+              </span>
             </Link>
           </div>
 

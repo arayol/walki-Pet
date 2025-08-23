@@ -1007,16 +1007,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Google Calendar integration endpoints (stubs for development)
+  // Google Calendar integration endpoints
   app.post("/api/google-calendar/auth-url", async (req, res) => {
     try {
-      // Stub implementation - return mock auth URL
+      const { user_id } = req.body;
+      
+      if (!user_id) {
+        return res.status(400).json({ error: "user_id is required" });
+      }
+
+      const { GoogleCalendarService } = await import('./lib/googleCalendar');
+      const authUrl = GoogleCalendarService.generateAuthUrl(user_id);
+      
       res.json({
-        auth_url: "https://accounts.google.com/oauth/mock-auth-url",
-        message: "Google Calendar integration in development"
+        auth_url: authUrl,
+        message: "Redirect to Google for authentication"
       });
     } catch (error) {
+      console.error("Error generating Google auth URL:", error);
       res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/google-calendar/callback", async (req, res) => {
+    try {
+      const { code, state: userId } = req.query;
+      
+      if (!code || !userId) {
+        return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5000'}/schedule?google_auth=error&message=Missing authorization code or user ID`);
+      }
+
+      const { GoogleCalendarService } = await import('./lib/googleCalendar');
+      const tokens = await GoogleCalendarService.exchangeCodeForTokens(code as string);
+      
+      // Atualizar walker com tokens do Google Calendar
+      const walker = await storage.getWalker(userId as string);
+      if (walker) {
+        await storage.updateWalker(userId as string, {
+          google_access_token: tokens.access_token,
+          google_refresh_token: tokens.refresh_token,
+          google_calendar_connected: true,
+          google_last_sync: null,
+          updated_at: new Date()
+        });
+      }
+
+      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5000'}/schedule?google_auth=success`);
+    } catch (error) {
+      console.error("Error in Google Calendar callback:", error);
+      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5000'}/schedule?google_auth=error&message=Authentication failed`);
     }
   });
 
@@ -1024,12 +1063,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const walkerId = req.params.walkerId;
       
-      // Stub implementation - just return success
+      await storage.updateWalker(walkerId, {
+        google_access_token: null,
+        google_refresh_token: null,
+        google_calendar_connected: false,
+        google_last_sync: null,
+        updated_at: new Date()
+      });
+      
       res.json({ 
         success: true, 
         message: "Google Calendar disconnected successfully" 
       });
     } catch (error) {
+      console.error("Error disconnecting Google Calendar:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   });
@@ -1038,14 +1085,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const walkerId = req.params.walkerId;
       
-      // Stub implementation - just return success
+      const walker = await storage.getWalker(walkerId);
+      if (!walker || !walker.google_access_token) {
+        return res.status(400).json({ error: "Google Calendar not connected" });
+      }
+
+      // Buscar agendamentos do walker
+      const walks = await storage.getWalksByWalker(walkerId);
+      
+      // Filtrar apenas agendamentos futuros (próximos 30 dias)
+      const now = new Date();
+      const futureDate = new Date(now.getTime() + (30 * 24 * 60 * 60 * 1000));
+      const futureWalks = walks.filter((walk: any) => {
+        const walkDate = new Date(walk.scheduled_at);
+        return walkDate >= now && walkDate <= futureDate;
+      });
+
+      const { GoogleCalendarService } = await import('./lib/googleCalendar');
+      const result = await GoogleCalendarService.syncWalksToCalendar(
+        walker.google_access_token!,
+        walker.google_refresh_token || '',
+        futureWalks
+      );
+
+      // Atualizar timestamp da última sincronização
+      await storage.updateWalker(walkerId, {
+        google_last_sync: new Date(),
+        updated_at: new Date()
+      });
+      
       res.json({ 
         success: true, 
-        message: "Agendamentos sincronizados com sucesso!",
-        synced_events: 0
+        message: `${result.syncedCount} agendamentos sincronizados com sucesso!`,
+        synced_events: result.syncedCount
       });
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      console.error("Error syncing to Google Calendar:", error);
+      res.status(500).json({ 
+        error: "Erro na sincronização",
+        message: error instanceof Error ? error.message : "Unknown error"
+      });
     }
   });
 

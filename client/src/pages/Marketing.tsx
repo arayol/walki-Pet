@@ -17,13 +17,9 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { Share2, Link, QrCode, Eye, ExternalLink, ChevronDown, ChevronUp, Instagram, BarChart3, Copy, Download, Mail, MessageCircle } from "lucide-react";
 import { 
-  WhatsappShareButton, 
   FacebookShareButton, 
-  TwitterShareButton, 
   EmailShareButton,
-  WhatsappIcon,
   FacebookIcon,
-  TwitterIcon,
   EmailIcon
 } from 'react-share';
 import QRCodeLib from 'qrcode';
@@ -168,6 +164,27 @@ const Marketing = () => {
   }, [user?.id, toast]);
 
   const publicUrl = `${window.location.origin}/profile/${formData.slug}`;
+  
+  const shareMessage = `Veja meu perfil no Walki Pet! 
+Lá você encontra todos os detalhes dos meus serviços de cuidado pet, horários disponíveis e avaliações de outros tutores. 
+
+👆 Acesse o link e agende já o seu! 
+${publicUrl}`;
+
+  const handleWhatsAppShare = () => {
+    const encodedMessage = encodeURIComponent(shareMessage);
+    const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleInstagramShare = () => {
+    // Como Instagram não tem API direta de compartilhamento, copiamos o link e a mensagem
+    navigator.clipboard.writeText(shareMessage);
+    toast({
+      title: "Copiado!",
+      description: "Mensagem copiada para a área de transferência. Cole no seu Instagram!"
+    });
+  };
 
   const handleSave = async () => {
     setLoading(true);
@@ -820,16 +837,15 @@ const Marketing = () => {
           </DialogHeader>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              <WhatsappShareButton
-                url={publicUrl}
-                title="Confira meu perfil como dog walker!"
+              <button
+                onClick={handleWhatsAppShare}
                 className="w-full"
               >
                 <div className="flex items-center justify-center w-full p-3 border rounded-lg hover:bg-gray-50 transition-colors">
                   <MessageCircle className="h-5 w-5 mr-2 text-green-600" />
                   <span className="text-sm font-medium">WhatsApp</span>
                 </div>
-              </WhatsappShareButton>
+              </button>
 
               <FacebookShareButton
                 url={publicUrl}
@@ -841,21 +857,20 @@ const Marketing = () => {
                 </div>
               </FacebookShareButton>
 
-              <TwitterShareButton
-                url={publicUrl}
-                title="Confira meu perfil como dog walker!"
+              <button
+                onClick={handleInstagramShare}
                 className="w-full"
               >
                 <div className="flex items-center justify-center w-full p-3 border rounded-lg hover:bg-gray-50 transition-colors">
-                  <TwitterIcon size={20} className="mr-2" />
-                  <span className="text-sm font-medium">Twitter</span>
+                  <Instagram className="h-5 w-5 mr-2 text-pink-600" />
+                  <span className="text-sm font-medium">Instagram</span>
                 </div>
-              </TwitterShareButton>
+              </button>
 
               <EmailShareButton
                 url={publicUrl}
-                subject="Confira meu perfil como dog walker!"
-                body="Olá! Gostaria de compartilhar meu perfil profissional como dog walker. Você pode ver meus serviços em:"
+                subject="Veja meu perfil no Walki Pet!"
+                body={shareMessage}
                 className="w-full"
               >
                 <div className="flex items-center justify-center w-full p-3 border rounded-lg hover:bg-gray-50 transition-colors">
@@ -872,10 +887,10 @@ const Marketing = () => {
                   size="sm" 
                   variant="outline"
                   onClick={() => {
-                    navigator.clipboard.writeText(publicUrl);
+                    navigator.clipboard.writeText(shareMessage);
                     toast({
                       title: "Copiado!",
-                      description: "Link copiado para a área de transferência"
+                      description: "Mensagem completa copiada para a área de transferência"
                     });
                   }}
                 >

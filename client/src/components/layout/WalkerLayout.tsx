@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { LogOut, LayoutDashboard, Calendar, Users, Package, DollarSign, Megaphone, Webhook } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import logoUrl from "@/assets/logo.png";
 
 interface WalkerLayoutProps {
   children: React.ReactNode;
@@ -30,11 +31,15 @@ export const WalkerLayout = ({ children }: WalkerLayoutProps) => {
           {/* Primeira linha - Logo e Sair */}
           <div className="h-16 flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                DW
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                <img 
+                  src={logoUrl} 
+                  alt="Walki Pet Logo" 
+                  className="w-10 h-10 object-contain"
+                />
               </div>
               <div>
-                <h2 className="font-bold text-gray-900 text-lg">DogWalker Pro</h2>
+                <h2 className="font-bold text-gray-900 text-lg">Walki Pet</h2>
                 <p className="text-xs text-gray-600">Gestão Pet Profissional</p>
               </div>
             </div>

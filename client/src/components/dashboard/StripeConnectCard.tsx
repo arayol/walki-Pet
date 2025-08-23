@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { StripeConnectSetup } from "@/components/stripe/StripeConnectSetup";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,32 +19,27 @@ export const StripeConnectCard = () => {
     }
 
     try {
-      const { data, error } = await supabase
-        .from("walkers")
-        .select(`
-          stripe_account_id,
-          stripe_onboarding_complete,
-          profiles!walkers_walker_id_fkey (
-            name
-          )
-        `)
-        .eq("walker_id", user.id)
-        .single();
-
-      if (error && error.code !== 'PGRST116') {
-        console.error("Error fetching walker data:", error);
-        setError("Erro ao carregar dados do walker");
-      } else {
-        setWalkerData(data);
-        
-        // Check Stripe status if account exists
-        if (data?.stripe_account_id) {
-          checkStripeStatus();
+      const response = await fetch(`/api/walkers/${user.id}`);
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          setWalkerData(null);
+          setLoading(false);
+          return;
         }
+        throw new Error(`Erro ${response.status}`);
+      }
+
+      const data = await response.json();
+      setWalkerData(data);
+      
+      // Check Stripe status if account exists
+      if (data?.stripe_account_id) {
+        checkStripeStatus();
       }
     } catch (error) {
       console.error("Error:", error);
-      setError("Erro inesperado");
+      setError("Erro ao carregar dados do walker");
     } finally {
       setLoading(false);
     }
@@ -53,11 +47,20 @@ export const StripeConnectCard = () => {
 
   const checkStripeStatus = async () => {
     try {
-      const { data, error } = await supabase.functions.invoke("check-stripe-status");
-      if (error) throw error;
+      const response = await fetch(`/api/stripe/status/${user?.id}`, {
+        method: 'GET',
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}`);
+      }
+      
+      const data = await response.json();
       setStripeStatus(data);
     } catch (error) {
       console.error("Error checking Stripe status:", error);
+      // Se não conseguir verificar status, apenas ignora (não crítico)
+      setStripeStatus(null);
     }
   };
 

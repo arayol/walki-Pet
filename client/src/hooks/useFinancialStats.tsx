@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
 interface FinancialStats {
@@ -30,52 +29,33 @@ export const useFinancialStats = () => {
     if (!user) return;
 
     try {
-      // Data atual para filtrar o mês
-      const now = new Date();
-      const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
-      const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString();
-
-      // Buscar pagamentos do mês atual
-      const { data: payments, error: paymentsError } = await supabase
-        .from('payments')
-        .select('amount, status, created_at')
-        .eq('walker_id', user.id)
-        .gte('created_at', firstDayOfMonth)
-        .lte('created_at', lastDayOfMonth);
-
-      if (paymentsError) throw paymentsError;
-
-      // Buscar passeios agendados (scheduled) do mês atual
-      const { data: walks, error: walksError } = await supabase
-        .from('walks')
-        .select('id, status, scheduled_at')
-        .eq('walker_id', user.id)
-        .eq('status', 'scheduled')
-        .gte('scheduled_at', firstDayOfMonth)
-        .lte('scheduled_at', lastDayOfMonth);
-
-      if (walksError) throw walksError;
-
-      // Calcular estatísticas
-      const paidPayments = payments?.filter(p => p.status === 'paid') || [];
-      const pendingPayments = payments?.filter(p => p.status === 'pending') || [];
+      // Buscar estatísticas financeiras via API REST
+      const response = await fetch(`/api/walkers/${user.id}/financial-stats`);
       
-      const monthlyRevenue = paidPayments.reduce((sum, payment) => sum + Number(payment.amount), 0);
-      const pendingAmount = pendingPayments.reduce((sum, payment) => sum + Number(payment.amount), 0);
-      const scheduledWalks = walks?.length || 0;
-      const averageValue = paidPayments.length > 0 ? monthlyRevenue / paidPayments.length : 0;
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}`);
+      }
 
+      const data = await response.json();
+      
       setStats({
-        monthlyRevenue,
-        scheduledWalks,
-        averageValue,
-        pendingAmount,
+        monthlyRevenue: data.monthlyRevenue || 0,
+        scheduledWalks: data.scheduledWalks || 0,
+        averageValue: data.averageValue || 0,
+        pendingAmount: data.pendingAmount || 0,
         loading: false,
       });
 
     } catch (error) {
       console.error('Erro ao buscar estatísticas financeiras:', error);
-      setStats(prev => ({ ...prev, loading: false }));
+      // Use dados padrão/mock como fallback
+      setStats({
+        monthlyRevenue: 0,
+        scheduledWalks: 0,
+        averageValue: 0,
+        pendingAmount: 0,
+        loading: false,
+      });
     }
   };
 

@@ -849,11 +849,132 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Transactions endpoint (alias for payments with additional processing)
+  app.get("/api/walkers/:walkerId/transactions", async (req, res) => {
+    try {
+      const walkerId = req.params.walkerId;
+      
+      // Get payments data (same as transactions for this implementation)
+      const payments = await storage.getPaymentsByWalker(walkerId);
+      
+      // Process payments to match expected transaction format
+      const transactions = payments.map((payment: any) => ({
+        ...payment,
+        clients: payment.clients || {
+          client_name: payment.client_name || 'Cliente',
+          pet_name: payment.pet_name || 'Pet',
+          client_id: payment.client_id || ''
+        },
+        service_plan_name: payment.metadata?.service_plan_name || 'Serviço',
+        scheduled_by: payment.metadata?.scheduled_by || 'Cliente',
+        payment_method_label: payment.stripe_payment_id ? 'Stripe' : (payment.payment_method || 'Manual')
+      }));
+
+      res.json({ 
+        transactions: transactions,
+        total: transactions.length
+      });
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Financial stats endpoint
+  app.get("/api/walkers/:walkerId/financial-stats", async (req, res) => {
+    try {
+      const walkerId = req.params.walkerId;
+      
+      // Get current month date range
+      const now = new Date();
+      const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+      // Get payments for current month
+      const payments = await storage.getPaymentsByWalker(walkerId);
+      const monthlyPayments = payments.filter((payment: any) => {
+        const paymentDate = new Date(payment.created_at);
+        return paymentDate >= firstDayOfMonth && paymentDate <= lastDayOfMonth;
+      });
+
+      // Get walks for current month
+      const walks = await storage.getWalksByWalker(walkerId);
+      const monthlyWalks = walks.filter((walk: any) => {
+        const walkDate = new Date(walk.scheduled_at || walk.created_at);
+        return walkDate >= firstDayOfMonth && walkDate <= lastDayOfMonth;
+      });
+
+      // Calculate stats
+      const paidPayments = monthlyPayments.filter((p: any) => p.status === 'paid');
+      const pendingPayments = monthlyPayments.filter((p: any) => p.status === 'pending');
+      const scheduledWalks = monthlyWalks.filter((w: any) => w.status === 'scheduled');
+
+      const monthlyRevenue = paidPayments.reduce((sum: number, payment: any) => 
+        sum + Number(payment.amount || 0), 0
+      );
+      const pendingAmount = pendingPayments.reduce((sum: number, payment: any) => 
+        sum + Number(payment.amount || 0), 0
+      );
+      const averageValue = paidPayments.length > 0 ? monthlyRevenue / paidPayments.length : 0;
+
+      res.json({
+        monthlyRevenue,
+        scheduledWalks: scheduledWalks.length,
+        averageValue,
+        pendingAmount,
+      });
+    } catch (error) {
+      console.error("Error fetching financial stats:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   app.get("/api/clients/:clientId/payments", async (req, res) => {
     try {
       const payments = await storage.getPaymentsByClient(req.params.clientId);
       res.json(payments);
     } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Payment update endpoint
+  app.patch("/api/payments/:paymentId", async (req, res) => {
+    try {
+      const paymentId = req.params.paymentId;
+      const updateData = req.body;
+      
+      const updatedPayment = await storage.updatePayment(paymentId, updateData);
+      
+      if (!updatedPayment) {
+        return res.status(404).json({ error: "Payment not found" });
+      }
+
+      res.json(updatedPayment);
+    } catch (error) {
+      console.error("Error updating payment:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Payment deletion endpoint
+  app.delete("/api/payments/:paymentId", async (req, res) => {
+    try {
+      const paymentId = req.params.paymentId;
+      
+      // For now, mark payment as cancelled instead of deleting
+      const updatedPayment = await storage.updatePayment(paymentId, { 
+        status: 'cancelled',
+        updated_at: new Date()
+      });
+      
+      if (!updatedPayment) {
+        return res.status(404).json({ error: "Payment not found" });
+      }
+
+      res.json({ success: true, message: "Payment cancelled successfully" });
+    } catch (error) {
+      console.error("Error cancelling payment:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   });

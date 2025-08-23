@@ -1029,7 +1029,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/google-calendar/callback", async (req, res) => {
+  app.get("/api/auth/google/callback", async (req, res) => {
     try {
       const { code, state: userId } = req.query;
       

@@ -1123,7 +1123,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const createdWalks = [];
         
         for (const walkData of req.body.walks) {
-          const walk = await storage.createWalk(walkData);
+          // Convert scheduled_date string to Date object for Drizzle
+          const processedWalkData = {
+            ...walkData,
+            scheduled_date: new Date(walkData.scheduled_date)
+          };
+          console.log('🔍 Processando walk data:', { original: walkData.scheduled_date, converted: processedWalkData.scheduled_date });
+          
+          const walk = await storage.createWalk(processedWalkData);
           createdWalks.push(walk);
         }
         
@@ -1131,7 +1138,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.status(201).json(createdWalks);
       } else {
         // Single walk
-        const walk = await storage.createWalk(req.body);
+        const processedWalkData = {
+          ...req.body,
+          scheduled_date: new Date(req.body.scheduled_date)
+        };
+        const walk = await storage.createWalk(processedWalkData);
         res.status(201).json(walk);
       }
     } catch (error) {

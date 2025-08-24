@@ -1,0 +1,200 @@
+
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 0, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+useScheduleSlots.tsx:51 🔍 [useScheduleSlots] Processando availability: (9) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+useScheduleSlots.tsx:62 🔍 [useScheduleSlots] Processando slot: {day_of_week: 5, schedule_date: '2025-08-29', start_time: '09:00', end_time: '11:00', available_slots: 1, …}
+useScheduleSlots.tsx:62 🔍 [useScheduleSlots] Processando slot: {day_of_week: 5, schedule_date: '2025-09-05', start_time: '09:00', end_time: '11:00', available_slots: 1, …}
+useScheduleSlots.tsx:62 🔍 [useScheduleSlots] Processando slot: {day_of_week: 5, schedule_date: '2025-09-12', start_time: '09:00', end_time: '11:00', available_slots: 1, …}
+useScheduleSlots.tsx:62 🔍 [useScheduleSlots] Processando slot: {day_of_week: 5, schedule_date: '2025-09-19', start_time: '09:00', end_time: '11:00', available_slots: 1, …}
+useScheduleSlots.tsx:62 🔍 [useScheduleSlots] Processando slot: {day_of_week: 1, schedule_date: '2025-08-25', start_time: '09:00', end_time: '11:00', available_slots: 1, …}
+useScheduleSlots.tsx:62 🔍 [useScheduleSlots] Processando slot: {day_of_week: 1, schedule_date: '2025-09-01', start_time: '09:00', end_time: '11:00', available_slots: 1, …}
+useScheduleSlots.tsx:62 🔍 [useScheduleSlots] Processando slot: {day_of_week: 1, schedule_date: '2025-09-08', start_time: '09:00', end_time: '11:00', available_slots: 1, …}
+useScheduleSlots.tsx:62 🔍 [useScheduleSlots] Processando slot: {day_of_week: 1, schedule_date: '2025-09-15', start_time: '09:00', end_time: '11:00', available_slots: 1, …}
+useScheduleSlots.tsx:62 🔍 [useScheduleSlots] Processando slot: {day_of_week: 1, schedule_date: '2025-09-22', start_time: '09:00', end_time: '11:00', available_slots: 1, …}
+useScheduleSlots.tsx:90 🔍 [useScheduleSlots] Processando Segunda-feira: 5 slots
+useScheduleSlots.tsx:104 🔍 [useScheduleSlots] Processando data 2025-08-25: 1 slots
+useScheduleSlots.tsx:113 🔍 [useScheduleSlots] Horários gerados para 2025-08-25: (2) ['09:00:00', '10:00:00']
+useScheduleSlots.tsx:139 🔍 [useScheduleSlots] Horários únicos disponíveis para 2025-08-25: (2) [{…}, {…}]
+useScheduleSlots.tsx:104 🔍 [useScheduleSlots] Processando data 2025-09-01: 1 slots
+useScheduleSlots.tsx:113 🔍 [useScheduleSlots] Horários gerados para 2025-09-01: (2) ['09:00:00', '10:00:00']
+useScheduleSlots.tsx:139 🔍 [useScheduleSlots] Horários únicos disponíveis para 2025-09-01: (2) [{…}, {…}]
+useScheduleSlots.tsx:104 🔍 [useScheduleSlots] Processando data 2025-09-08: 1 slots
+useScheduleSlots.tsx:113 🔍 [useScheduleSlots] Horários gerados para 2025-09-08: (2) ['09:00:00', '10:00:00']
+useScheduleSlots.tsx:139 🔍 [useScheduleSlots] Horários únicos disponíveis para 2025-09-08: (2) [{…}, {…}]
+useScheduleSlots.tsx:104 🔍 [useScheduleSlots] Processando data 2025-09-15: 1 slots
+useScheduleSlots.tsx:113 🔍 [useScheduleSlots] Horários gerados para 2025-09-15: (2) ['09:00:00', '10:00:00']
+useScheduleSlots.tsx:139 🔍 [useScheduleSlots] Horários únicos disponíveis para 2025-09-15: (2) [{…}, {…}]
+useScheduleSlots.tsx:104 🔍 [useScheduleSlots] Processando data 2025-09-22: 1 slots
+useScheduleSlots.tsx:113 🔍 [useScheduleSlots] Horários gerados para 2025-09-22: (2) ['09:00:00', '10:00:00']
+useScheduleSlots.tsx:139 🔍 [useScheduleSlots] Horários únicos disponíveis para 2025-09-22: (2) [{…}, {…}]
+useScheduleSlots.tsx:90 🔍 [useScheduleSlots] Processando Sexta-feira: 4 slots
+useScheduleSlots.tsx:104 🔍 [useScheduleSlots] Processando data 2025-08-29: 1 slots
+useScheduleSlots.tsx:113 🔍 [useScheduleSlots] Horários gerados para 2025-08-29: (2) ['09:00:00', '10:00:00']
+useScheduleSlots.tsx:139 🔍 [useScheduleSlots] Horários únicos disponíveis para 2025-08-29: (2) [{…}, {…}]
+useScheduleSlots.tsx:104 🔍 [useScheduleSlots] Processando data 2025-09-05: 1 slots
+useScheduleSlots.tsx:113 🔍 [useScheduleSlots] Horários gerados para 2025-09-05: (2) ['09:00:00', '10:00:00']
+useScheduleSlots.tsx:139 🔍 [useScheduleSlots] Horários únicos disponíveis para 2025-09-05: (2) [{…}, {…}]
+useScheduleSlots.tsx:104 🔍 [useScheduleSlots] Processando data 2025-09-12: 1 slots
+useScheduleSlots.tsx:113 🔍 [useScheduleSlots] Horários gerados para 2025-09-12: (2) ['09:00:00', '10:00:00']
+useScheduleSlots.tsx:139 🔍 [useScheduleSlots] Horários únicos disponíveis para 2025-09-12: (2) [{…}, {…}]
+useScheduleSlots.tsx:104 🔍 [useScheduleSlots] Processando data 2025-09-19: 1 slots
+useScheduleSlots.tsx:113 🔍 [useScheduleSlots] Horários gerados para 2025-09-19: (2) ['09:00:00', '10:00:00']
+useScheduleSlots.tsx:139 🔍 [useScheduleSlots] Horários únicos disponíveis para 2025-09-19: (2) [{…}, {…}]
+useScheduleSlots.tsx:172 ✅ [useScheduleSlots] Resultado final processado: (2) [{…}, {…}]
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+usePlanAvailability.tsx:28 🔄 [usePlanAvailability] INICIO - Consultando disponibilidade para: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, startDate: '2025-08-24', endDate: '2025-09-23'}
+usePlanAvailability.tsx:40 🔍 [usePlanAvailability] Executando RPC get_plan_availability...
+usePlanAvailability.tsx:45 🔍 [usePlanAvailability] Parâmetros de data: {startDate: '2025-08-24', endDate: '2025-09-23', startDateParam: '2025-08-24', endDateParam: '2025-09-23'}
+usePlanAvailability.tsx:58 🌐 [usePlanAvailability] Fazendo requisição para: /api/service-plans/9a032810-6397-4095-a8ac-f4caf222b41b/availability?start_date=2025-08-24&end_date=2025-09-23
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 0, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+usePlanAvailability.tsx:69 📡 [usePlanAvailability] Resposta da API: (9) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+usePlanAvailability.tsx:71 ✅ [usePlanAvailability] RPC executado com sucesso
+usePlanAvailability.tsx:72 🔍 [usePlanAvailability] Resultado bruto: (9) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+usePlanAvailability.tsx:73 🔍 [usePlanAvailability] Tipo de dados: Array
+usePlanAvailability.tsx:74 🔍 [usePlanAvailability] Quantidade de items: 9
+usePlanAvailability.tsx:77 🔍 [usePlanAvailability] Analisando TODOS os slots retornados:
+usePlanAvailability.tsx:79    Slot 1: {schedule_date: '2025-08-29', day_of_week: 5, start_time: '09:00', end_time: '11:00', max_capacity: 2, …}
+usePlanAvailability.tsx:79    Slot 2: {schedule_date: '2025-09-05', day_of_week: 5, start_time: '09:00', end_time: '11:00', max_capacity: 2, …}
+usePlanAvailability.tsx:79    Slot 3: {schedule_date: '2025-09-12', day_of_week: 5, start_time: '09:00', end_time: '11:00', max_capacity: 2, …}
+usePlanAvailability.tsx:79    Slot 4: {schedule_date: '2025-09-19', day_of_week: 5, start_time: '09:00', end_time: '11:00', max_capacity: 2, …}
+usePlanAvailability.tsx:79    Slot 5: {schedule_date: '2025-08-25', day_of_week: 1, start_time: '09:00', end_time: '11:00', max_capacity: 2, …}
+usePlanAvailability.tsx:79    Slot 6: {schedule_date: '2025-09-01', day_of_week: 1, start_time: '09:00', end_time: '11:00', max_capacity: 2, …}
+usePlanAvailability.tsx:79    Slot 7: {schedule_date: '2025-09-08', day_of_week: 1, start_time: '09:00', end_time: '11:00', max_capacity: 2, …}
+usePlanAvailability.tsx:79    Slot 8: {schedule_date: '2025-09-15', day_of_week: 1, start_time: '09:00', end_time: '11:00', max_capacity: 2, …}
+usePlanAvailability.tsx:79    Slot 9: {schedule_date: '2025-09-22', day_of_week: 1, start_time: '09:00', end_time: '11:00', max_capacity: 2, …}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 0, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 0, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:91 🔍 [DaySelector] Selecionando horário: {schedule_date: '2025-08-25', start_time: '09:00:00', day_of_week: 1}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 1, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+useRealTimeValidation.tsx:77 🔍 [useRealTimeValidation] Iniciando validação para: 9a032810-6397-4095-a8ac-f4caf222b41b-2025-08-25-09:00:00
+useBookingValidation.tsx:33 🔍 [useBookingValidation] Validando slots: [{…}]
+useBookingValidation.tsx:57 🔍 [useBookingValidation] Slots validados: [{…}]
+useBookingValidation.tsx:60 🔍 [useBookingValidation] Verificando disponibilidade dos slots...
+useBookingValidation.tsx:64 🔍 [useBookingValidation] Verificando slot 1: {date: '2025-08-25', time: '09:00:00'}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 1, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+useBookingValidation.tsx:69 🔍 [useBookingValidation] Disponibilidade para 2025-08-25: [{…}]
+useBookingValidation.tsx:82 ✅ [useBookingValidation] Slot 2025-08-25 às 09:00:00 disponível com 1 vagas
+useBookingValidation.tsx:107 ✅ [useBookingValidation] Resultado da validação: {is_valid: true, error_message: '', slot_validations: Array(1)}
+useBookingValidation.tsx:127 🔍 [useBookingValidation] Validações dos slots individuais: [{…}]
+useRealTimeValidation.tsx:125 ✅ [useRealTimeValidation] Validação concluída: {isValid: true, errorsCount: 0, warningsCount: 1}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 1, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 1, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 1, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 1, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:91 🔍 [DaySelector] Selecionando horário: {schedule_date: '2025-08-29', start_time: '10:00:00', day_of_week: 5}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+useRealTimeValidation.tsx:77 🔍 [useRealTimeValidation] Iniciando validação para: 9a032810-6397-4095-a8ac-f4caf222b41b-2025-08-25-09:00:00|2025-08-29-10:00:00
+useBookingValidation.tsx:33 🔍 [useBookingValidation] Validando slots: (2) [{…}, {…}]
+useBookingValidation.tsx:57 🔍 [useBookingValidation] Slots validados: (2) [{…}, {…}]
+useBookingValidation.tsx:60 🔍 [useBookingValidation] Verificando disponibilidade dos slots...
+useBookingValidation.tsx:64 🔍 [useBookingValidation] Verificando slot 1: {date: '2025-08-25', time: '09:00:00'}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+useBookingValidation.tsx:69 🔍 [useBookingValidation] Disponibilidade para 2025-08-25: [{…}]
+useBookingValidation.tsx:82 ✅ [useBookingValidation] Slot 2025-08-25 às 09:00:00 disponível com 1 vagas
+useBookingValidation.tsx:64 🔍 [useBookingValidation] Verificando slot 2: {date: '2025-08-29', time: '10:00:00'}
+useBookingValidation.tsx:69 🔍 [useBookingValidation] Disponibilidade para 2025-08-29: [{…}]
+useBookingValidation.tsx:82 ✅ [useBookingValidation] Slot 2025-08-29 às 10:00:00 disponível com 1 vagas
+useBookingValidation.tsx:107 ✅ [useBookingValidation] Resultado da validação: {is_valid: true, error_message: '', slot_validations: Array(2)}
+useBookingValidation.tsx:127 🔍 [useBookingValidation] Validações dos slots individuais: (2) [{…}, {…}]
+useRealTimeValidation.tsx:125 ✅ [useRealTimeValidation] Validação concluída: {isValid: true, errorsCount: 0, warningsCount: 2}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+BookingForm.tsx:62 🔍 Buscando dados do walker: af206421-095c-4d4c-a92c-50295d9de7c4
+BookingForm.tsx:70 ✅ Dados do walker encontrados: {walker_id: 'af206421-095c-4d4c-a92c-50295d9de7c4', bio: 'O Herói de Quatro Patas da Cidade\nSou mais do que …sistentes que já conhecem cada esquina do bairro.', location: 'Rio de Janeiro, RJ', phone: '+552199999999', cpf: '12345678901', …}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+useIntegratedBookingPayment.tsx:60 🔍 Criando registro de pagamento via PostgreSQL: {walker_id: 'af206421-095c-4d4c-a92c-50295d9de7c4', client_id: 'fcf77181-d0c0-4fc9-b186-eeb0f4df1216', amount: '225.00', status: 'pending', payment_method: 'marketplace', …}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+useIntegratedBookingPayment.tsx:73 ✅ Registro de pagamento criado: {id: 'fab4dfb5-01c3-49f9-9a50-e7658dfb945a', walker_id: 'af206421-095c-4d4c-a92c-50295d9de7c4', client_id: 'fcf77181-d0c0-4fc9-b186-eeb0f4df1216', walk_id: null, amount: '225.00', …}
+useIntegratedBookingPayment.tsx:89 🔍 Criando walks via PostgreSQL: (2) [{…}, {…}]
+useIntegratedBookingPayment.tsx:91  POST https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/api/walks 500 (Internal Server Error)
+processBookingWithPayment @ useIntegratedBookingPayment.tsx:91
+await in processBookingWithPayment
+handleProcessPayment @ BookingForm.tsx:102
+handleEvent @ chunk-5GSZJ57W.js?v=fc815506:14
+callCallback2 @ chunk-RPCDYKBN.js?v=fc815506:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=fc815506:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=fc815506:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=fc815506:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=fc815506:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=fc815506:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=fc815506:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=fc815506:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=fc815506:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=fc815506:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=fc815506:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=fc815506:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=fc815506:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=fc815506:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=fc815506:5449
+useIntegratedBookingPayment.tsx:159 Error processing booking: Error: Failed to create walks
+    at processBookingWithPayment (useIntegratedBookingPayment.tsx:98:15)
+    at async handleProcessPayment (BookingForm.tsx:102:23)
+processBookingWithPayment @ useIntegratedBookingPayment.tsx:159
+await in processBookingWithPayment
+handleProcessPayment @ BookingForm.tsx:102
+handleEvent @ chunk-5GSZJ57W.js?v=fc815506:14
+callCallback2 @ chunk-RPCDYKBN.js?v=fc815506:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=fc815506:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=fc815506:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=fc815506:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=fc815506:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=fc815506:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=fc815506:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=fc815506:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=fc815506:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=fc815506:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=fc815506:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=fc815506:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=fc815506:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=fc815506:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=fc815506:5449
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}

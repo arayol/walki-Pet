@@ -17,9 +17,6 @@ export interface ClientFormData {
   emergency_contact: string;
   use_whatsapp_for_emergency: boolean;
   address: string;
-  preferred_days: string[];
-  preferred_times: string[];
-  additional_schedule_notes: string;
 }
 
 export interface WalkerInfo {

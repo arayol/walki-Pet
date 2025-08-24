@@ -30,10 +30,7 @@ const ClientSignup = ({ walkerSlug: propWalkerSlug }: ClientSignupProps = {}) =>
     pet_notes: "",
     emergency_contact: "",
     use_whatsapp_for_emergency: true,
-    address: "",
-    preferred_days: [],
-    preferred_times: [],
-    additional_schedule_notes: "",
+    address: ""
   });
 
   useEffect(() => {

@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { User, Lock } from "lucide-react";
 import { ClientFormData, WalkerInfo } from "@/types/client";
-import { SchedulePreferences } from "./SchedulePreferences";
 
 interface ClientSignupFormProps {
   walkerInfo: WalkerInfo | null;
@@ -216,10 +215,6 @@ export const ClientSignupForm = ({
               </div>
             </div>
 
-            <SchedulePreferences 
-              formData={formData}
-              onFormDataChange={onFormDataChange}
-            />
 
             <div className="pt-6 border-t">
               <Button type="submit" className="w-full" disabled={loading}>

@@ -35,6 +35,7 @@ import Pricing from "@/pages/Pricing";
 import PlanSignup from "@/pages/PlanSignup";
 import CadastroSucesso from "@/pages/CadastroSucesso";
 import Integrations from "@/pages/Integrations";
+import ClientLogin from "@/apps/client/pages/ClientLogin";
 
 // Create QueryClient instance
 const queryClient = new QueryClient({
@@ -105,6 +106,7 @@ function AppRoutes() {
       } />
 
       {/* Client routes */}
+      <Route path="/client-area" element={<ClientLogin />} />
       <Route path="/client-dashboard" element={
         <ProtectedRoute requiredRole="client">
           <ClientDashboard />

@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { DaySelector } from "./DaySelector";
 import { BookingSummaryPanel } from "./BookingSummaryPanel";
@@ -60,24 +59,28 @@ export const BookingForm = ({ servicePlan, walkerId, onSuccess, onCancel }: Book
 
   const fetchWalkerData = async () => {
     try {
-      const { data, error } = await supabase
-        .from('walkers')
-        .select(`
-          walker_id,
-          location,
-          phone,
-          profiles!walkers_walker_id_fkey (
-            name,
-            email
-          )
-        `)
-        .eq('walker_id', walkerId)
-        .single();
-
-      if (error) throw error;
-      setWalkerData(data);
+      console.log('🔍 Buscando dados do walker:', walkerId);
+      
+      const response = await fetch(`/api/walkers/${walkerId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch walker data');
+      }
+      
+      const walkerData = await response.json();
+      console.log('✅ Dados do walker encontrados:', walkerData);
+      
+      setWalkerData({
+        walker_id: walkerData.walker_id,
+        location: walkerData.location || '',
+        phone: walkerData.phone || '',
+        profiles: {
+          name: walkerData.profile?.name || 'Walker',
+          email: walkerData.profile?.email || ''
+        }
+      });
     } catch (error) {
-      console.error('Error fetching walker data:', error);
+      console.error('❌ Erro ao buscar dados do walker:', error);
+      console.log('🔄 Supabase....a partir daqui iremos para o pagamento no Stripe');
     }
   };
 

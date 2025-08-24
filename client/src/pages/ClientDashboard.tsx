@@ -51,42 +51,22 @@ const ClientDashboard = () => {
     try {
       console.log("🔍 [ClientDashboard] Iniciando busca de dados para cliente:", user.id);
 
-      // Buscar dados do cliente
-      const { data: client, error: clientError } = await supabase
-        .from("clients")
-        .select(`
-          *,
-          profiles (
-            email,
-            name
-          )
-        `)
-        .eq("client_id", user.id)
-        .single();
-
-      if (clientError) {
-        console.error("Error fetching client data:", clientError);
+      // Buscar dados do cliente via REST API
+      const clientResponse = await fetch(`/api/clients/${user.id}`);
+      if (!clientResponse.ok) {
+        console.error("Error fetching client data:", clientResponse.status);
         return;
       }
 
+      const client = await clientResponse.json();
       console.log("✅ [ClientDashboard] Dados do cliente encontrados:", client);
       setClientData(client);
 
       // Buscar dados do walker
       if (client?.walker_id) {
-        const { data: walker, error: walkerError } = await supabase
-          .from("walkers")
-          .select(`
-            *,
-            profiles (
-              name,
-              email
-            )
-          `)
-          .eq("walker_id", client.walker_id)
-          .single();
-
-        if (!walkerError && walker) {
+        const walkerResponse = await fetch(`/api/walkers/${client.walker_id}`);
+        if (walkerResponse.ok) {
+          const walker = await walkerResponse.json();
           console.log("✅ [ClientDashboard] Dados do walker encontrados:", walker);
           setWalkerData(walker);
         }
@@ -107,15 +87,16 @@ const ClientDashboard = () => {
         end: endDate.toISOString()
       });
 
-      // Buscar agendamentos (walks) - TODOS os status relevantes
-      const { data: walksData, error: walksError } = await supabase
-        .from("walks")
-        .select("*")
-        .eq("client_id", user.id)
-        .gte("scheduled_at", startDate.toISOString())
-        .lte("scheduled_at", endDate.toISOString())
-        .in("status", ["scheduled", "confirmed", "pending", "completed"])
-        .order("scheduled_at", { ascending: false });
+      // Buscar agendamentos (walks) via REST API
+      const walksResponse = await fetch(`/api/clients/${user.id}/walks`);
+      let walksData = [];
+      let walksError = null;
+      
+      if (walksResponse.ok) {
+        walksData = await walksResponse.json();
+      } else {
+        walksError = `HTTP ${walksResponse.status}`;
+      }
 
       console.log("🔍 [ClientDashboard] Resultado walks:", {
         error: walksError,
@@ -123,15 +104,16 @@ const ClientDashboard = () => {
         data: walksData
       });
 
-      // Buscar service_bookings também
-      const { data: serviceBookingsData, error: serviceBookingsError } = await supabase
-        .from("service_bookings")
-        .select("*")
-        .eq("client_id", user.id)
-        .gte("data_agendamento", startDate.toISOString().split('T')[0])
-        .lte("data_agendamento", endDate.toISOString().split('T')[0])
-        .in("status", ["confirmado", "agendado"])
-        .order("data_agendamento", { ascending: false });
+      // Buscar service_bookings via REST API
+      const serviceBookingsResponse = await fetch(`/api/clients/${user.id}/service-bookings`);
+      let serviceBookingsData = [];
+      let serviceBookingsError = null;
+      
+      if (serviceBookingsResponse.ok) {
+        serviceBookingsData = await serviceBookingsResponse.json();
+      } else {
+        serviceBookingsError = `HTTP ${serviceBookingsResponse.status}`;
+      }
 
       console.log("🔍 [ClientDashboard] Resultado service_bookings:", {
         error: serviceBookingsError,
@@ -161,24 +143,29 @@ const ClientDashboard = () => {
           }
 
           // Buscar informações de pagamento para este walk específico
-          const { data: paymentData } = await supabase
-            .from("payments")
-            .select("status, payment_method, stripe_payment_id")
-            .eq("walk_id", walk.id)
-            .maybeSingle();
+          let paymentData = null;
+          try {
+            const paymentResponse = await fetch(`/api/payments/walk/${walk.id}`);
+            if (paymentResponse.ok) {
+              paymentData = await paymentResponse.json();
+            }
+          } catch (error) {
+            console.log("No payment data found for walk:", walk.id);
+          }
 
           // Se não encontrar pagamento por walk_id, buscar por metadata da sessão do Stripe
           let fallbackPaymentData = null;
           if (!paymentData && walk.notes && walk.notes.includes('cs_test_')) {
             const stripeSessionMatch = walk.notes.match(/cs_test_[a-zA-Z0-9]+/);
             if (stripeSessionMatch) {
-              const { data: stripePayment } = await supabase
-                .from("payments")
-                .select("status, payment_method, stripe_payment_id")
-                .eq("stripe_payment_id", stripeSessionMatch[0])
-                .eq("client_id", user.id)
-                .maybeSingle();
-              fallbackPaymentData = stripePayment;
+              try {
+                const stripePaymentResponse = await fetch(`/api/payments/stripe/${stripeSessionMatch[0]}`);
+                if (stripePaymentResponse.ok) {
+                  fallbackPaymentData = await stripePaymentResponse.json();
+                }
+              } catch (error) {
+                console.log("No stripe payment data found");
+              }
             }
           }
 
@@ -246,12 +233,16 @@ const ClientDashboard = () => {
         setWalks(combinedBookings);
       }
 
-      // Buscar todos os pagamentos do cliente
-      const { data: paymentsData, error: paymentsError } = await supabase
-        .from("payments")
-        .select("*")
-        .eq("client_id", user.id)
-        .order("created_at", { ascending: false });
+      // Buscar todos os pagamentos do cliente via REST API
+      const paymentsResponse = await fetch(`/api/clients/${user.id}/payments`);
+      let paymentsData = [];
+      let paymentsError = null;
+      
+      if (paymentsResponse.ok) {
+        paymentsData = await paymentsResponse.json();
+      } else {
+        paymentsError = `HTTP ${paymentsResponse.status}`;
+      }
 
       console.log("🔍 [ClientDashboard] Resultado payments:", {
         error: paymentsError,

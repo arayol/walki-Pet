@@ -39,6 +39,9 @@ export interface IStorage {
   createClient(client: InsertClient): Promise<Client>;
   updateClient(clientId: string, client: Partial<InsertClient>): Promise<Client | undefined>;
   getClientsByWalker(walkerId: string): Promise<Client[]>;
+  getWalksByClient(clientId: string): Promise<Walk[]>;
+  getServiceBookingsByClient(clientId: string): Promise<ServiceBooking[]>;
+  getPaymentsByClient(clientId: string): Promise<Payment[]>;
 
   // Service Plan operations
   getServicePlan(id: string): Promise<ServicePlan | undefined>;
@@ -269,6 +272,36 @@ export class DatabaseStorage implements IStorage {
       return result;
     } catch (error) {
       console.error("Error getting clients by walker:", error);
+      return [];
+    }
+  }
+
+  async getWalksByClient(clientId: string): Promise<Walk[]> {
+    try {
+      const result = await db.select().from(schema.walks).where(eq(schema.walks.client_id, clientId));
+      return result;
+    } catch (error) {
+      console.error("Error getting walks by client:", error);
+      return [];
+    }
+  }
+
+  async getServiceBookingsByClient(clientId: string): Promise<ServiceBooking[]> {
+    try {
+      const result = await db.select().from(schema.service_bookings).where(eq(schema.service_bookings.client_id, clientId));
+      return result;
+    } catch (error) {
+      console.error("Error getting service bookings by client:", error);
+      return [];
+    }
+  }
+
+  async getPaymentsByClient(clientId: string): Promise<Payment[]> {
+    try {
+      const result = await db.select().from(schema.payments).where(eq(schema.payments.client_id, clientId));
+      return result;
+    } catch (error) {
+      console.error("Error getting payments by client:", error);
       return [];
     }
   }

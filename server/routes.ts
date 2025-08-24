@@ -611,6 +611,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/clients/:clientId/walks", async (req, res) => {
+    try {
+      const walks = await storage.getWalksByClient(req.params.clientId);
+      res.json(walks);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/clients/:clientId/service-bookings", async (req, res) => {
+    try {
+      const bookings = await storage.getServiceBookingsByClient(req.params.clientId);
+      res.json(bookings);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/clients/:clientId/payments", async (req, res) => {
+    try {
+      const payments = await storage.getPaymentsByClient(req.params.clientId);
+      res.json(payments);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   app.get("/api/walkers/:walkerId/clients", async (req, res) => {
     try {
       const clients = await storage.getClientsByWalker(req.params.walkerId);

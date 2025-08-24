@@ -135,12 +135,28 @@ export const useIntegratedBookingPayment = (servicePlan: ServicePlan, walkerId: 
       // 4. Update payment record with Stripe session info
       if (paymentResult.url) {
         console.log('🔍 Atualizando pagamento com URL do Stripe:', paymentResult.url);
+        console.log('🔍 Resultado do pagamento completo:', paymentResult);
+        
+        // Extract session ID from the URL or payment result
+        let sessionId = null;
+        if (paymentResult.payment?.id) {
+          sessionId = paymentResult.payment.id;
+        } else if (paymentResult.transaction?.id) {
+          sessionId = paymentResult.transaction.id;
+        } else if (paymentResult.url) {
+          // Extract session ID from Stripe checkout URL
+          const urlMatch = paymentResult.url.match(/cs_[a-zA-Z0-9_]+/);
+          if (urlMatch) {
+            sessionId = urlMatch[0];
+          }
+        }
         
         const updateResponse = await fetch(`/api/payments/${paymentRecord.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             stripe_session_url: paymentResult.url,
+            stripe_session_id: sessionId,
             status: 'processing'
           })
         });

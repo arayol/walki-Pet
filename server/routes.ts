@@ -1657,11 +1657,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       switch (event.type) {
         case 'checkout.session.completed':
           const session = event.data.object as Stripe.Checkout.Session;
-          // Update payment status
-          await storage.updatePayment(session.id, {
-            status: 'paid',
-            paid_at: new Date(),
-          });
+          console.log('🔄 [Webhook] Processing completed session:', session.id);
+          
+          // Find payment by stripe_session_id and update status
+          const payment = await storage.getPaymentByStripeSessionId(session.id);
+          if (payment) {
+            console.log('✅ [Webhook] Payment found, updating to paid:', payment.id);
+            await storage.updatePayment(payment.id, {
+              status: 'paid',
+              paid_at: new Date(),
+            });
+          } else {
+            console.error('❌ [Webhook] Payment not found for session:', session.id);
+          }
           break;
           
         case 'payment_intent.payment_failed':

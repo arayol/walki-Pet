@@ -517,13 +517,34 @@ export class DatabaseStorage implements IStorage {
 
   async updatePayment(id: string, payment: Partial<InsertPayment>): Promise<Payment | undefined> {
     try {
+      // Convert string dates to Date objects
+      const processedPayment = { ...payment };
+      if (processedPayment.paid_at && typeof processedPayment.paid_at === 'string') {
+        processedPayment.paid_at = new Date(processedPayment.paid_at);
+      }
+      if (processedPayment.created_at && typeof processedPayment.created_at === 'string') {
+        processedPayment.created_at = new Date(processedPayment.created_at);
+      }
+      
       const result = await db.update(schema.payments)
-        .set({ ...payment, updated_at: new Date() })
+        .set({ ...processedPayment, updated_at: new Date() })
         .where(eq(schema.payments.id, id))
         .returning();
       return result[0];
     } catch (error) {
       console.error("Error updating payment:", error);
+      return undefined;
+    }
+  }
+
+  async getPaymentByStripeSessionId(stripeSessionId: string): Promise<Payment | undefined> {
+    try {
+      const result = await db.select().from(schema.payments)
+        .where(eq(schema.payments.stripe_session_id, stripeSessionId))
+        .limit(1);
+      return result[0];
+    } catch (error) {
+      console.error("Error getting payment by stripe session id:", error);
       return undefined;
     }
   }

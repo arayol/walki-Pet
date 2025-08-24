@@ -37,6 +37,7 @@ import CadastroSucesso from "@/pages/CadastroSucesso";
 import Integrations from "@/pages/Integrations";
 import ClientLogin from "@/apps/client/pages/ClientLogin";
 import StripeConnectSuccess from "@/pages/StripeConnectSuccess";
+import PaymentCancel from "@/pages/PaymentCancel";
 
 // Create QueryClient instance
 const queryClient = new QueryClient({
@@ -129,6 +130,8 @@ function AppRoutes() {
       {/* Payment routes */}
       <Route path="/payment-success" element={<PaymentSuccess />} />
       <Route path="/payment/success" element={<PaymentSuccess />} />
+      <Route path="/payment/cancel" element={<PaymentCancel />} />
+      <Route path="/payment-canceled" element={<PaymentCancel />} />
       
       {/* Stripe Connect routes for walkers */}
       <Route path="/walker/payments/success" element={

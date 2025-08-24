@@ -98,8 +98,8 @@ export class StripeMarketplaceProvider implements IMarketplaceProvider {
           },
         ],
         mode: 'payment',
-        success_url: transaction.metadata?.successUrl || `${transaction.metadata?.origin}/payment-success`,
-        cancel_url: transaction.metadata?.cancelUrl || `${transaction.metadata?.origin}/payment-canceled`,
+        success_url: transaction.metadata?.successUrl || `${transaction.metadata?.origin}/payment/success`,
+        cancel_url: transaction.metadata?.cancelUrl || `${transaction.metadata?.origin}/payment/cancel`,
         payment_intent_data: {
           application_fee_amount: platformAmount,
           transfer_data: {

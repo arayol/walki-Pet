@@ -60,8 +60,8 @@ export class StripePaymentProvider implements IPaymentProvider {
           },
         ],
         mode: 'payment',
-        success_url: payment.metadata?.successUrl || `${payment.metadata?.origin}/payment-success`,
-        cancel_url: payment.metadata?.cancelUrl || `${payment.metadata?.origin}/payment-canceled`,
+        success_url: payment.metadata?.successUrl || `${payment.metadata?.origin}/payment/success`,
+        cancel_url: payment.metadata?.cancelUrl || `${payment.metadata?.origin}/payment/cancel`,
         metadata: payment.metadata || {}
       });
 

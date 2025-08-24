@@ -34,10 +34,18 @@ const Clients = () => {
 
   const fetchWalkerSlug = async () => {
     try {
-      // Simulate walker slug for now - can be implemented with API later
-      setWalkerSlug("walker-slug");
+      if (!user?.id) return;
+      
+      const response = await fetch(`/api/walkers/${user.id}`);
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}`);
+      }
+      
+      const walkerData = await response.json();
+      setWalkerSlug(walkerData.slug || "");
     } catch (error) {
       console.error("Error fetching walker slug:", error);
+      setWalkerSlug(""); // Set empty if error
     }
   };
 

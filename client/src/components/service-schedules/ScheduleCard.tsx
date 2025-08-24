@@ -17,7 +17,7 @@ interface ScheduleCardProps {
 
 export const ScheduleCard = ({ schedule, servicePlanId, serviceRegionId }: ScheduleCardProps) => {
   const [isToggling, setIsToggling] = useState(false);
-  const { updateSchedule, deleteSchedule } = useServiceSchedules(servicePlanId, serviceRegionId);
+  const { updateSchedule, deleteSchedule } = useServiceSchedules(servicePlanId);
   
   // Verificar disponibilidade para hoje
   const today = format(new Date(), 'yyyy-MM-dd');

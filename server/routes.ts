@@ -977,21 +977,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Service Schedules endpoints
+  // Service Schedules endpoints - Simplified: only by service plan
   app.get("/api/service-schedules", async (req, res) => {
     try {
-      const { service_plan_id, service_region_id } = req.query;
+      const { service_plan_id } = req.query;
       
-      console.log('🔍 [API] Buscando service schedules:', { service_plan_id, service_region_id });
+      console.log('🔍 [API] Buscando service schedules para plano:', service_plan_id);
       
       if (!service_plan_id) {
         return res.status(400).json({ error: "service_plan_id é obrigatório" });
       }
 
-      const schedules = await storage.getServiceSchedules(
-        service_plan_id as string, 
-        service_region_id as string
-      );
+      const schedules = await storage.getServiceSchedules(service_plan_id as string);
       
       console.log('✅ [API] Service schedules encontrados:', schedules.length);
       res.json(schedules);

@@ -18,31 +18,26 @@ export interface ServiceSchedule {
 
 export interface CreateServiceScheduleData {
   service_plan_id: string;
-  service_region_id: string;
   dia_semana: number;
   hora_inicio: string;
   hora_fim: string;
   capacidade_maxima: number;
 }
 
-export const useServiceSchedules = (servicePlanId?: string, serviceRegionId?: string) => {
+export const useServiceSchedules = (servicePlanId?: string) => {
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: schedules, isLoading } = useQuery({
-    queryKey: ['service-schedules', servicePlanId, serviceRegionId],
+    queryKey: ['service-schedules', servicePlanId],
     queryFn: async () => {
       if (!user || !servicePlanId) return [];
 
-      console.log('🔄 [useServiceSchedules] Buscando horários para:', { 
-        servicePlanId, 
-        serviceRegionId, 
-        userId: user.id 
-      });
+      console.log('🔄 [useServiceSchedules] Buscando horários para plano:', servicePlanId);
 
       try {
-        const url = `/api/service-schedules?service_plan_id=${servicePlanId}${serviceRegionId ? `&service_region_id=${serviceRegionId}` : ''}`;
+        const url = `/api/service-schedules?service_plan_id=${servicePlanId}`;
         console.log('🌐 [useServiceSchedules] URL:', url);
         
         const response = await fetch(url);

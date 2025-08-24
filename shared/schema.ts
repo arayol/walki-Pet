@@ -113,12 +113,12 @@ export const service_regions = pgTable('service_regions', {
   updated_at: timestamp('updated_at').defaultNow(),
 });
 
-// Service Schedules table
+// Service Schedules table - Simplified: only associated with service_plan
 export const service_schedules = pgTable('service_schedules', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
   service_plan_id: uuid('service_plan_id').notNull().references(() => service_plans.id),
-  service_region_id: uuid('service_region_id').notNull().references(() => service_regions.id),
-  dia_semana: integer('dia_semana').notNull(), // 0-6, Sunday-Saturday
+  service_region_id: uuid('service_region_id').references(() => service_regions.id), // Optional now - will be removed
+  dia_semana: integer('dia_semana').notNull(), // 1-7, Monday-Sunday
   hora_inicio: varchar('hora_inicio', { length: 5 }).notNull(), // HH:MM format
   hora_fim: varchar('hora_fim', { length: 5 }).notNull(), // HH:MM format
   capacidade_maxima: integer('capacidade_maxima').default(1),

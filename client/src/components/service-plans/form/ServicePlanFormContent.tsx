@@ -3,6 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import { BasicInfoSection } from "./BasicInfoSection";
 import { PricingSection } from "./PricingSection";
 import { ServicesSection } from "./ServicesSection";
+import { SchedulesSection } from "./SchedulesSection";
 import { FormActions } from "./FormActions";
 import { ServicePlanFormData } from "./types";
 
@@ -18,6 +19,8 @@ interface ServicePlanFormContentProps {
   onCancel: () => void;
   loading: boolean;
   isEdit: boolean;
+  servicePlanId?: string;
+  servicePlanName?: string;
 }
 
 export const ServicePlanFormContent = ({
@@ -31,7 +34,9 @@ export const ServicePlanFormContent = ({
   onSubmit,
   onCancel,
   loading,
-  isEdit
+  isEdit,
+  servicePlanId,
+  servicePlanName
 }: ServicePlanFormContentProps) => {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -49,6 +54,12 @@ export const ServicePlanFormContent = ({
         onIncrementWalkCount={onIncrementWalkCount}
         onDecrementWalkCount={onDecrementWalkCount}
         onWalkCountChange={onWalkCountChange}
+      />
+
+      {/* Seção de Horários - Integrada no fluxo do formulário */}
+      <SchedulesSection 
+        servicePlanId={servicePlanId}
+        servicePlanName={servicePlanName || form.watch("name") || "Novo Plano"}
       />
 
       <FormActions 

@@ -677,17 +677,12 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  // Service Schedules operations
-  async getServiceSchedules(servicePlanId: string, serviceRegionId?: string): Promise<any[]> {
+  // Service Schedules operations - Simplified: only by service plan
+  async getServiceSchedules(servicePlanId: string): Promise<any[]> {
     try {
-      let whereConditions = [eq(schema.service_schedules.service_plan_id, servicePlanId)];
-      
-      if (serviceRegionId) {
-        whereConditions.push(eq(schema.service_schedules.service_region_id, serviceRegionId));
-      }
-      
       const schedules = await db.select().from(schema.service_schedules)
-        .where(and(...whereConditions));
+        .where(eq(schema.service_schedules.service_plan_id, servicePlanId))
+        .orderBy(schema.service_schedules.dia_semana, schema.service_schedules.hora_inicio);
       
       console.log('📊 [Storage] Service schedules encontrados:', schedules.length);
       return schedules;
@@ -702,7 +697,7 @@ export class DatabaseStorage implements IStorage {
       const scheduleData = {
         id: crypto.randomUUID(),
         service_plan_id: data.service_plan_id,
-        service_region_id: data.service_region_id,
+        // service_region_id removed - schedules are now plan-level only
         dia_semana: data.dia_semana,
         hora_inicio: data.hora_inicio,
         hora_fim: data.hora_fim,

@@ -27,7 +27,6 @@ import { PerformanceStats } from "@/components/marketing/PerformanceStats";
 import { ServiceStats } from "@/components/marketing/ServiceStats";
 import { SchedulingStats } from "@/components/marketing/SchedulingStats";
 import { MarketingStats } from "@/components/marketing/MarketingStats";
-import { AvailabilitySchedulesManager } from '@/components/marketing/AvailabilitySchedulesManager';
 
 interface Region {
   name: string;
@@ -709,8 +708,6 @@ ${publicUrl}`;
                 </Card>
               </Collapsible>
 
-              {/* Horários de Disponibilidade - Nova Interface Melhorada */}
-              <AvailabilitySchedulesManager />
 
               {/* Ações */}
               <div className="flex flex-col sm:flex-row gap-3">

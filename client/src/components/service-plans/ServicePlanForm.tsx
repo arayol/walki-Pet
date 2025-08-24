@@ -186,6 +186,8 @@ export const ServicePlanForm = ({ plan, planType, onClose, onSave }: ServicePlan
             onCancel={onClose}
             loading={loading}
             isEdit={!!plan}
+            servicePlanId={currentPlanId || plan?.id}
+            servicePlanName={form.watch("name") || plan?.name}
           />
         </CardContent>
       </Card>

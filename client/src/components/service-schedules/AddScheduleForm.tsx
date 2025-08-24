@@ -17,7 +17,7 @@ interface AddScheduleFormProps {
 }
 
 export const AddScheduleForm = ({ servicePlanId, serviceRegionId, onClose }: AddScheduleFormProps) => {
-  const { createSchedule } = useServiceSchedules(servicePlanId, serviceRegionId);
+  const { createSchedule } = useServiceSchedules(servicePlanId);
 
   const handleSave = (slots: DayTimeSlot[]) => {
     // Expandir cada slot para criar um horário para cada dia selecionado
@@ -27,7 +27,6 @@ export const AddScheduleForm = ({ servicePlanId, serviceRegionId, onClose }: Add
       slot.days.forEach(day => {
         schedules.push({
           service_plan_id: servicePlanId,
-          service_region_id: serviceRegionId,
           dia_semana: day,
           hora_inicio: slot.hora_inicio,
           hora_fim: slot.hora_fim,

@@ -79,14 +79,23 @@ export const RegionsList = ({ servicePlanId, servicePlanName, onAddRegion }: Reg
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <CardTitle className="text-base">CEP: {region.cep}</CardTitle>
+                          <CardTitle className="text-base">
+                            {region.endereco ? `${region.endereco}, ${region.bairro}` : `CEP: ${region.cep}`}
+                          </CardTitle>
                           <Badge variant={region.is_active ? "default" : "secondary"}>
                             {region.is_active ? "Ativo" : "Inativo"}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          Raio de atendimento: {region.raio_km} km
-                        </p>
+                        <div className="space-y-1">
+                          {region.endereco && (
+                            <p className="text-sm text-muted-foreground">
+                              {region.cidade}/{region.uf} - CEP: {region.cep}
+                            </p>
+                          )}
+                          <p className="text-sm text-muted-foreground">
+                            Raio de atendimento: {region.raio_km} km
+                          </p>
+                        </div>
                       </div>
                       
                       <div className="flex items-center gap-2">

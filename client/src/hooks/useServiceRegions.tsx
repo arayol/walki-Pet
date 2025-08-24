@@ -7,6 +7,10 @@ export interface ServiceRegion {
   id: string;
   service_plan_id: string;
   cep: string;
+  endereco?: string; // Nome da rua/avenida
+  bairro?: string; // Nome do bairro
+  cidade?: string; // Nome da cidade
+  uf?: string; // Estado (UF)
   raio_km: number;
   is_active: boolean;
   created_at: string;
@@ -16,6 +20,10 @@ export interface ServiceRegion {
 export interface CreateServiceRegionData {
   service_plan_id: string;
   cep: string;
+  endereco?: string; // Nome da rua/avenida
+  bairro?: string; // Nome do bairro
+  cidade?: string; // Nome da cidade
+  uf?: string; // Estado (UF)
   raio_km: number;
 }
 
@@ -48,6 +56,10 @@ export const useServiceRegions = (servicePlanId?: string) => {
       const regionData = {
         service_plan_id: data.service_plan_id,
         cep: data.cep,
+        endereco: data.endereco,
+        bairro: data.bairro,
+        cidade: data.cidade,
+        uf: data.uf,
         raio_km: data.raio_km,
         is_active: true,
       };

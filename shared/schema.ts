@@ -107,6 +107,10 @@ export const service_regions = pgTable('service_regions', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
   service_plan_id: uuid('service_plan_id').notNull().references(() => service_plans.id),
   cep: varchar('cep', { length: 8 }).notNull(),
+  endereco: text('endereco'), // Nome da rua/avenida
+  bairro: text('bairro'), // Nome do bairro
+  cidade: text('cidade'), // Nome da cidade
+  uf: varchar('uf', { length: 2 }), // Estado (UF)
   raio_km: numeric('raio_km', { precision: 5, scale: 2 }).default('5.0'),
   is_active: boolean('is_active').default(true),
   created_at: timestamp('created_at').defaultNow(),

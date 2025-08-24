@@ -45,9 +45,14 @@ export const AddRegionForm = ({ servicePlanId, onClose }: AddRegionFormProps) =>
     const regionData: CreateServiceRegionData = {
       service_plan_id: servicePlanId,
       cep: cep.replace(/\D/g, ''),
+      endereco: cepData.logradouro,
+      bairro: cepData.bairro,
+      cidade: cepData.localidade,
+      uf: cepData.uf,
       raio_km: raioKm[0],
     };
 
+    console.log('🏠 Criando região com dados de endereço:', regionData);
     createRegion(regionData);
     onClose();
   };

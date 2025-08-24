@@ -524,9 +524,12 @@ export class DatabaseStorage implements IStorage {
 
   async createServiceRegion(region: InsertServiceRegion): Promise<ServiceRegion> {
     try {
+      console.log('📝 Creating service region with address data:', region);
       const result = await db.insert(schema.service_regions).values(region).returning();
+      console.log('✅ Service region created in PostgreSQL with address:', result[0]);
       return result[0];
     } catch (error: any) {
+      console.error("Error creating service region:", error);
       throw new Error(`Failed to create service region: ${error.message}`);
     }
   }

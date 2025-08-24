@@ -185,8 +185,7 @@ export const BookingForm = ({ servicePlan, walkerId, onSuccess, onCancel }: Book
           onConfirm={handleProcessPayment}
           walker={walkerData}
           service={servicePlan}
-          selectedDate={new Date(selectedSlots[0].date)}
-          selectedTime={selectedSlots[0].time}
+          selectedSlots={selectedSlots}
           isConfirming={loading}
         />
       )}

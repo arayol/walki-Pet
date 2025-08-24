@@ -1116,10 +1116,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/walks", async (req, res) => {
     try {
-      const walk = await storage.createWalk(req.body);
-      res.status(201).json(walk);
+      // Check if it's a single walk or multiple walks
+      if (req.body.walks && Array.isArray(req.body.walks)) {
+        // Multiple walks
+        console.log('🔍 Criando múltiplos walks:', req.body.walks.length);
+        const createdWalks = [];
+        
+        for (const walkData of req.body.walks) {
+          const walk = await storage.createWalk(walkData);
+          createdWalks.push(walk);
+        }
+        
+        console.log('✅ Walks criados:', createdWalks.length);
+        res.status(201).json(createdWalks);
+      } else {
+        // Single walk
+        const walk = await storage.createWalk(req.body);
+        res.status(201).json(walk);
+      }
     } catch (error) {
+      console.error('❌ Erro ao criar walks:', error);
       res.status(500).json({ error: "Failed to create walk" });
+    }
+  });
+
+  // Payment routes
+  app.post("/api/payments", async (req, res) => {
+    try {
+      console.log('🔍 Criando payment:', req.body);
+      const payment = await storage.createPayment(req.body);
+      console.log('✅ Payment criado:', payment);
+      res.status(201).json(payment);
+    } catch (error) {
+      console.error('❌ Erro ao criar payment:', error);
+      res.status(500).json({ error: "Failed to create payment" });
+    }
+  });
+
+  app.put("/api/payments/:id", async (req, res) => {
+    try {
+      console.log('🔍 Atualizando payment:', req.params.id, req.body);
+      const payment = await storage.updatePayment(req.params.id, req.body);
+      
+      if (!payment) {
+        return res.status(404).json({ error: "Payment not found" });
+      }
+      
+      console.log('✅ Payment atualizado:', payment);
+      res.json(payment);
+    } catch (error) {
+      console.error('❌ Erro ao atualizar payment:', error);
+      res.status(500).json({ error: "Failed to update payment" });
     }
   });
 

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 import { usePaymentMethod } from '@/components/payments/PaymentMethodProvider';
 
 interface SelectedSlot {
@@ -58,13 +57,20 @@ export const useIntegratedBookingPayment = (servicePlan: ServicePlan, walkerId: 
         }
       };
 
-      const { data: paymentRecord, error: paymentError } = await supabase
-        .from("payments")
-        .insert(paymentData)
-        .select()
-        .single();
+      console.log('🔍 Criando registro de pagamento via PostgreSQL:', paymentData);
+      
+      const paymentResponse = await fetch('/api/payments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(paymentData)
+      });
 
-      if (paymentError) throw paymentError;
+      if (!paymentResponse.ok) {
+        throw new Error('Failed to create payment record');
+      }
+
+      const paymentRecord = await paymentResponse.json();
+      console.log('✅ Registro de pagamento criado:', paymentRecord);
 
       // 2. Create walks
       const walksToInsert = selectedSlots.map(slot => ({
@@ -80,11 +86,19 @@ export const useIntegratedBookingPayment = (servicePlan: ServicePlan, walkerId: 
         recurrence_group_id: servicePlan.walk_count > 1 ? crypto.randomUUID() : null,
       }));
 
-      const { error: walksError } = await supabase
-        .from("walks")
-        .insert(walksToInsert);
+      console.log('🔍 Criando walks via PostgreSQL:', walksToInsert);
+      
+      const walksResponse = await fetch('/api/walks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ walks: walksToInsert })
+      });
 
-      if (walksError) throw walksError;
+      if (!walksResponse.ok) {
+        throw new Error('Failed to create walks');
+      }
+
+      console.log('✅ Walks criados com sucesso');
 
       // 3. Process payment through hybrid system
       let paymentResult;
@@ -116,13 +130,20 @@ export const useIntegratedBookingPayment = (servicePlan: ServicePlan, walkerId: 
 
       // 4. Update payment record with Stripe session info
       if (paymentResult.url) {
-        await supabase
-          .from("payments")
-          .update({ 
+        console.log('🔍 Atualizando pagamento com URL do Stripe:', paymentResult.url);
+        
+        const updateResponse = await fetch(`/api/payments/${paymentRecord.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
             stripe_session_url: paymentResult.url,
             status: 'processing'
           })
-          .eq('id', paymentRecord.id);
+        });
+
+        if (!updateResponse.ok) {
+          console.error('Failed to update payment record');
+        }
 
         // 5. Redirect to payment
         window.location.href = paymentResult.url;

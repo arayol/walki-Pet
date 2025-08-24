@@ -1,0 +1,43 @@
+🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+useIntegratedBookingPayment.tsx:138 Error processing booking: TypeError: supabase.from is not a function
+    at processBookingWithPayment (useIntegratedBookingPayment.tsx:62:10)
+    at handleProcessPayment (BookingForm.tsx:102:29)
+    at handleEvent (chunk-5GSZJ57W.js?v=abbcf5b6:14:45)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=abbcf5b6:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=abbcf5b6:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=abbcf5b6:3733:39)
+    at invokeGuardedCallbackAndCatchFirstError (chunk-RPCDYKBN.js?v=abbcf5b6:3736:33)
+    at executeDispatch (chunk-RPCDYKBN.js?v=abbcf5b6:7014:11)
+    at processDispatchQueueItemsInOrder (chunk-RPCDYKBN.js?v=abbcf5b6:7034:15)
+    at processDispatchQueue (chunk-RPCDYKBN.js?v=abbcf5b6:7043:13)
+processBookingWithPayment @ useIntegratedBookingPayment.tsx:138
+handleProcessPayment @ BookingForm.tsx:102
+handleEvent @ chunk-5GSZJ57W.js?v=abbcf5b6:14
+callCallback2 @ chunk-RPCDYKBN.js?v=abbcf5b6:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=abbcf5b6:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=abbcf5b6:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=abbcf5b6:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=abbcf5b6:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=abbcf5b6:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=abbcf5b6:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=abbcf5b6:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=abbcf5b6:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=abbcf5b6:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=abbcf5b6:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=abbcf5b6:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=abbcf5b6:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=abbcf5b6:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=abbcf5b6:5449
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}

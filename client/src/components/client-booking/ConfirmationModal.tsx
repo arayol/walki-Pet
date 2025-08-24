@@ -37,14 +37,19 @@ interface ServicePlan {
   recurrence_type?: string;
 }
 
+interface SelectedSlot {
+  date: string;
+  time: string;
+  dayOfWeek: number;
+}
+
 interface ConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   walker: Walker;
   service: ServicePlan;
-  selectedDate: Date;
-  selectedTime: string;
+  selectedSlots: SelectedSlot[];
   isConfirming?: boolean;
 }
 
@@ -54,17 +59,26 @@ export const ConfirmationModal = ({
   onConfirm,
   walker,
   service,
-  selectedDate,
-  selectedTime,
+  selectedSlots,
   isConfirming = false
 }: ConfirmationModalProps) => {
-  const formatDate = (date: Date) => {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
     return new Intl.DateTimeFormat('pt-BR', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     }).format(date);
+  };
+
+  const formatTime = (timeString: string) => {
+    return timeString.substring(0, 5); // Remove seconds
+  };
+
+  const getDayOfWeekName = (dayOfWeek: number) => {
+    const days = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+    return days[dayOfWeek];
   };
 
   const formatPrice = (price: number) =>
@@ -124,22 +138,29 @@ export const ConfirmationModal = ({
             )}
           </div>
 
-          {/* Data e Horário */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-              <Calendar className="h-5 w-5 text-gray-600" />
-              <div>
-                <p className="font-medium text-gray-800">Data</p>
-                <p className="text-sm text-gray-600">{formatDate(selectedDate)}</p>
-              </div>
-            </div>
+          {/* Horários Selecionados */}
+          <div className="space-y-3">
+            <h4 className="font-semibold text-gray-800 flex items-center">
+              <Calendar className="h-5 w-5 mr-2" />
+              Horários Selecionados ({selectedSlots.length}/{service.walk_count})
+            </h4>
             
-            <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-              <Clock className="h-5 w-5 text-gray-600" />
-              <div>
-                <p className="font-medium text-gray-800">Horário</p>
-                <p className="text-sm text-gray-600">{selectedTime}h</p>
-              </div>
+            <div className="grid grid-cols-1 gap-3">
+              {selectedSlots.map((slot, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <Calendar className="h-4 w-4 text-gray-600" />
+                    <div>
+                      <p className="font-medium text-gray-800">{formatDate(slot.date)}</p>
+                      <p className="text-sm text-gray-500">{getDayOfWeekName(slot.dayOfWeek)}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="h-4 w-4 text-gray-600" />
+                    <span className="font-medium text-gray-800">{formatTime(slot.time)}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -166,13 +187,41 @@ export const ConfirmationModal = ({
           </div>
 
           {/* Plano Recorrente Info */}
-          {service.is_recurring && (
+          {service.is_recurring && service.recurrence_type === 'monthly' && (
+            <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+              <h4 className="font-semibold text-blue-800 mb-2">📅 Plano Mensal Recorrente</h4>
+              <p className="text-sm text-blue-700 mb-3">
+                <strong>Os dias da semana selecionados serão reservados nas próximas semanas!</strong>
+              </p>
+              
+              <div className="text-sm text-blue-700 space-y-1">
+                <p><strong>Dias da semana escolhidos:</strong></p>
+                <ul className="list-disc list-inside ml-4 space-y-1">
+                  {selectedSlots.map((slot, index) => (
+                    <li key={index}>
+                      <strong>{getDayOfWeekName(slot.dayOfWeek)}</strong> às <strong>{formatTime(slot.time)}</strong>
+                    </li>
+                  ))}
+                </ul>
+                
+                <div className="mt-3 p-3 bg-blue-100 rounded-md">
+                  <p className="font-medium">📍 Como funciona:</p>
+                  <p className="mt-1">
+                    Todos os <strong>{selectedSlots.map(s => getDayOfWeekName(s.dayOfWeek)).join(', ')}</strong> nos 
+                    horários selecionados estarão automaticamente reservados para você durante todo o mês.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {service.is_recurring && service.recurrence_type === 'weekly' && (
             <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
-              <h4 className="font-semibold text-yellow-800 mb-2">Plano Recorrente</h4>
+              <h4 className="font-semibold text-yellow-800 mb-2">Plano Semanal Recorrente</h4>
               <p className="text-sm text-yellow-700">
-                Este agendamento faz parte de um plano {service.recurrence_type === 'weekly' ? 'semanal' : 'mensal'}. 
+                Este agendamento faz parte de um plano semanal. 
                 Os próximos {service.walk_count} passeios serão automaticamente agendados 
-                nos mesmos dias e horários das próximas {service.recurrence_type === 'weekly' ? 'semanas' : 'meses'}.
+                nos mesmos dias e horários das próximas semanas.
               </p>
             </div>
           )}

@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { BookingForm } from "@/components/client-booking/BookingForm";
 import { MobileOptimizedBooking } from "@/components/client-booking/MobileOptimizedBooking";
@@ -64,16 +63,31 @@ const ClientBooking = () => {
 
     try {
       console.log('🔍 ClientBooking: Fetching service plan:', servicePlanId);
+      const url = `/api/service-plans/${servicePlanId}`;
+      console.log('🔍 ClientBooking: Request URL:', url);
       
-      const { data, error: fetchError } = await supabase
-        .from('service_plans')
-        .select('*')
-        .eq('id', servicePlanId)
-        .single();
+      const response = await fetch(url);
+      console.log('🔍 ClientBooking: Response status:', response.status);
+      console.log('🔍 ClientBooking: Response headers:', Object.fromEntries(response.headers.entries()));
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('🔍 ClientBooking: Error response text:', errorText);
+        throw new Error(`Failed to fetch service plan: ${response.status} - ${errorText.substring(0, 100)}`);
+      }
 
-      if (fetchError) {
-        console.error('❌ ClientBooking: Error fetching service plan:', fetchError);
-        throw fetchError;
+      const contentType = response.headers.get('content-type');
+      console.log('🔍 ClientBooking: Content-Type:', contentType);
+      
+      const responseText = await response.text();
+      console.log('🔍 ClientBooking: Raw response:', responseText.substring(0, 200));
+      
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('🔍 ClientBooking: JSON parse error:', parseError);
+        throw new Error(`Invalid JSON response: ${responseText.substring(0, 100)}`);
       }
       
       if (!data) {

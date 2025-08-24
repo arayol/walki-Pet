@@ -128,6 +128,7 @@ function AppRoutes() {
       
       {/* Payment routes */}
       <Route path="/payment-success" element={<PaymentSuccess />} />
+      <Route path="/payment/success" element={<PaymentSuccess />} />
       
       {/* Stripe Connect routes for walkers */}
       <Route path="/walker/payments/success" element={

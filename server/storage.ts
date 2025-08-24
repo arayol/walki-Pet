@@ -676,6 +676,89 @@ export class DatabaseStorage implements IStorage {
       throw new Error(`Failed to mark token as used: ${error.message}`);
     }
   }
+
+  // Service Schedules operations
+  async getServiceSchedules(servicePlanId: string, serviceRegionId?: string): Promise<any[]> {
+    try {
+      let whereConditions = [eq(schema.service_schedules.service_plan_id, servicePlanId)];
+      
+      if (serviceRegionId) {
+        whereConditions.push(eq(schema.service_schedules.service_region_id, serviceRegionId));
+      }
+      
+      const schedules = await db.select().from(schema.service_schedules)
+        .where(and(...whereConditions));
+      
+      console.log('📊 [Storage] Service schedules encontrados:', schedules.length);
+      return schedules;
+    } catch (error: any) {
+      console.error("Error fetching service schedules:", error);
+      return [];
+    }
+  }
+
+  async createServiceSchedule(data: any): Promise<any> {
+    try {
+      const scheduleData = {
+        id: crypto.randomUUID(),
+        service_plan_id: data.service_plan_id,
+        service_region_id: data.service_region_id,
+        dia_semana: data.dia_semana,
+        hora_inicio: data.hora_inicio,
+        hora_fim: data.hora_fim,
+        capacidade_maxima: data.capacidade_maxima,
+        is_active: true,
+        created_at: new Date(),
+        updated_at: new Date(),
+      };
+
+      const result = await db.insert(schema.service_schedules).values(scheduleData).returning();
+      console.log('✅ [Storage] Service schedule criado:', result[0]);
+      return result[0];
+    } catch (error: any) {
+      console.error("Error creating service schedule:", error);
+      throw new Error(`Failed to create service schedule: ${error.message}`);
+    }
+  }
+
+  async updateServiceSchedule(id: string, data: any): Promise<any> {
+    try {
+      const updateData = {
+        ...data,
+        updated_at: new Date(),
+      };
+
+      const result = await db.update(schema.service_schedules)
+        .set(updateData)
+        .where(eq(schema.service_schedules.id, id))
+        .returning();
+
+      if (result.length === 0) {
+        throw new Error("Schedule não encontrado");
+      }
+
+      console.log('✅ [Storage] Service schedule atualizado:', result[0]);
+      return result[0];
+    } catch (error: any) {
+      console.error("Error updating service schedule:", error);
+      throw new Error(`Failed to update service schedule: ${error.message}`);
+    }
+  }
+
+  async deleteServiceSchedule(id: string): Promise<boolean> {
+    try {
+      const result = await db.delete(schema.service_schedules)
+        .where(eq(schema.service_schedules.id, id))
+        .returning();
+
+      const success = result.length > 0;
+      console.log('🗑️ [Storage] Service schedule deletado:', success);
+      return success;
+    } catch (error: any) {
+      console.error("Error deleting service schedule:", error);
+      return false;
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();

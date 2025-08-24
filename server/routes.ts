@@ -977,6 +977,78 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Service Schedules endpoints
+  app.get("/api/service-schedules", async (req, res) => {
+    try {
+      const { service_plan_id, service_region_id } = req.query;
+      
+      console.log('🔍 [API] Buscando service schedules:', { service_plan_id, service_region_id });
+      
+      if (!service_plan_id) {
+        return res.status(400).json({ error: "service_plan_id é obrigatório" });
+      }
+
+      const schedules = await storage.getServiceSchedules(
+        service_plan_id as string, 
+        service_region_id as string
+      );
+      
+      console.log('✅ [API] Service schedules encontrados:', schedules.length);
+      res.json(schedules);
+    } catch (error: any) {
+      console.error("Error fetching service schedules:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post("/api/service-schedules", async (req, res) => {
+    try {
+      console.log('🔄 [API] Criando service schedule:', req.body);
+      
+      const schedule = await storage.createServiceSchedule(req.body);
+      console.log('✅ [API] Service schedule criado:', schedule);
+      
+      res.json(schedule);
+    } catch (error: any) {
+      console.error("Error creating service schedule:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.put("/api/service-schedules/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log('🔄 [API] Atualizando service schedule:', { id, data: req.body });
+      
+      const schedule = await storage.updateServiceSchedule(id, req.body);
+      console.log('✅ [API] Service schedule atualizado:', schedule);
+      
+      res.json(schedule);
+    } catch (error: any) {
+      console.error("Error updating service schedule:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.delete("/api/service-schedules/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log('🔄 [API] Deletando service schedule:', id);
+      
+      const success = await storage.deleteServiceSchedule(id);
+      
+      if (success) {
+        console.log('✅ [API] Service schedule deletado');
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: "Schedule não encontrado" });
+      }
+    } catch (error: any) {
+      console.error("Error deleting service schedule:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   // Walk routes
   app.get("/api/walkers/:walkerId/walks", async (req, res) => {
     try {

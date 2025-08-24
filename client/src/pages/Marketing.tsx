@@ -27,6 +27,7 @@ import { PerformanceStats } from "@/components/marketing/PerformanceStats";
 import { ServiceStats } from "@/components/marketing/ServiceStats";
 import { SchedulingStats } from "@/components/marketing/SchedulingStats";
 import { MarketingStats } from "@/components/marketing/MarketingStats";
+import { AvailabilitySchedulesManager } from '@/components/marketing/AvailabilitySchedulesManager';
 
 interface Region {
   name: string;
@@ -708,54 +709,8 @@ ${publicUrl}`;
                 </Card>
               </Collapsible>
 
-              {/* Horários de Disponibilidade */}
-              <Collapsible
-                open={expandedCards.schedule}
-                onOpenChange={() => toggleCard('schedule')}
-              >
-                <Card>
-                  <CardHeader className="relative">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <CardTitle>Horários de Disponibilidade</CardTitle>
-                        <CardDescription>Configure seus horários de trabalho</CardDescription>
-                      </div>
-                      <CollapsibleTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          {expandedCards.schedule ? (
-                            <ChevronUp className="h-4 w-4" />
-                          ) : (
-                            <ChevronDown className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </CollapsibleTrigger>
-                    </div>
-                  </CardHeader>
-                  <CollapsibleContent>
-                    <CardContent>
-                      <div className="space-y-4">
-                        {Object.entries(formData.availability).map(([day, time]) => (
-                          <div key={day} className="flex items-center space-x-4">
-                            <Label className="w-32 text-sm">{day}</Label>
-                            <Input 
-                              value={String(time)} 
-                              onChange={(e) => setFormData(prev => ({
-                                ...prev,
-                                availability: {
-                                  ...prev.availability,
-                                  [day]: e.target.value
-                                }
-                              }))} 
-                              placeholder="08:00 - 18:00" 
-                              className="flex-1" 
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </CollapsibleContent>
-                </Card>
-              </Collapsible>
+              {/* Horários de Disponibilidade - Nova Interface Melhorada */}
+              <AvailabilitySchedulesManager />
 
               {/* Ações */}
               <div className="flex flex-col sm:flex-row gap-3">

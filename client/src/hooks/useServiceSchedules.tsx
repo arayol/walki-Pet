@@ -35,17 +35,54 @@ export const useServiceSchedules = (servicePlanId?: string, serviceRegionId?: st
     queryFn: async () => {
       if (!user || !servicePlanId) return [];
 
-      // Return empty schedules for now - can be implemented with API later
-      return [] as ServiceSchedule[];
+      console.log('🔄 [useServiceSchedules] Buscando horários para:', { 
+        servicePlanId, 
+        serviceRegionId, 
+        userId: user.id 
+      });
+
+      try {
+        const url = `/api/service-schedules?service_plan_id=${servicePlanId}${serviceRegionId ? `&service_region_id=${serviceRegionId}` : ''}`;
+        console.log('🌐 [useServiceSchedules] URL:', url);
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          console.error('❌ [useServiceSchedules] Erro na requisição:', response.status);
+          return [];
+        }
+
+        const data = await response.json();
+        console.log('✅ [useServiceSchedules] Horários encontrados:', data.length);
+        return data as ServiceSchedule[];
+      } catch (error) {
+        console.error('❌ [useServiceSchedules] Erro:', error);
+        return [];
+      }
     },
     enabled: !!user && !!servicePlanId,
   });
 
   const createScheduleMutation = useMutation({
     mutationFn: async (data: CreateServiceScheduleData) => {
-      // Simulate successful creation for now - can be implemented with API later
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
-      return { id: `schedule-${Date.now()}`, ...data };
+      console.log('🔄 [useServiceSchedules] Criando horário:', data);
+      
+      const response = await fetch('/api/service-schedules', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro ao criar horário');
+      }
+
+      const result = await response.json();
+      console.log('✅ [useServiceSchedules] Horário criado:', result);
+      return result;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['service-schedules'] });
@@ -65,8 +102,24 @@ export const useServiceSchedules = (servicePlanId?: string, serviceRegionId?: st
 
   const updateScheduleMutation = useMutation({
     mutationFn: async ({ scheduleId, data }: { scheduleId: string; data: Partial<ServiceSchedule> }) => {
-      // Simulate successful update for now - can be implemented with API later
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+      console.log('🔄 [useServiceSchedules] Atualizando horário:', { scheduleId, data });
+      
+      const response = await fetch(`/api/service-schedules/${scheduleId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro ao atualizar horário');
+      }
+
+      const result = await response.json();
+      console.log('✅ [useServiceSchedules] Horário atualizado:', result);
+      return result;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['service-schedules'] });
@@ -86,8 +139,19 @@ export const useServiceSchedules = (servicePlanId?: string, serviceRegionId?: st
 
   const deleteScheduleMutation = useMutation({
     mutationFn: async (scheduleId: string) => {
-      // Simulate successful deletion for now - can be implemented with API later
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+      console.log('🔄 [useServiceSchedules] Deletando horário:', scheduleId);
+      
+      const response = await fetch(`/api/service-schedules/${scheduleId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro ao deletar horário');
+      }
+
+      console.log('✅ [useServiceSchedules] Horário deletado');
+      return true;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['service-schedules'] });

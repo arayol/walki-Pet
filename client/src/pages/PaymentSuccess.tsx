@@ -1,25 +1,30 @@
 
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   
   const sessionId = searchParams.get("session_id");
 
-  // Redirecionar para o dashboard do cliente após 3 segundos
+  // Aguardar carregamento e depois verificar se precisa de login
   useEffect(() => {
-    if (user) {
-      const timer = setTimeout(() => {
-        navigate("/client-dashboard");
-      }, 3000);
-
-      return () => clearTimeout(timer);
+    if (!loading) {
+      if (user) {
+        const timer = setTimeout(() => {
+          navigate("/client-dashboard");
+        }, 3000);
+        return () => clearTimeout(timer);
+      } else {
+        // Se não está logado após o carregamento, mostrar opção de login
+        setShowLoginPrompt(true);
+      }
     }
-  }, [user, navigate]);
+  }, [user, loading, navigate]);
 
   const handleGoToDashboard = () => {
     navigate("/client-dashboard");
@@ -27,6 +32,10 @@ const PaymentSuccess = () => {
 
   const handleGoHome = () => {
     navigate("/");
+  };
+
+  const handleGoToLogin = () => {
+    navigate("/client-area");
   };
 
   return (
@@ -50,28 +59,46 @@ const PaymentSuccess = () => {
           <p className="text-green-800 text-sm">
             O dog walker entrará em contato em breve para confirmar os detalhes do seu agendamento.
           </p>
-          {user && (
+          {user && !loading && (
             <p className="text-green-700 text-sm mt-2">
               Redirecionando para seu dashboard em 3 segundos...
+            </p>
+          )}
+          {showLoginPrompt && (
+            <p className="text-blue-700 text-sm mt-2">
+              Faça login para acessar seu dashboard e acompanhar o agendamento.
             </p>
           )}
         </div>
 
         <div className="space-y-3">
-          {user ? (
+          {user && !loading ? (
             <button 
               onClick={handleGoToDashboard}
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Ir para Meu Dashboard
             </button>
+          ) : showLoginPrompt ? (
+            <>
+              <button 
+                onClick={handleGoToLogin}
+                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Fazer Login
+              </button>
+              <button 
+                onClick={handleGoHome}
+                className="w-full bg-gray-500 text-white py-3 px-4 rounded-lg hover:bg-gray-600 transition-colors"
+              >
+                Voltar ao Início
+              </button>
+            </>
           ) : (
-            <button 
-              onClick={handleGoHome}
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Voltar ao Início
-            </button>
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
+              <p className="text-gray-600 text-sm mt-2">Verificando autenticação...</p>
+            </div>
           )}
         </div>
 

@@ -72,13 +72,13 @@ export const useIntegratedBookingPayment = (servicePlan: ServicePlan, walkerId: 
       const paymentRecord = await paymentResponse.json();
       console.log('✅ Registro de pagamento criado:', paymentRecord);
 
-      // 2. Create walks
+      // 2. Create walks  
       const walksToInsert = selectedSlots.map(slot => ({
         walker_id: walkerId,
         client_id: user.id,
         service_plan_id: servicePlan.id,
         service_type: servicePlan.name,
-        scheduled_date: `${slot.date}T${slot.time}:00.000Z`, // Format as ISO string without calling toISOString()
+        scheduled_date: `${slot.date}T${slot.time}:00`, // Send as ISO string without Z
         duration: 30,
         price: servicePlan.price / servicePlan.walk_count,
         notes: notes || null,

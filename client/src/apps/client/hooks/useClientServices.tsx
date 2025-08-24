@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getSupabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/shared/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 
@@ -87,56 +86,33 @@ export const useClientServices = () => {
       setError(null);
 
       // Primeiro tenta buscar por slug
-      let { data: walkerData, error: walkerError } = await supabase
-        .from("walkers")
-        .select(`
-          walker_id,
-          slug,
-          phone,
-          location,
-          rating,
-          profiles!walkers_walker_id_fkey (
-            name,
-            email
-          )
-        `)
-        .eq("slug", slug)
-        .single();
-
-      console.log('🔍 ClientServices: Walker query by slug result:', { walkerData, walkerError });
-
-      // Se não encontrou por slug, tenta por walker_id
-      if (walkerError && walkerError.code === 'PGRST116') {
-        console.log('🔍 ClientServices: Trying to find walker by walker_id');
-        const { data: walkerByIdData, error: walkerByIdError } = await supabase
-          .from("walkers")
-          .select(`
-            walker_id,
-            slug,
-            phone,
-            location,
-            rating,
-            profiles!walkers_walker_id_fkey (
-              name,
-              email
-            )
-          `)
-          .eq("walker_id", slug)
-          .single();
-
-        console.log('🔍 ClientServices: Walker query by walker_id result:', { walkerByIdData, walkerByIdError });
-        
-        if (!walkerByIdError) {
-          walkerData = walkerByIdData;
-          walkerError = null;
-        } else {
-          walkerError = walkerByIdError;
+      console.log('🔍 ClientServices: Fetching walker by slug:', slug);
+      let walkerResponse = await fetch(`/api/walkers/by-slug/${slug}`);
+      
+      let walkerData = null;
+      if (walkerResponse.ok) {
+        walkerData = await walkerResponse.json();
+        console.log('🔍 ClientServices: Walker query by slug result:', { walkerData });
+      } else {
+        console.log('🔍 ClientServices: Walker not found by slug, trying by walker_id');
+        // Se não encontrou por slug, tenta buscar diretamente por walker_id
+        const walkerByIdResponse = await fetch(`/api/walkers/${slug}`);
+        if (walkerByIdResponse.ok) {
+          const walkerByIdData = await walkerByIdResponse.json();
+          // Adaptar formato para o esperado pelo componente
+          walkerData = {
+            walker_id: walkerByIdData.walker_id,
+            slug: walkerByIdData.slug,
+            phone: walkerByIdData.phone,
+            location: walkerByIdData.location,
+            rating: walkerByIdData.rating,
+            profiles: {
+              name: walkerByIdData.name || 'Walker',
+              email: walkerByIdData.email || ''
+            }
+          };
+          console.log('🔍 ClientServices: Walker query by walker_id result:', { walkerData });
         }
-      }
-
-      if (walkerError) {
-        console.error('🔍 ClientServices: Error fetching walker:', walkerError);
-        throw walkerError;
       }
 
       if (!walkerData) {
@@ -148,33 +124,16 @@ export const useClientServices = () => {
       console.log('🔍 ClientServices: Walker data fetched:', walkerData);
       setWalker(walkerData);
 
-      // Buscar serviços ativos do walker diretamente
+      // Buscar serviços ativos do walker
       console.log('🔍 ClientServices: Fetching services for walker_id:', walkerData.walker_id);
+      const servicesResponse = await fetch(`/api/walkers/${walkerData.walker_id}/service-plans`);
       
-      const { data: servicePlans, error: servicesError } = await supabase
-        .from('service_plans')
-        .select(`
-          id,
-          name,
-          description,
-          price,
-          walk_count,
-          is_recurring,
-          recurrence_type,
-          includes_bath,
-          includes_grooming,
-          includes_feeding,
-          includes_playtime
-        `)
-        .eq('walker_id', walkerData.walker_id)
-        .eq('is_active', true);
-
-      console.log('🔍 ClientServices: Service plans query result:', { servicePlans, servicesError });
-
-      if (servicesError) {
-        console.error('🔍 ClientServices: Error fetching services:', servicesError);
-        throw servicesError;
+      if (!servicesResponse.ok) {
+        throw new Error(`Failed to fetch services: ${servicesResponse.status}`);
       }
+
+      const servicePlans = await servicesResponse.json();
+      console.log('🔍 ClientServices: Service plans query result:', { servicePlans });
 
       // Transformar em formato esperado pelo componente
       const servicesWithAvailability: ServicePlanWithAvailability[] = (servicePlans || []).map(plan => ({

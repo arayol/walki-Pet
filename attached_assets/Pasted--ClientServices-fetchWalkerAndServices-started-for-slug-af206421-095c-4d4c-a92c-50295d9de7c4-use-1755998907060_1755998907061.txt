@@ -1,0 +1,36 @@
+🔍 ClientServices: fetchWalkerAndServices started for slug: af206421-095c-4d4c-a92c-50295d9de7c4
+useClientServices.tsx:194 🔍 ClientServices: Error in fetchWalkerAndServices: ReferenceError: supabase is not defined
+    at fetchWalkerAndServices (useClientServices.tsx:90:54)
+    at useClientServices.tsx:74:5
+    at commitHookEffectListMount (chunk-RPCDYKBN.js?v=abbcf5b6:16915:34)
+    at commitPassiveMountOnFiber (chunk-RPCDYKBN.js?v=abbcf5b6:18156:19)
+    at commitPassiveMountEffects_complete (chunk-RPCDYKBN.js?v=abbcf5b6:18129:17)
+    at commitPassiveMountEffects_begin (chunk-RPCDYKBN.js?v=abbcf5b6:18119:15)
+    at commitPassiveMountEffects (chunk-RPCDYKBN.js?v=abbcf5b6:18109:11)
+    at flushPassiveEffectsImpl (chunk-RPCDYKBN.js?v=abbcf5b6:19490:11)
+    at flushPassiveEffects (chunk-RPCDYKBN.js?v=abbcf5b6:19447:22)
+    at chunk-RPCDYKBN.js?v=abbcf5b6:19328:17
+fetchWalkerAndServices @ useClientServices.tsx:194
+(anonymous) @ useClientServices.tsx:74
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=abbcf5b6:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=abbcf5b6:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=abbcf5b6:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=abbcf5b6:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=abbcf5b6:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=abbcf5b6:19328
+workLoop @ chunk-RPCDYKBN.js?v=abbcf5b6:197
+flushWork @ chunk-RPCDYKBN.js?v=abbcf5b6:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=abbcf5b6:384
+App.tsx:55 Current route: /client-services/af206421-095c-4d4c-a92c-50295d9de7c4
+useClientServices.tsx:52 🔍 ClientServices Hook: Current route params: {slug: 'af206421-095c-4d4c-a92c-50295d9de7c4'}
+useClientServices.tsx:53 🔍 ClientServices Hook: Current path: /client-services/af206421-095c-4d4c-a92c-50295d9de7c4
+ClientServices.tsx:34 🔍 ClientServices: Component state: {hasWalker: false, servicesCount: 0, loading: false, error: 'supabase is not defined', params: {…}}
+ClientServices.tsx:42 🔍 ClientServices: About to render, current state: {loading: false, error: true, hasWalker: false, pathname: '/client-services/af206421-095c-4d4c-a92c-50295d9de7c4'}
+ClientServices.tsx:55 🔍 ClientServices: Showing error state: supabase is not defined
+useClientServices.tsx:52 🔍 ClientServices Hook: Current route params: {slug: 'af206421-095c-4d4c-a92c-50295d9de7c4'}
+useClientServices.tsx:53 🔍 ClientServices Hook: Current path: /client-services/af206421-095c-4d4c-a92c-50295d9de7c4
+ClientServices.tsx:34 🔍 ClientServices: Component state: {hasWalker: false, servicesCount: 0, loading: false, error: 'supabase is not defined', params: {…}}
+ClientServices.tsx:42 🔍 ClientServices: About to render, current state: {loading: false, error: true, hasWalker: false, pathname: '/client-services/af206421-095c-4d4c-a92c-50295d9de7c4'}
+ClientServices.tsx:55 🔍 ClientServices: Showing error state: supabase is not defined

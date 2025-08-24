@@ -1,0 +1,30 @@
+Route (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-router-dom.js?v=abbcf5b6:5525:26)
+    at Routes (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-router-dom.js?v=abbcf5b6:6261:3)
+    at AppRoutes (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/App.tsx?v=uVKxMTvl0LIAxIXXr_xG6:67:20)
+    at div
+    at PaymentMethodProvider (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/components/payments/PaymentMethodProvider.tsx:21:41)
+    at AuthProvider (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/shared/hooks/useAuth.tsx:36:32)
+    at Router (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-router-dom.js?v=abbcf5b6:6204:13)
+    at BrowserRouter (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-router-dom.js?v=abbcf5b6:9273:3)
+    at QueryClientProvider (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=abbcf5b6:2805:3)
+    at App
+printWarning @ chunk-RPCDYKBN.js?v=abbcf5b6:521
+error @ chunk-RPCDYKBN.js?v=abbcf5b6:505
+checkForNestedUpdates @ chunk-RPCDYKBN.js?v=abbcf5b6:19665
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=abbcf5b6:18533
+dispatchSetState @ chunk-RPCDYKBN.js?v=abbcf5b6:12403
+(anonymous) @ useRealTimeValidation.tsx:170
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=abbcf5b6:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=abbcf5b6:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=abbcf5b6:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=abbcf5b6:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=abbcf5b6:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=abbcf5b6:19328
+workLoop @ chunk-RPCDYKBN.js?v=abbcf5b6:197
+flushWork @ chunk-RPCDYKBN.js?v=abbcf5b6:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=abbcf5b6:384
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: 'c9d2304c-f1aa-4723-b7b2-219e08ccbdbe', hasServicePlanId: true, selectedSlots: 0, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 3, availability: Array(2)}

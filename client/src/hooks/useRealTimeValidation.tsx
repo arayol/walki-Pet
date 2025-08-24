@@ -223,7 +223,7 @@ export const useRealTimeValidation = (
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [enabled, validationKey, validateSlots]); // deps mínimas e estáveis
+  }, [enabled, validationKey]); // deps mínimas e estáveis - removeido validateSlots
 
   return validation;
 };

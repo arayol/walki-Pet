@@ -542,6 +542,85 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  async getServicePlanAvailability(planId: string, startDate?: string, endDate?: string): Promise<any[]> {
+    try {
+      console.log('🔍 [Storage] Buscando disponibilidade para:', { planId, startDate, endDate });
+
+      // Buscar plano de serviço
+      const [servicePlan] = await db.select().from(schema.service_plans)
+        .where(eq(schema.service_plans.id, planId))
+        .limit(1);
+
+      if (!servicePlan) {
+        console.log('❌ [Storage] Plano não encontrado');
+        return [];
+      }
+
+      // Buscar horários disponíveis
+      const schedules = await db.select({
+        service_plan_id: schema.service_schedules.service_plan_id,
+        dia_semana: schema.service_schedules.dia_semana,
+        hora_inicio: schema.service_schedules.hora_inicio,
+        hora_fim: schema.service_schedules.hora_fim,
+        capacidade_maxima: schema.service_schedules.capacidade_maxima,
+        vagas_disponiveis: schema.service_schedules.vagas_disponiveis,
+      })
+      .from(schema.service_schedules)
+      .where(and(
+        eq(schema.service_schedules.service_plan_id, planId),
+        eq(schema.service_schedules.is_active, true)
+      ));
+
+      console.log('📅 [Storage] Horários encontrados:', schedules.length);
+
+      if (!schedules.length) {
+        console.log('❌ [Storage] Nenhum horário disponível');
+        return [];
+      }
+
+      // Gerar slots de disponibilidade com datas reais
+      const availability = [];
+      const today = new Date();
+      const start = startDate ? new Date(startDate) : today;
+      const end = endDate ? new Date(endDate) : new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+      for (const schedule of schedules) {
+        // Gerar datas para o próximo mês que correspondem ao dia da semana
+        const currentDate = new Date(start);
+        
+        while (currentDate <= end) {
+          const currentDayOfWeek = currentDate.getDay() === 0 ? 7 : currentDate.getDay(); // Converter domingo (0) para 7
+          
+          if (currentDayOfWeek === schedule.dia_semana && currentDate >= today) {
+            availability.push({
+              plan_id: planId,
+              plan_name: servicePlan.name,
+              plan_type: "single",
+              walk_count: servicePlan.walk_count,
+              is_recurring: servicePlan.is_recurring,
+              day_of_week: schedule.dia_semana,
+              start_time: schedule.hora_inicio,
+              end_time: schedule.hora_fim,
+              max_capacity: schedule.capacidade_maxima,
+              current_bookings: schedule.capacidade_maxima - schedule.vagas_disponiveis,
+              available_slots: schedule.vagas_disponiveis,
+              schedule_date: currentDate.toISOString().split('T')[0],
+              is_available: schedule.vagas_disponiveis > 0
+            });
+          }
+          
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      }
+
+      console.log('✅ [Storage] Disponibilidade gerada:', availability.length, 'slots');
+      return availability;
+    } catch (error) {
+      console.error("Error getting service plan availability:", error);
+      return [];
+    }
+  }
+
   async deleteServiceRegion(id: string): Promise<boolean> {
     try {
       const result = await db.delete(schema.service_regions).where(eq(schema.service_regions.id, id)).returning();

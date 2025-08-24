@@ -63,32 +63,14 @@ const ClientBooking = () => {
 
     try {
       console.log('🔍 ClientBooking: Fetching service plan:', servicePlanId);
-      const url = `/api/service-plans/${servicePlanId}`;
-      console.log('🔍 ClientBooking: Request URL:', url);
       
-      const response = await fetch(url);
-      console.log('🔍 ClientBooking: Response status:', response.status);
-      console.log('🔍 ClientBooking: Response headers:', Object.fromEntries(response.headers.entries()));
+      const response = await fetch(`/api/service-plans/${servicePlanId}`);
       
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('🔍 ClientBooking: Error response text:', errorText);
-        throw new Error(`Failed to fetch service plan: ${response.status} - ${errorText.substring(0, 100)}`);
+        throw new Error(`Failed to fetch service plan: ${response.status}`);
       }
 
-      const contentType = response.headers.get('content-type');
-      console.log('🔍 ClientBooking: Content-Type:', contentType);
-      
-      const responseText = await response.text();
-      console.log('🔍 ClientBooking: Raw response:', responseText.substring(0, 200));
-      
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('🔍 ClientBooking: JSON parse error:', parseError);
-        throw new Error(`Invalid JSON response: ${responseText.substring(0, 100)}`);
-      }
+      const data = await response.json();
       
       if (!data) {
         throw new Error('Plano de serviço não encontrado');

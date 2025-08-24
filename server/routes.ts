@@ -933,6 +933,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/service-plans/:planId", async (req, res) => {
+    try {
+      const servicePlan = await storage.getServicePlan(req.params.planId);
+      if (!servicePlan) {
+        return res.status(404).json({ error: "Service plan not found" });
+      }
+      res.json(servicePlan);
+    } catch (error) {
+      console.error("Error fetching service plan:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   app.post("/api/service-plans", async (req, res) => {
     try {
       const servicePlan = await storage.createServicePlan(req.body);

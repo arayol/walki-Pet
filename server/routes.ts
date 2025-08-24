@@ -546,6 +546,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/walkers/by-slug/:slug", async (req, res) => {
+    try {
+      const slug = req.params.slug;
+      const walker = await storage.getWalkerBySlug(slug);
+      
+      if (!walker) {
+        return res.status(404).json({ error: "Walker not found" });
+      }
+      
+      res.json(walker);
+    } catch (error) {
+      console.error("Error getting walker by slug:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   app.get("/api/walkers/:walkerId", async (req, res) => {
     try {
       const walker = await storage.getWalkerWithProfile(req.params.walkerId);

@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getSupabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ClientFormData, WalkerInfo } from "@/types/client";
 import { ClientSignupForm } from "@/components/client-signup/ClientSignupForm";
@@ -50,24 +49,13 @@ const ClientSignup = ({ walkerSlug: propWalkerSlug }: ClientSignupProps = {}) =>
         throw new Error("Slug do walker não encontrado na URL");
       }
 
-      const supabase = await getSupabase();
-      const { data, error } = await supabase
-        .from("walkers")
-        .select(`
-          walker_id,
-          slug,
-          profiles!walkers_walker_id_fkey (
-            name
-          )
-        `)
-        .eq("slug", walkerSlug)
-        .single();
-
-      if (error) {
-        console.error("Erro na consulta:", error);
-        throw error;
+      const response = await fetch(`/api/walkers/by-slug/${walkerSlug}`);
+      
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}: Walker não encontrado`);
       }
-
+      
+      const data = await response.json();
       console.log("✅ Walker encontrado:", data);
       setWalkerInfo(data);
     } catch (error) {

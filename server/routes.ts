@@ -868,6 +868,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Verify that the Stripe Connect account is valid and active
+      try {
+        const account = await stripe.accounts.retrieve(walker.stripe_account_id);
+        
+        if (!account.charges_enabled) {
+          return res.status(400).json({ 
+            success: false,
+            error: "Walker's Stripe account is not enabled for charges. Please complete onboarding.",
+            code: "STRIPE_ACCOUNT_NOT_ENABLED",
+            walker_id: sellerId,
+            account_id: walker.stripe_account_id
+          });
+        }
+
+        if (!account.payouts_enabled) {
+          console.warn(`Walker ${sellerId} account ${walker.stripe_account_id} cannot receive payouts yet`);
+        }
+      } catch (stripeError: any) {
+        console.error("Stripe account verification error:", stripeError);
+        return res.status(400).json({ 
+          success: false,
+          error: `Invalid Stripe Connect account: ${stripeError.message}`,
+          code: "STRIPE_ACCOUNT_INVALID",
+          walker_id: sellerId,
+          account_id: walker.stripe_account_id
+        });
+      }
+
       // Calculate platform fee
       const platformFeeAmount = Math.round(amount * (platformFeePercent / 100));
       const walkerAmount = amount - platformFeeAmount;

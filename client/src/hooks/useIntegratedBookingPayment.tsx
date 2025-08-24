@@ -78,7 +78,7 @@ export const useIntegratedBookingPayment = (servicePlan: ServicePlan, walkerId: 
         client_id: user.id,
         service_plan_id: servicePlan.id,
         service_type: servicePlan.name,
-        scheduled_date: new Date(`${slot.date}T${slot.time}`).toISOString(),
+        scheduled_date: `${slot.date}T${slot.time}:00.000Z`, // Format as ISO string without calling toISOString()
         duration: 30,
         price: servicePlan.price / servicePlan.walk_count,
         notes: notes || null,

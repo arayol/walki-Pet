@@ -836,6 +836,90 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Marketplace payment endpoint for migrated PostgreSQL system
+  app.post("/api/stripe/create-marketplace-payment", async (req, res) => {
+    try {
+      console.log('📝 [Stripe] Creating marketplace payment:', req.body);
+      
+      const { amount, currency = 'BRL', sellerId, platformFeePercent = 10, metadata = {} } = req.body;
+
+      if (!amount || !sellerId) {
+        return res.status(400).json({ 
+          success: false,
+          error: 'Amount and sellerId are required' 
+        });
+      }
+
+      // Get walker's Stripe account
+      const walker = await storage.getWalker(sellerId);
+      if (!walker || !walker.stripe_account_id) {
+        return res.status(400).json({ 
+          success: false,
+          error: "Walker Stripe account not found" 
+        });
+      }
+
+      // Calculate platform fee
+      const platformFeeAmount = Math.round(amount * (platformFeePercent / 100));
+      const walkerAmount = amount - platformFeeAmount;
+
+      console.log('📊 [Stripe] Payment breakdown:', {
+        totalAmount: amount,
+        platformFeeAmount,
+        walkerAmount,
+        platformFeePercent
+      });
+
+      // Create Stripe Checkout Session with marketplace split
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: currency.toLowerCase(),
+            product_data: {
+              name: metadata.serviceName || 'Dog Walking Service',
+              description: metadata.description || 'Professional dog walking service'
+            },
+            unit_amount: amount, // Amount is already in cents
+          },
+          quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: metadata.successUrl || `${process.env.FRONTEND_URL || 'http://localhost:5000'}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: metadata.cancelUrl || `${process.env.FRONTEND_URL || 'http://localhost:5000'}/payment/cancel`,
+        payment_intent_data: {
+          application_fee_amount: platformFeeAmount,
+          transfer_data: {
+            destination: walker.stripe_account_id,
+          },
+        },
+        metadata: {
+          sellerId,
+          platformFeePercent: platformFeePercent.toString(),
+          platformFeeAmount: platformFeeAmount.toString(),
+          walkerAmount: walkerAmount.toString(),
+          ...metadata
+        }
+      });
+
+      console.log('✅ [Stripe] Session created:', session.id);
+
+      res.json({
+        success: true,
+        session_id: session.id,
+        checkoutUrl: session.url,
+        platform_fee_amount: platformFeeAmount,
+        walker_amount: walkerAmount
+      });
+    } catch (error) {
+      console.error("❌ [Stripe] Marketplace payment error:", error);
+      res.status(500).json({ 
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to create marketplace payment" 
+      });
+    }
+  });
+
   app.post("/api/payments/check-connect-account", async (req, res) => {
     try {
       const { accountId } = req.body;

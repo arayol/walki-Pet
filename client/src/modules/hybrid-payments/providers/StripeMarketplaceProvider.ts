@@ -147,24 +147,32 @@ export class StripeMarketplaceProvider implements IMarketplaceProvider {
 
   private async createMarketplacePaymentViaEdgeFunction(transaction: Partial<MarketplaceTransaction>): Promise<MarketplaceResponse> {
     try {
-      console.log('Using edge function for marketplace payment');
+      console.log('Using PostgreSQL API for marketplace payment');
       
-      const { data, error } = await supabase.functions.invoke('create-marketplace-payment', {
-        body: {
+      // Use our PostgreSQL backend instead of Supabase edge functions
+      const response = await fetch('/api/stripe/create-marketplace-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           amount: transaction.amount,
-          currency: transaction.currency || 'brl',
+          currency: transaction.currency || 'BRL',
           sellerId: transaction.sellerId,
-          platformFeePercent: 10, // Fixed 10% platform fee
+          platformFeePercent: 10, // Fixed 10% platform fee  
           metadata: transaction.metadata || {}
-        }
+        })
       });
 
-      if (error) {
+      if (!response.ok) {
+        const errorText = await response.text();
         return {
           success: false,
-          error: error.message || 'Failed to create marketplace payment'
+          error: `HTTP ${response.status}: ${errorText}`
         };
       }
+
+      const data = await response.json();
 
       return {
         success: data.success,
@@ -173,7 +181,7 @@ export class StripeMarketplaceProvider implements IMarketplaceProvider {
           id: data.session_id,
           customerId: '',
           amount: transaction.amount || 0,
-          currency: transaction.currency || 'brl',
+          currency: transaction.currency || 'BRL',
           status: 'pending',
           type: 'marketplace',
           providerId: data.session_id,

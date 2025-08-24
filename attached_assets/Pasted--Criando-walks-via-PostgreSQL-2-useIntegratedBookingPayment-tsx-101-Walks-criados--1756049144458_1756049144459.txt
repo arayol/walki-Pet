@@ -1,0 +1,89 @@
+🔍 Criando walks via PostgreSQL: (2) [{…}, {…}]
+useIntegratedBookingPayment.tsx:101 ✅ Walks criados com sucesso
+PaymentMethodProvider.tsx:63 Creating marketplace payment with: {amount: 22500, walkerId: 'af206421-095c-4d4c-a92c-50295d9de7c4', metadata: {…}}
+StripeMarketplaceProvider.ts:150 Using edge function for marketplace payment
+StripeMarketplaceProvider.ts:190 Error in createMarketplacePaymentViaEdgeFunction: TypeError: Cannot read properties of undefined (reading 'invoke')
+    at StripeMarketplaceProvider.createMarketplacePaymentViaEdgeFunction (StripeMarketplaceProvider.ts:152:56)
+    at StripeMarketplaceProvider.createMarketplacePayment (StripeMarketplaceProvider.ts:34:21)
+    at MarketplaceManager.createMarketplacePayment (MarketplaceManager.ts:36:29)
+    at MarketplaceService.createMarketplacePayment (MarketplaceService.ts:82:42)
+    at createMarketplacePayment (PaymentMethodProvider.tsx:65:57)
+    at processBookingWithPayment (useIntegratedBookingPayment.tsx:107:31)
+    at async handleProcessPayment (BookingForm.tsx:102:23)
+createMarketplacePaymentViaEdgeFunction @ StripeMarketplaceProvider.ts:190
+createMarketplacePayment @ StripeMarketplaceProvider.ts:34
+createMarketplacePayment @ MarketplaceManager.ts:36
+createMarketplacePayment @ MarketplaceService.ts:82
+createMarketplacePayment @ PaymentMethodProvider.tsx:65
+processBookingWithPayment @ useIntegratedBookingPayment.tsx:107
+await in processBookingWithPayment
+handleProcessPayment @ BookingForm.tsx:102
+handleEvent @ chunk-5GSZJ57W.js?v=fc815506:14
+callCallback2 @ chunk-RPCDYKBN.js?v=fc815506:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=fc815506:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=fc815506:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=fc815506:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=fc815506:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=fc815506:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=fc815506:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=fc815506:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=fc815506:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=fc815506:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=fc815506:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=fc815506:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=fc815506:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=fc815506:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=fc815506:5449
+PaymentMethodProvider.tsx:73 Marketplace payment response: {success: false, error: "Cannot read properties of undefined (reading 'invoke')"}
+PaymentMethodProvider.tsx:82 Marketplace payment failed: {success: false, error: "Cannot read properties of undefined (reading 'invoke')"}error: "Cannot read properties of undefined (reading 'invoke')"success: false[[Prototype]]: Object
+createMarketplacePayment @ PaymentMethodProvider.tsx:82
+await in createMarketplacePayment
+processBookingWithPayment @ useIntegratedBookingPayment.tsx:107
+await in processBookingWithPayment
+handleProcessPayment @ BookingForm.tsx:102
+handleEvent @ chunk-5GSZJ57W.js?v=fc815506:14
+callCallback2 @ chunk-RPCDYKBN.js?v=fc815506:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=fc815506:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=fc815506:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=fc815506:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=fc815506:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=fc815506:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=fc815506:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=fc815506:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=fc815506:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=fc815506:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=fc815506:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=fc815506:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=fc815506:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=fc815506:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=fc815506:5449
+useIntegratedBookingPayment.tsx:159 Error processing booking: Error: Cannot read properties of undefined (reading 'invoke')
+    at processBookingWithPayment (useIntegratedBookingPayment.tsx:128:15)
+    at async handleProcessPayment (BookingForm.tsx:102:23)
+processBookingWithPayment @ useIntegratedBookingPayment.tsx:159
+await in processBookingWithPayment
+handleProcessPayment @ BookingForm.tsx:102
+handleEvent @ chunk-5GSZJ57W.js?v=fc815506:14
+callCallback2 @ chunk-RPCDYKBN.js?v=fc815506:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=fc815506:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=fc815506:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=fc815506:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=fc815506:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=fc815506:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=fc815506:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=fc815506:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=fc815506:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=fc815506:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=fc815506:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=fc815506:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=fc815506:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=fc815506:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=fc815506:5449
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}

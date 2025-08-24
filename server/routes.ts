@@ -1123,12 +1123,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const createdWalks = [];
         
         for (const walkData of req.body.walks) {
-          // Convert scheduled_date string to Date object for Drizzle
+          // Validar e converter scheduled_date string para Date object
+          console.log('🔍 Data original recebida:', walkData.scheduled_date);
+          
+          const dateObj = new Date(walkData.scheduled_date);
+          if (isNaN(dateObj.getTime())) {
+            throw new Error(`Invalid date format: ${walkData.scheduled_date}`);
+          }
+          
           const processedWalkData = {
             ...walkData,
-            scheduled_date: new Date(walkData.scheduled_date)
+            scheduled_date: dateObj
           };
-          console.log('🔍 Processando walk data:', { original: walkData.scheduled_date, converted: processedWalkData.scheduled_date });
+          console.log('🔍 Processando walk data:', { original: walkData.scheduled_date, converted: processedWalkData.scheduled_date.toISOString() });
           
           const walk = await storage.createWalk(processedWalkData);
           createdWalks.push(walk);
@@ -1138,9 +1145,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.status(201).json(createdWalks);
       } else {
         // Single walk
+        const dateObj = new Date(req.body.scheduled_date);
+        if (isNaN(dateObj.getTime())) {
+          throw new Error(`Invalid date format: ${req.body.scheduled_date}`);
+        }
+        
         const processedWalkData = {
           ...req.body,
-          scheduled_date: new Date(req.body.scheduled_date)
+          scheduled_date: dateObj
         };
         const walk = await storage.createWalk(processedWalkData);
         res.status(201).json(walk);

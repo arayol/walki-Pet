@@ -78,7 +78,7 @@ export const useIntegratedBookingPayment = (servicePlan: ServicePlan, walkerId: 
         client_id: user.id,
         service_plan_id: servicePlan.id,
         service_type: servicePlan.name,
-        scheduled_date: `${slot.date}T${slot.time}:00`, // Send as ISO string without Z
+        scheduled_date: `${slot.date}T${slot.time}`, // slot.time já vem como "09:00:00"
         duration: 30,
         price: servicePlan.price / servicePlan.walk_count,
         notes: notes || null,

@@ -419,9 +419,31 @@ export class DatabaseStorage implements IStorage {
 
   async createWalk(walk: InsertWalk): Promise<Walk> {
     try {
-      const result = await db.insert(schema.walks).values(walk).returning();
+      console.log('📝 [Storage] Criando walk com dados:', walk);
+      
+      // Garantir que scheduled_date seja um objeto Date válido
+      let processedWalk = { ...walk };
+      
+      if (typeof walk.scheduled_date === 'string') {
+        processedWalk.scheduled_date = new Date(walk.scheduled_date);
+      }
+      
+      // Validar se a data não é inválida
+      if (processedWalk.scheduled_date && isNaN(processedWalk.scheduled_date.getTime())) {
+        throw new Error(`Invalid scheduled_date: ${walk.scheduled_date}`);
+      }
+      
+      console.log('📝 [Storage] Dados processados para walk:', {
+        ...processedWalk,
+        scheduled_date: processedWalk.scheduled_date?.toISOString()
+      });
+      
+      const result = await db.insert(schema.walks).values(processedWalk).returning();
+      console.log('✅ [Storage] Walk criada com sucesso:', result[0]);
+      
       return result[0];
     } catch (error: any) {
+      console.error('❌ [Storage] Erro ao criar walk:', error);
       throw new Error(`Failed to create walk: ${error.message}`);
     }
   }

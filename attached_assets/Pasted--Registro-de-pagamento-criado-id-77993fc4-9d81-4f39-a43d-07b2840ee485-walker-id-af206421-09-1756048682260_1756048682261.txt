@@ -1,0 +1,52 @@
+✅ Registro de pagamento criado: {id: '77993fc4-9d81-4f39-a43d-07b2840ee485', walker_id: 'af206421-095c-4d4c-a92c-50295d9de7c4', client_id: 'fcf77181-d0c0-4fc9-b186-eeb0f4df1216', walk_id: null, amount: '225.00', …}
+useIntegratedBookingPayment.tsx:89 🔍 Criando walks via PostgreSQL: (2) [{…}, {…}]
+useIntegratedBookingPayment.tsx:91  POST https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/api/walks 500 (Internal Server Error)
+processBookingWithPayment @ useIntegratedBookingPayment.tsx:91
+await in processBookingWithPayment
+handleProcessPayment @ BookingForm.tsx:102
+handleEvent @ chunk-5GSZJ57W.js?v=fc815506:14
+callCallback2 @ chunk-RPCDYKBN.js?v=fc815506:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=fc815506:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=fc815506:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=fc815506:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=fc815506:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=fc815506:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=fc815506:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=fc815506:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=fc815506:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=fc815506:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=fc815506:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=fc815506:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=fc815506:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=fc815506:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=fc815506:5449
+useIntegratedBookingPayment.tsx:159 Error processing booking: Error: Failed to create walks
+    at processBookingWithPayment (useIntegratedBookingPayment.tsx:98:15)
+    at async handleProcessPayment (BookingForm.tsx:102:23)
+processBookingWithPayment @ useIntegratedBookingPayment.tsx:159
+await in processBookingWithPayment
+handleProcessPayment @ BookingForm.tsx:102
+handleEvent @ chunk-5GSZJ57W.js?v=fc815506:14
+callCallback2 @ chunk-RPCDYKBN.js?v=fc815506:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=fc815506:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=fc815506:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=fc815506:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=fc815506:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=fc815506:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=fc815506:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=fc815506:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=fc815506:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=fc815506:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=fc815506:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=fc815506:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=fc815506:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=fc815506:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=fc815506:5449
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: '9a032810-6397-4095-a8ac-f4caf222b41b', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 9, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 2, weekDays: Array(2)}

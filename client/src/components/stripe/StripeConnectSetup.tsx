@@ -4,15 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CreditCard, CheckCircle, AlertCircle, ExternalLink, X } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+// Migrado para PostgreSQL - não usa mais Supabase
 import { useToast } from "@/hooks/use-toast";
 
 interface StripeConnectSetupProps {
   walkerData: {
+    walker_id: string;
     stripe_account_id?: string;
     stripe_onboarding_complete?: boolean;
     profiles?: {
       name: string;
+      email?: string;
     };
   };
   stripeStatus?: {
@@ -29,35 +31,46 @@ export const StripeConnectSetup = ({ walkerData, stripeStatus, onStatusUpdate }:
   const handleCreateAccount = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("create-connect-account", {
-        body: {
-          walkerData: {
-            firstName: walkerData.profiles?.name?.split(" ")[0] || "Dog",
-            lastName: walkerData.profiles?.name?.split(" ").slice(1).join(" ") || "Walker",
-            phone: "",
-          },
+      const response = await fetch('/api/payments/create-connect-account', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          walkerId: walkerData.walker_id,
+          country: 'BR', 
+          email: walkerData.profiles?.email || 'test@example.com'
+        })
       });
 
-      if (error) throw error;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create account');
+      }
+
+      const data = await response.json();
 
       // Redirect to Stripe onboarding
-      window.open(data.onboardingUrl, "_blank");
-      
-      toast({
-        title: "Conta Stripe Criada!",
-        description: "Complete o cadastro na nova aba para receber pagamentos.",
-      });
+      if (data.onboardingUrl) {
+        window.open(data.onboardingUrl, "_blank");
+        
+        toast({
+          title: "Conta Stripe Criada!",
+          description: "Complete o cadastro na nova aba para receber pagamentos.",
+        });
 
-      // Refresh data after a few seconds
-      setTimeout(() => {
-        onStatusUpdate();
-      }, 3000);
+        // Refresh data after a few seconds
+        setTimeout(() => {
+          onStatusUpdate();
+        }, 3000);
+      } else {
+        throw new Error('No onboarding URL received');
+      }
     } catch (error: any) {
       console.error("Error creating Stripe account:", error);
       toast({
         title: "Erro",
-        description: "Não foi possível criar a conta Stripe. Tente novamente.",
+        description: error.message || "Não foi possível criar a conta Stripe. Tente novamente.",
         variant: "destructive",
       });
     } finally {
@@ -72,8 +85,20 @@ export const StripeConnectSetup = ({ walkerData, stripeStatus, onStatusUpdate }:
 
     setLoading(true);
     try {
-      const { error } = await supabase.functions.invoke("deactivate-stripe-account");
-      if (error) throw error;
+      // Para desenvolvimento, apenas limpa o stripe_account_id do walker
+      const response = await fetch(`/api/walkers/${walkerData.walker_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          stripe_account_id: null
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to deactivate account');
+      }
 
       toast({
         title: "Conta Desativada",

@@ -52,11 +52,20 @@ export const StripeConnectCard = () => {
       });
       
       if (!response.ok) {
-        throw new Error(`Erro ${response.status}`);
+        // Se endpoint não existe ou erro, apenas ignora (não crítico)
+        setStripeStatus(null);
+        return;
       }
       
-      const data = await response.json();
-      setStripeStatus(data);
+      // Verifica se resposta é JSON válido
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const data = await response.json();
+        setStripeStatus(data);
+      } else {
+        // Se não é JSON, provavelmente erro HTML - ignora
+        setStripeStatus(null);
+      }
     } catch (error) {
       console.error("Error checking Stripe status:", error);
       // Se não conseguir verificar status, apenas ignora (não crítico)

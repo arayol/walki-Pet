@@ -967,6 +967,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Stripe status endpoint for walker dashboard
+  app.get("/api/stripe/status/:walkerId", async (req, res) => {
+    try {
+      const { walkerId } = req.params;
+      
+      if (!walkerId) {
+        return res.status(400).json({ error: "Walker ID is required" });
+      }
+
+      // Get walker's Stripe account ID
+      const walker = await storage.getWalker(walkerId);
+      if (!walker || !walker.stripe_account_id) {
+        return res.json({
+          has_account: false,
+          onboarding_complete: false,
+          charges_enabled: false,
+          payouts_enabled: false
+        });
+      }
+
+      try {
+        // Check account status with Stripe
+        const account = await stripe.accounts.retrieve(walker.stripe_account_id);
+        
+        res.json({
+          has_account: true,
+          account_id: account.id,
+          onboarding_complete: account.details_submitted,
+          charges_enabled: account.charges_enabled,
+          payouts_enabled: account.payouts_enabled,
+          country: account.country,
+          currency: account.default_currency,
+          requirements: {
+            currently_due: account.requirements?.currently_due || [],
+            past_due: account.requirements?.past_due || [],
+            disabled_reason: account.requirements?.disabled_reason
+          }
+        });
+      } catch (stripeError) {
+        // Se conta Stripe não existe mais, limpa do walker
+        console.warn(`Stripe account ${walker.stripe_account_id} not found, clearing from walker`);
+        await storage.updateWalker(walkerId, { stripe_account_id: null });
+        
+        res.json({
+          has_account: false,
+          onboarding_complete: false,
+          charges_enabled: false,
+          payouts_enabled: false,
+          error: 'Stripe account not found'
+        });
+      }
+    } catch (error) {
+      console.error("Stripe status check error:", error);
+      res.status(500).json({ error: "Failed to check Stripe status" });
+    }
+  });
+
   // Client access token routes
   app.post("/api/client-access/generate-token", async (req, res) => {
     try {

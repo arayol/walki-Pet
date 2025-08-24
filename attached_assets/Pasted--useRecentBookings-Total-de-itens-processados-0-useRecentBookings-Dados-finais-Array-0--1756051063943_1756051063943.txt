@@ -1,0 +1,18 @@
+🎉 [useRecentBookings] Total de itens processados: 0
+ 🔍 [useRecentBookings] Dados finais: Array(0)
+ Current route: /financial
+ Error checking Stripe status: SyntaxError: Failed to execute 'json' on 'Response': Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+    at checkStripeStatus (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/components/dashboard/StripeConnectCard.tsx:65:35)
+Mt.forEach.n.<computed> @ eruda.js:2
+2 Error creating Stripe account: TypeError: Cannot read properties of undefined (reading 'invoke')
+    at handleCreateAccount (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/components/stripe/StripeConnectSetup.tsx:32:56)
+    at HTMLUnknownElement.callCallback2 (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=fc815506:3674:22)
+    at Object.invokeGuardedCallbackDev (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=fc815506:3699:24)
+    at invokeGuardedCallback (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=fc815506:3733:39)
+    at invokeGuardedCallbackAndCatchFirstError (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=fc815506:3736:33)
+    at executeDispatch (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=fc815506:7014:11)
+    at processDispatchQueueItemsInOrder (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=fc815506:7034:15)
+    at processDispatchQueue (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=fc815506:7043:13)
+    at dispatchEventsForPlugins (ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=fc815506:7051:11)
+    at ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=fc815506:7174:20
+Mt.forEach.n.<computed> @ eruda.js:2

@@ -133,17 +133,9 @@ function AppRoutes() {
       <Route path="/payment/cancel" element={<PaymentCancel />} />
       <Route path="/payment-canceled" element={<PaymentCancel />} />
       
-      {/* Stripe Connect routes for walkers */}
-      <Route path="/walker/payments/success" element={
-        <ProtectedRoute requiredRole="walker">
-          <StripeConnectSuccess />
-        </ProtectedRoute>
-      } />
-      <Route path="/walker/payments/refresh" element={
-        <ProtectedRoute requiredRole="walker">
-          <StripeConnectSuccess />
-        </ProtectedRoute>
-      } />
+      {/* Stripe Connect routes for walkers - sem proteção para permitir retorno do Stripe */}
+      <Route path="/walker/payments/success" element={<StripeConnectSuccess />} />
+      <Route path="/walker/payments/refresh" element={<StripeConnectSuccess />} />
       
       {/* Legal routes */}
           <Route path="/terms" element={<TermsOfService />} />

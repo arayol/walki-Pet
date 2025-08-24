@@ -106,10 +106,10 @@ export const useBookingValidation = () => {
 
       console.log('✅ [useBookingValidation] Resultado da validação:', data);
       
-      // A função retorna um array, mas queremos o primeiro elemento
-      const result = data && data.length > 0 ? data[0] : null;
+      // A API retorna um objeto diretamente, não um array
+      const result = data;
       
-      if (!result) {
+      if (!result || typeof result !== 'object') {
         throw new Error('Erro na validação dos horários');
       }
 

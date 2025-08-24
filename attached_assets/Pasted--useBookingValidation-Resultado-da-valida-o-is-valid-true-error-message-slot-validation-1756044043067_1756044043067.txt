@@ -1,0 +1,28 @@
+✅ [useBookingValidation] Resultado da validação: {is_valid: true, error_message: '', slot_validations: Array(2)}
+useRealTimeValidation.tsx:151 ❌ [useRealTimeValidation] Erro na validação: Error: Erro na validação dos horários
+    at Object.mutationFn (useBookingValidation.tsx:113:15)
+(anonymous) @ useRealTimeValidation.tsx:151
+await in (anonymous)
+(anonymous) @ useRealTimeValidation.tsx:219
+setTimeout
+(anonymous) @ useRealTimeValidation.tsx:217
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=abbcf5b6:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=abbcf5b6:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=abbcf5b6:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=abbcf5b6:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=abbcf5b6:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=abbcf5b6:19416
+commitRoot @ chunk-RPCDYKBN.js?v=abbcf5b6:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=abbcf5b6:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=abbcf5b6:9119
+(anonymous) @ chunk-RPCDYKBN.js?v=abbcf5b6:18627
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: 'c9d2304c-f1aa-4723-b7b2-219e08ccbdbe', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 13, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 3, weekDays: Array(3)}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: 'c9d2304c-f1aa-4723-b7b2-219e08ccbdbe', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 13, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 3, weekDays: Array(3)}

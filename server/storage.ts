@@ -341,7 +341,12 @@ export class DatabaseStorage implements IStorage {
   // Service Plan operations
   async getServicePlan(id: string): Promise<ServicePlan | undefined> {
     try {
-      const result = await db.select().from(schema.service_plans).where(eq(schema.service_plans.id, id)).limit(1);
+      const result = await db.select().from(schema.service_plans)
+        .where(and(
+          eq(schema.service_plans.id, id),
+          eq(schema.service_plans.is_active, true)
+        ))
+        .limit(1);
       return result[0];
     } catch (error) {
       console.error("Error getting service plan:", error);
@@ -373,7 +378,11 @@ export class DatabaseStorage implements IStorage {
 
   async getServicePlansByWalker(walkerId: string): Promise<ServicePlan[]> {
     try {
-      const result = await db.select().from(schema.service_plans).where(eq(schema.service_plans.walker_id, walkerId));
+      const result = await db.select().from(schema.service_plans)
+        .where(and(
+          eq(schema.service_plans.walker_id, walkerId),
+          eq(schema.service_plans.is_active, true)
+        ));
       return result;
     } catch (error) {
       console.error("Error getting service plans by walker:", error);
@@ -552,9 +561,12 @@ export class DatabaseStorage implements IStorage {
     try {
       console.log('🔍 [Storage] Buscando disponibilidade para:', { planId, startDate, endDate });
 
-      // Buscar plano de serviço
+      // Buscar plano de serviço ativo
       const [servicePlan] = await db.select().from(schema.service_plans)
-        .where(eq(schema.service_plans.id, planId))
+        .where(and(
+          eq(schema.service_plans.id, planId),
+          eq(schema.service_plans.is_active, true)
+        ))
         .limit(1);
 
       if (!servicePlan) {

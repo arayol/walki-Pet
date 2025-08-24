@@ -79,6 +79,9 @@ export interface IStorage {
   createClientAccessToken(clientId: string, token: string, expiresAt: Date): Promise<void>;
   validateClientAccessToken(token: string): Promise<{ clientId: string } | undefined>;
   markTokenAsUsed(token: string): Promise<void>;
+
+  // Booking validation operations
+  validateBookingSlots(planId: string, selectedSlots: any[]): Promise<any>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -755,6 +758,58 @@ export class DatabaseStorage implements IStorage {
     } catch (error: any) {
       console.error("Error deleting service schedule:", error);
       return false;
+    }
+  }
+
+  // Booking validation operations
+  async validateBookingSlots(planId: string, selectedSlots: any[]): Promise<any> {
+    try {
+      console.log('🔍 [Storage] Validando slots para plano:', planId);
+      console.log('🔍 [Storage] Slots recebidos:', selectedSlots);
+
+      const slotValidations = [];
+
+      for (const slot of selectedSlots) {
+        const { date, time } = slot;
+        console.log(`🔍 [Storage] Validando slot: ${date} às ${time}`);
+
+        // Verificar disponibilidade
+        const availability = await this.getServicePlanAvailability(planId, date, date);
+        
+        const availableSlot = availability.find((av: any) => 
+          av.schedule_date === date && 
+          time >= av.start_time && 
+          time < av.end_time &&
+          av.available_slots > 0
+        );
+
+        const validation = {
+          date,
+          time,
+          is_valid: !!availableSlot,
+          available_slots: availableSlot?.available_slots || 0,
+          message: availableSlot 
+            ? `Horário disponível com ${availableSlot.available_slots} vagas`
+            : 'Horário não disponível'
+        };
+
+        console.log(`🔍 [Storage] Resultado para ${date} às ${time}:`, validation);
+        slotValidations.push(validation);
+      }
+
+      const allValid = slotValidations.every(v => v.is_valid);
+
+      const result = {
+        is_valid: allValid,
+        error_message: allValid ? '' : 'Alguns horários não estão disponíveis',
+        slot_validations: slotValidations
+      };
+
+      console.log('✅ [Storage] Resultado final da validação:', result);
+      return result;
+    } catch (error: any) {
+      console.error('❌ [Storage] Erro na validação:', error);
+      throw new Error(`Failed to validate booking slots: ${error.message}`);
     }
   }
 }

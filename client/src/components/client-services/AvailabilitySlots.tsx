@@ -4,6 +4,10 @@ import { Users, MapPin } from "lucide-react";
 interface AvailableRegion {
   region_id: string;
   cep: string;
+  endereco?: string;
+  bairro?: string;
+  cidade?: string;
+  uf?: string;
   raio_km: number;
   available_slots: number;
 }
@@ -35,17 +39,25 @@ export const AvailabilitySlots = ({ availableRegions, totalSlots }: Availability
       </div>
       
       <div className="mt-2 space-y-1">
-        {availableRegions.map((region, index) => (
-          <div key={`${region.region_id}-${index}`} className="flex items-center justify-between text-xs text-gray-600">
-            <div className="flex items-center gap-1">
-              <MapPin className="h-3 w-3" />
-              <span>CEP {region.cep}</span>
+        {availableRegions.map((region, index) => {
+          const displayLocation = region.endereco && region.bairro 
+            ? `${region.endereco}, ${region.bairro}`
+            : `CEP ${region.cep}`;
+          
+          return (
+            <div key={`${region.region_id}-${index}`} className="flex items-center justify-between text-xs text-gray-600">
+              <div className="flex items-center gap-1">
+                <MapPin className="h-3 w-3" />
+                <span title={region.endereco ? `${region.cidade}/${region.uf} - CEP: ${region.cep}` : undefined}>
+                  {displayLocation}
+                </span>
+              </div>
+              <span className="font-medium">
+                {region.available_slots} vaga{region.available_slots !== 1 ? 's' : ''}
+              </span>
             </div>
-            <span className="font-medium">
-              {region.available_slots} vaga{region.available_slots !== 1 ? 's' : ''}
-            </span>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

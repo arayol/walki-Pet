@@ -1,6 +1,5 @@
 
 import { useMutation } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 
 export interface SelectedSlot {
   date: string;
@@ -64,15 +63,9 @@ export const useBookingValidation = () => {
         const slot = validatedSlots[i];
         console.log(`🔍 [useBookingValidation] Verificando slot ${i + 1}:`, slot);
         
-        const { data: availabilityData, error: availabilityError } = await supabase.rpc('get_plan_availability', {
-          p_service_plan_id: servicePlanId,
-          p_start_date: slot.date,
-          p_end_date: slot.date
-        });
-
-        if (availabilityError) {
-          console.error('❌ [useBookingValidation] Erro ao verificar disponibilidade:', availabilityError);
-        } else {
+        try {
+          const response = await fetch(`/api/service-plans/${servicePlanId}/availability?start_date=${slot.date}&end_date=${slot.date}`);
+          const availabilityData = await response.json();
           console.log(`🔍 [useBookingValidation] Disponibilidade para ${slot.date}:`, availabilityData);
           
           // Verificar se o horário específico está disponível
@@ -88,19 +81,28 @@ export const useBookingValidation = () => {
           } else {
             console.log(`✅ [useBookingValidation] Slot ${slot.date} às ${slot.time} disponível com ${availableSlot.available_slots} vagas`);
           }
+        } catch (availabilityError) {
+          console.error('❌ [useBookingValidation] Erro ao verificar disponibilidade:', availabilityError);
         }
       }
 
       // Executar a validação oficial
-      const { data, error } = await supabase.rpc('validate_booking_slots', {
-        p_service_plan_id: servicePlanId,
-        p_selected_slots: validatedSlots
+      const response = await fetch(`/api/service-plans/${servicePlanId}/validate-booking`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          selected_slots: validatedSlots
+        })
       });
-
-      if (error) {
-        console.error('❌ [useBookingValidation] Erro:', error);
-        throw error;
+      
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ error: 'Unknown error' }));
+        throw new Error(error.error || `HTTP ${response.status}`);
       }
+      
+      const data = await response.json();
 
       console.log('✅ [useBookingValidation] Resultado da validação:', data);
       

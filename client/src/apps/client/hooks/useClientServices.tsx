@@ -20,6 +20,10 @@ interface ServicePlanWithAvailability {
   available_regions: Array<{
     region_id: string;
     cep: string;
+    endereco?: string;
+    bairro?: string;
+    cidade?: string;
+    uf?: string;
     raio_km: number;
     available_slots: number;
   }>;
@@ -135,16 +139,46 @@ export const useClientServices = () => {
       const servicePlans = await servicesResponse.json();
       console.log('🔍 ClientServices: Service plans query result:', { servicePlans });
 
-      // Transformar em formato esperado pelo componente
-      const servicesWithAvailability: ServicePlanWithAvailability[] = (servicePlans || []).map(plan => ({
-        ...plan,
-        available_regions: [{
-          region_id: 'default',
-          cep: '01000-000',
-          raio_km: 10,
-          available_slots: 5 // Slots padrão
-        }]
-      }));
+      // Buscar regiões reais para cada plano
+      const servicesWithAvailability: ServicePlanWithAvailability[] = [];
+      
+      for (const plan of servicePlans || []) {
+        try {
+          // Buscar regiões reais da API
+          const regionsResponse = await fetch(`/api/service-plans/${plan.id}/regions`);
+          const regions = regionsResponse.ok ? await regionsResponse.json() : [];
+          
+          console.log('🏠 [useClientServices] Regiões encontradas para plano', plan.id, ':', regions);
+          
+          const available_regions = regions.map((region: any) => ({
+            region_id: region.id,
+            cep: region.cep,
+            endereco: region.endereco,
+            bairro: region.bairro,
+            cidade: region.cidade,
+            uf: region.uf,
+            raio_km: parseFloat(region.raio_km) || 5,
+            available_slots: 5 // Default - poderia ser calculado dinamicamente
+          }));
+
+          servicesWithAvailability.push({
+            ...plan,
+            available_regions
+          });
+        } catch (error) {
+          console.error('❌ [useClientServices] Erro ao buscar regiões para plano', plan.id, ':', error);
+          // Fallback para dados padrão se houver erro
+          servicesWithAvailability.push({
+            ...plan,
+            available_regions: [{
+              region_id: 'default',
+              cep: '01000-000',
+              raio_km: 10,
+              available_slots: 5
+            }]
+          });
+        }
+      }
 
       console.log('🔍 ClientServices: Services with availability:', servicesWithAvailability);
       setServices(servicesWithAvailability);

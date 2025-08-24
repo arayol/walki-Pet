@@ -968,6 +968,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // POST /api/service-plans/:planId/validate-booking
+  app.post("/api/service-plans/:planId/validate-booking", async (req, res) => {
+    try {
+      const { planId } = req.params;
+      const { selected_slots } = req.body;
+
+      console.log('🔍 [API] Validando slots para plano:', planId);
+      console.log('🔍 [API] Slots selecionados:', selected_slots);
+
+      const validation = await storage.validateBookingSlots(planId, selected_slots);
+
+      console.log('✅ [API] Validação concluída:', validation);
+      res.json(validation);
+    } catch (error: any) {
+      console.error('❌ [API] Erro na validação:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   app.post("/api/service-plans", async (req, res) => {
     try {
       const servicePlan = await storage.createServicePlan(req.body);

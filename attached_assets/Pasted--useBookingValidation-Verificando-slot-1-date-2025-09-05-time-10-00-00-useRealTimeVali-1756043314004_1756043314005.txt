@@ -1,0 +1,67 @@
+🔍 [useBookingValidation] Verificando slot 1: {date: '2025-09-05', time: '10:00:00'}
+useRealTimeValidation.tsx:151 ❌ [useRealTimeValidation] Erro na validação: TypeError: supabase.rpc is not a function
+    at Object.mutationFn (useBookingValidation.tsx:67:85)
+    at Object.fn (@tanstack_react-query.js?v=abbcf5b6:1189:29)
+    at run (@tanstack_react-query.js?v=abbcf5b6:494:49)
+    at Object.start (@tanstack_react-query.js?v=abbcf5b6:536:9)
+    at _a6.execute (@tanstack_react-query.js?v=abbcf5b6:1225:56)
+    at async useRealTimeValidation.tsx:93:24
+(anonymous) @ useRealTimeValidation.tsx:151
+await in (anonymous)
+(anonymous) @ useRealTimeValidation.tsx:219
+setTimeout
+(anonymous) @ useRealTimeValidation.tsx:217
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=abbcf5b6:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=abbcf5b6:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=abbcf5b6:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=abbcf5b6:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=abbcf5b6:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=abbcf5b6:19416
+commitRoot @ chunk-RPCDYKBN.js?v=abbcf5b6:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=abbcf5b6:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=abbcf5b6:9119
+(anonymous) @ chunk-RPCDYKBN.js?v=abbcf5b6:18627
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: 'c9d2304c-f1aa-4723-b7b2-219e08ccbdbe', hasServicePlanId: true, selectedSlots: 1, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 13, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 3, weekDays: Array(3)}
+DaySelector.tsx:91 🔍 [DaySelector] Selecionando horário: {schedule_date: '2025-09-05', start_time: '09:00:00', day_of_week: 5}
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: 'c9d2304c-f1aa-4723-b7b2-219e08ccbdbe', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 13, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 3, weekDays: Array(3)}
+useRealTimeValidation.tsx:77 🔍 [useRealTimeValidation] Iniciando validação para: c9d2304c-f1aa-4723-b7b2-219e08ccbdbe-2025-09-05-09:00:00|2025-09-05-10:00:00
+useBookingValidation.tsx:34 🔍 [useBookingValidation] Validando slots: (2) [{…}, {…}]
+useBookingValidation.tsx:58 🔍 [useBookingValidation] Slots validados: (2) [{…}, {…}]
+useBookingValidation.tsx:61 🔍 [useBookingValidation] Verificando disponibilidade dos slots...
+useBookingValidation.tsx:65 🔍 [useBookingValidation] Verificando slot 1: {date: '2025-09-05', time: '10:00:00'}
+useRealTimeValidation.tsx:151 ❌ [useRealTimeValidation] Erro na validação: TypeError: supabase.rpc is not a function
+    at Object.mutationFn (useBookingValidation.tsx:67:85)
+    at Object.fn (@tanstack_react-query.js?v=abbcf5b6:1189:29)
+    at run (@tanstack_react-query.js?v=abbcf5b6:494:49)
+    at Object.start (@tanstack_react-query.js?v=abbcf5b6:536:9)
+    at _a6.execute (@tanstack_react-query.js?v=abbcf5b6:1225:56)
+    at async useRealTimeValidation.tsx:93:24
+(anonymous) @ useRealTimeValidation.tsx:151
+await in (anonymous)
+(anonymous) @ useRealTimeValidation.tsx:219
+setTimeout
+(anonymous) @ useRealTimeValidation.tsx:217
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=abbcf5b6:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=abbcf5b6:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=abbcf5b6:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=abbcf5b6:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=abbcf5b6:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=abbcf5b6:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=abbcf5b6:19416
+commitRoot @ chunk-RPCDYKBN.js?v=abbcf5b6:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=abbcf5b6:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=abbcf5b6:9119
+(anonymous) @ chunk-RPCDYKBN.js?v=abbcf5b6:18627
+DaySelector.tsx:35 🔄 [DaySelector] Componente inicializado com: {servicePlanId: 'c9d2304c-f1aa-4723-b7b2-219e08ccbdbe', hasServicePlanId: true, selectedSlots: 2, maxSlots: 2, planType: 'single'}
+DaySelector.tsx:47 🔍 [DaySelector] Período de busca: {startDate: '2025-08-24', endDate: '2025-09-23'}
+DaySelector.tsx:55 🔍 [DaySelector] Estado da query: {isLoading: false, hasError: false, availabilityCount: 13, availability: Array(2)}
+DaySelector.tsx:65 🔍 [DaySelector] Dados processados em weekDays: {weekDaysCount: 3, weekDays: Array(3)}

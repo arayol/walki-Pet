@@ -1052,7 +1052,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5000'}/schedule?google_auth=success`);
+      // Close the popup window after successful auth
+      res.send(`
+        <script>
+          // Notify parent window and close popup
+          if (window.opener) {
+            window.opener.postMessage({type: 'google_auth_success'}, '*');
+          }
+          window.close();
+        </script>
+        <p>Autenticação concluída! Fechando janela...</p>
+      `);
     } catch (error) {
       console.error("Error in Google Calendar callback:", error);
       res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5000'}/schedule?google_auth=error&message=Authentication failed`);

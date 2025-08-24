@@ -28,31 +28,28 @@ export const GoogleCalendarSync = ({
   useEffect(() => {
     checkConnectionStatus();
     
-    // Check for OAuth callback parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const authStatus = urlParams.get('google_auth');
-    const errorMessage = urlParams.get('message');
+    // Listen for messages from OAuth popup
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      
+      if (event.data.type === 'google_auth_success') {
+        setIsConnected(true);
+        setLoading(false);
+        toast({
+          title: "Sucesso!",
+          description: "Google Calendar conectado com sucesso!"
+        });
+        onSyncComplete?.();
+        checkConnectionStatus();
+      }
+    };
     
-    if (authStatus === 'success') {
-      setIsConnected(true);
-      toast({
-        title: "Sucesso!",
-        description: "Google Calendar conectado com sucesso!"
-      });
-      onSyncComplete?.();
-      checkConnectionStatus();
-      // Clean URL
-      window.history.replaceState({}, '', window.location.pathname);
-    } else if (authStatus === 'error') {
-      toast({
-        title: "Erro na autenticação",
-        description: `Erro: ${errorMessage || 'Erro desconhecido'}`,
-        variant: "destructive"
-      });
-      // Clean URL
-      window.history.replaceState({}, '', window.location.pathname);
-    }
-  }, [user, onSyncComplete]);
+    window.addEventListener('message', handleMessage);
+    
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [user, onSyncComplete, toast]);
   const checkConnectionStatus = async () => {
     if (!user) return;
     try {
@@ -93,8 +90,20 @@ export const GoogleCalendarSync = ({
 
       const data = await response.json();
       
-      // Redirect to Google OAuth
-      window.location.href = data.auth_url;
+      // Open Google OAuth in new window
+      const authWindow = window.open(data.auth_url, 'google_auth', 'width=500,height=600,scrollbars=yes,resizable=yes');
+      
+      // Listen for auth completion
+      const checkClosed = setInterval(() => {
+        if (authWindow?.closed) {
+          clearInterval(checkClosed);
+          setLoading(false);
+          // Check connection status after window closes
+          setTimeout(() => {
+            checkConnectionStatus();
+          }, 1000);
+        }
+      }, 1000);
     } catch (error: any) {
       console.error('Erro ao conectar Google Calendar:', error);
       toast({

@@ -817,11 +817,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         stripe_account_id: account.id,
       });
 
-      // Create account link for onboarding
+      // Create account link for onboarding  
       const accountLink = await stripe.accountLinks.create({
         account: account.id,
-        refresh_url: `${process.env.FRONTEND_URL}/walker/payments/refresh`,
-        return_url: `${process.env.FRONTEND_URL}/walker/payments/success`,
+        refresh_url: 'http://localhost:5000/walker/payments/refresh',
+        return_url: 'http://localhost:5000/walker/payments/success',
         type: 'account_onboarding',
       });
 
@@ -852,10 +852,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Get walker's Stripe account
       const walker = await storage.getWalker(sellerId);
-      if (!walker || !walker.stripe_account_id) {
+      if (!walker) {
         return res.status(400).json({ 
           success: false,
-          error: "Walker Stripe account not found" 
+          error: "Walker not found" 
+        });
+      }
+      
+      if (!walker.stripe_account_id) {
+        return res.status(400).json({ 
+          success: false,
+          error: "Walker must complete Stripe Connect onboarding first",
+          code: "STRIPE_ONBOARDING_REQUIRED",
+          walker_id: sellerId
         });
       }
 

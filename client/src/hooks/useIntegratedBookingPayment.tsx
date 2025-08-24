@@ -125,6 +125,10 @@ export const useIntegratedBookingPayment = (servicePlan: ServicePlan, walkerId: 
       }
 
       if (paymentResult.error) {
+        // Special handling for Stripe onboarding requirement
+        if (paymentResult.error.includes('Stripe Connect onboarding')) {
+          throw new Error(`⚠️ Dog walker precisa configurar conta Stripe Connect primeiro.\n\nContate o walker: ${walkerData?.profiles?.name || 'Walker'}`);
+        }
         throw new Error(paymentResult.error);
       }
 

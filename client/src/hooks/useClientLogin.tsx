@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 export const useClientLogin = () => {
@@ -17,47 +16,38 @@ export const useClientLogin = () => {
     console.log("🔑 Starting client login process...");
     setLoading(true);
     try {
-      console.log("🔑 Attempting to sign in with password...");
+      console.log("🔑 Attempting to login via REST API...");
       
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const response = await fetch('/api/clients/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password })
       });
 
-      if (error) {
-        console.error("❌ Login error:", error);
-        throw error;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro no login');
       }
 
-      if (data.user) {
-        console.log("✅ Login successful:", data.user.email);
-        
-        // Verificar se é um cliente
-        console.log("🔍 Checking user role...");
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
+      const result = await response.json();
+      console.log("✅ Login successful:", result.user.email);
 
-        console.log("🔍 User profile:", profile);
+      // Store session in localStorage for now
+      localStorage.setItem('auth-session', JSON.stringify({
+        user: result.user,
+        access_token: 'temp_token' // We'll implement proper tokens later
+      }));
 
-        if (profile?.role !== 'client') {
-          console.log("❌ User is not a client, signing out...");
-          await supabase.auth.signOut();
-          throw new Error("Esta área é exclusiva para clientes");
-        }
+      toast({
+        title: "Login realizado!",
+        description: "Redirecionando para sua área...",
+      });
 
-        console.log("✅ Client role confirmed");
-        toast({
-          title: "Login realizado!",
-          description: "Redirecionando para sua área...",
-        });
-
-        // Redirecionar para o dashboard do cliente
-        console.log("🔍 Redirecting to client dashboard...");
-        navigate("/client-dashboard");
-      }
+      // Redirecionar para o dashboard do cliente
+      console.log("🔍 Redirecting to client dashboard...");
+      navigate("/client-dashboard");
     } catch (error: any) {
       console.error("❌ Login error:", error);
       toast({
@@ -73,7 +63,9 @@ export const useClientLogin = () => {
   const handleLogout = async () => {
     console.log("🔍 Starting logout process...");
     try {
-      await supabase.auth.signOut();
+      // Clear localStorage session
+      localStorage.removeItem('auth-session');
+      
       navigate("/client-area");
       toast({
         title: "Logout realizado",

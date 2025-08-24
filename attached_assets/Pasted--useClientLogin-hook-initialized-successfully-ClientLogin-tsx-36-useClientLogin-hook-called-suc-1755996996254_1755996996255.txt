@@ -1,0 +1,40 @@
+🔍 useClientLogin hook initialized successfully
+ClientLogin.tsx:36 🔍 useClientLogin hook called successfully, loading: false
+ClientLogin.tsx:44 🔍 ClientLogin rendering complete
+ClientLogin.tsx:40 🔍 Form submitted with email: adriano@uplay.com.br
+useClientLogin.tsx:17 🔑 Starting client login process...
+useClientLogin.tsx:20 🔑 Attempting to sign in with password...
+useClientLogin.tsx:62 ❌ Login error: TypeError: Cannot read properties of undefined (reading 'signInWithPassword')
+    at handleLogin (useClientLogin.tsx:22:51)
+    at onSubmit (ClientLogin.tsx:41:5)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=abbcf5b6:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=abbcf5b6:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=abbcf5b6:3733:39)
+    at invokeGuardedCallbackAndCatchFirstError (chunk-RPCDYKBN.js?v=abbcf5b6:3736:33)
+    at executeDispatch (chunk-RPCDYKBN.js?v=abbcf5b6:7014:11)
+    at processDispatchQueueItemsInOrder (chunk-RPCDYKBN.js?v=abbcf5b6:7034:15)
+    at processDispatchQueue (chunk-RPCDYKBN.js?v=abbcf5b6:7043:13)
+    at dispatchEventsForPlugins (chunk-RPCDYKBN.js?v=abbcf5b6:7051:11)
+handleLogin @ useClientLogin.tsx:62
+onSubmit @ ClientLogin.tsx:41
+callCallback2 @ chunk-RPCDYKBN.js?v=abbcf5b6:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=abbcf5b6:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=abbcf5b6:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=abbcf5b6:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=abbcf5b6:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=abbcf5b6:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=abbcf5b6:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=abbcf5b6:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=abbcf5b6:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=abbcf5b6:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=abbcf5b6:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=abbcf5b6:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=abbcf5b6:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=abbcf5b6:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=abbcf5b6:5449
+ClientLogin.tsx:12 🔍 ClientLogin component rendering...
+ClientLogin.tsx:34 🔍 About to call useClientLogin hook...
+useClientLogin.tsx:8 🔍 useClientLogin hook initializing...
+useClientLogin.tsx:14 🔍 useClientLogin hook initialized successfully
+ClientLogin.tsx:36 🔍 useClientLogin hook called successfully, loading: false
+ClientLogin.tsx:44 🔍 ClientLogin rendering complete

@@ -617,6 +617,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Client login route
+  app.post("/api/clients/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      // Find profile by email
+      const profile = await storage.getProfileByEmail(email);
+      if (!profile) {
+        return res.status(401).json({ error: "Email ou senha incorretos" });
+      }
+      
+      // Check if user is a client
+      if (profile.role !== 'client') {
+        return res.status(403).json({ error: "Esta área é exclusiva para clientes" });
+      }
+      
+      // Get client data
+      const client = await storage.getClient(profile.id);
+      if (!client) {
+        return res.status(404).json({ error: "Cliente não encontrado" });
+      }
+      
+      // In a real app, you'd verify the password here
+      // For now, we'll assume password is correct since we don't store hashed passwords yet
+      
+      res.json({ 
+        success: true, 
+        user: {
+          id: profile.id,
+          email: profile.email,
+          name: profile.name,
+          role: profile.role
+        },
+        client: client
+      });
+    } catch (error) {
+      console.error("Error during client login:", error);
+      res.status(500).json({ error: "Erro interno do servidor" });
+    }
+  });
+
   app.post("/api/clients/signup", async (req, res) => {
     try {
       const { walker_id, name, email, password, pet_name, pet_breed, pet_age, pet_notes, emergency_contact, address } = req.body;

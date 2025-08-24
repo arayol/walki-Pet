@@ -1,6 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { db } from "./db";
+import * as schema from "@shared/schema";
+import { eq } from "drizzle-orm";
 import Stripe from "stripe";
 import { z } from "zod";
 import bcrypt from "bcrypt";
@@ -621,23 +624,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/clients/login", async (req, res) => {
     try {
       const { email, password } = req.body;
+      console.log("🔑 Login attempt for email:", email);
       
-      // Find profile by email
-      const profile = await storage.getProfileByEmail(email);
-      if (!profile) {
+      // Find profile by email with client role AND existing client record
+      const result = await db.select({
+        profile: schema.profiles,
+        client: schema.clients,
+      })
+      .from(schema.profiles)
+      .innerJoin(schema.clients, eq(schema.profiles.id, schema.clients.client_id))
+      .where(eq(schema.profiles.email, email))
+      .limit(1);
+
+      if (result.length === 0) {
+        console.log("❌ No client found for email:", email);
         return res.status(401).json({ error: "Email ou senha incorretos" });
       }
-      
-      // Check if user is a client
-      if (profile.role !== 'client') {
-        return res.status(403).json({ error: "Esta área é exclusiva para clientes" });
-      }
-      
-      // Get client data
-      const client = await storage.getClient(profile.id);
-      if (!client) {
-        return res.status(404).json({ error: "Cliente não encontrado" });
-      }
+
+      const { profile, client } = result[0];
+      console.log("✅ Found client:", client.client_name, "with profile:", profile.name);
       
       // In a real app, you'd verify the password here
       // For now, we'll assume password is correct since we don't store hashed passwords yet

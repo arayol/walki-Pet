@@ -946,6 +946,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/service-plans/:planId/availability", async (req, res) => {
+    try {
+      const { planId } = req.params;
+      const { start_date, end_date } = req.query;
+      
+      console.log('🔍 [API] Buscando disponibilidade para:', { planId, start_date, end_date });
+      
+      // Por enquanto, retorna dados mock para demonstração
+      const mockAvailability = [
+        {
+          plan_id: planId,
+          plan_name: "Plano Mensal",
+          plan_type: "single",
+          walk_count: 2,
+          is_recurring: false,
+          day_of_week: 1, // Segunda-feira
+          start_time: "08:00",
+          end_time: "09:00",
+          max_capacity: 3,
+          current_bookings: 1,
+          available_slots: 2,
+          schedule_date: "2025-08-25",
+          is_available: true
+        },
+        {
+          plan_id: planId,
+          plan_name: "Plano Mensal",
+          plan_type: "single",
+          walk_count: 2,
+          is_recurring: false,
+          day_of_week: 1, // Segunda-feira
+          start_time: "14:00",
+          end_time: "15:00",
+          max_capacity: 3,
+          current_bookings: 0,
+          available_slots: 3,
+          schedule_date: "2025-08-25",
+          is_available: true
+        },
+        {
+          plan_id: planId,
+          plan_name: "Plano Mensal",
+          plan_type: "single",
+          walk_count: 2,
+          is_recurring: false,
+          day_of_week: 3, // Quarta-feira
+          start_time: "09:00",
+          end_time: "10:00",
+          max_capacity: 2,
+          current_bookings: 0,
+          available_slots: 2,
+          schedule_date: "2025-08-27",
+          is_available: true
+        }
+      ];
+      
+      console.log('✅ [API] Retornando disponibilidade mock:', mockAvailability.length, 'slots');
+      res.json(mockAvailability);
+    } catch (error) {
+      console.error("Error fetching service plan availability:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   app.post("/api/service-plans", async (req, res) => {
     try {
       const servicePlan = await storage.createServicePlan(req.body);

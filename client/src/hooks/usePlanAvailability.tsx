@@ -49,9 +49,24 @@ export const usePlanAvailability = (
         endDateParam
       });
       
-      // Return empty data for now - can be implemented with API later
-      const data: any[] = [];
-      const error = null;
+      // Buscar dados reais da API
+      const url = `/api/service-plans/${servicePlanId}/availability`;
+      const params = new URLSearchParams();
+      if (startDateParam) params.append('start_date', startDateParam);
+      if (endDateParam) params.append('end_date', endDateParam);
+
+      console.log('🌐 [usePlanAvailability] Fazendo requisição para:', `${url}?${params.toString()}`);
+      
+      const response = await fetch(`${url}?${params.toString()}`);
+      
+      if (!response.ok) {
+        console.error('❌ [usePlanAvailability] Erro na requisição:', response.status, response.statusText);
+        // Por enquanto retorna dados mock se a API falhar
+        return [];
+      }
+
+      const data = await response.json();
+      console.log('📡 [usePlanAvailability] Resposta da API:', data);
 
       console.log('✅ [usePlanAvailability] RPC executado com sucesso');
       console.log('🔍 [usePlanAvailability] Resultado bruto:', data);

@@ -74,8 +74,40 @@ export const ServicePlanForm = ({ plan, planType, onClose, onSave }: ServicePlan
     }
   };
 
+  const validateFormCompletion = async (planId: string) => {
+    try {
+      // Verificar se há horários cadastrados para o plano
+      const schedulesResponse = await fetch(`/api/service-plans/${planId}/schedules`);
+      const schedules = schedulesResponse.ok ? await schedulesResponse.json() : [];
+      
+      return schedules.length > 0;
+    } catch (error) {
+      console.error('Erro ao verificar horários:', error);
+      return false;
+    }
+  };
+
   const handleSubmit = async (data: ServicePlanFormData) => {
     if (!user) return;
+
+    // Validação de campos obrigatórios
+    if (!data.price || parseFloat(data.price) <= 0) {
+      toast({
+        title: "Campo obrigatório",
+        description: "É necessário preencher o preço do serviço.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!walkCount || walkCount <= 0) {
+      toast({
+        title: "Campo obrigatório", 
+        description: "É necessário informar a quantidade de passeios.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     console.log('💾 Saving plan with data:', data);
 
@@ -105,19 +137,35 @@ export const ServicePlanForm = ({ plan, planType, onClose, onSave }: ServicePlan
       console.log('💾 Plan data to save:', planData);
 
       let result;
+      let planId;
+      
       if (plan) {
         // Update existing plan
         result = await updatePlanMutation.mutateAsync({
           planId: plan.id,
           updates: planData
         });
+        planId = plan.id;
         setCurrentPlanId(plan.id);
         console.log('✅ Plan updated successfully:', result);
       } else {
         // Create new plan
         result = await createPlanMutation.mutateAsync(planData);
+        planId = result.id;
         setCurrentPlanId(result.id);
         console.log('✅ Plan created successfully:', result);
+      }
+
+      // Verificar se há horários cadastrados antes de prosseguir
+      const hasSchedules = await validateFormCompletion(planId);
+      
+      if (!hasSchedules) {
+        toast({
+          title: "Campo obrigatório",
+          description: "É necessário adicionar pelo menos um horário de atendimento antes de configurar as regiões.",
+          variant: "destructive",
+        });
+        return;
       }
 
       toast({

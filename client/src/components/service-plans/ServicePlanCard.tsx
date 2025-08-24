@@ -78,7 +78,7 @@ export const ServicePlanCard = ({ plan, onEdit, onRefetch }: ServicePlanCardProp
         </CardHeader>
         
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="flex justify-between items-center text-sm">
             <div>
               <p className="text-muted-foreground">Preço</p>
               <PriceDisplay 
@@ -87,17 +87,9 @@ export const ServicePlanCard = ({ plan, onEdit, onRefetch }: ServicePlanCardProp
                 recurrenceType={plan.recurrence_type}
               />
             </div>
-            <div>
-              <p className="text-muted-foreground">Tipo</p>
-              <p className="font-medium">{getRecurrenceText()}</p>
-            </div>
-            <div>
+            <div className="text-right">
               <p className="text-muted-foreground">Passeios</p>
-              <p className="font-medium">{plan.walk_count}x</p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">Regiões</p>
-              <p className="font-medium">Configuradas</p>
+              <p className="font-medium text-lg">{plan.walk_count}x</p>
             </div>
           </div>
 

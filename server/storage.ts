@@ -376,13 +376,16 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async getServicePlansByWalker(walkerId: string): Promise<ServicePlan[]> {
+  async getServicePlansByWalker(walkerId: string, includeInactive = false): Promise<ServicePlan[]> {
     try {
+      const conditions = [eq(schema.service_plans.walker_id, walkerId)];
+      
+      if (!includeInactive) {
+        conditions.push(eq(schema.service_plans.is_active, true));
+      }
+      
       const result = await db.select().from(schema.service_plans)
-        .where(and(
-          eq(schema.service_plans.walker_id, walkerId),
-          eq(schema.service_plans.is_active, true)
-        ));
+        .where(and(...conditions));
       return result;
     } catch (error) {
       console.error("Error getting service plans by walker:", error);

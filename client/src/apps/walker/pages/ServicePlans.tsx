@@ -5,7 +5,6 @@ import { WalkerHeader } from "@/components/walker/WalkerHeader";
 import { ServicePlansHeader } from "@/components/service-plans/ServicePlansHeader";
 import { ServicePlansList } from "@/components/service-plans/ServicePlansList";
 import { ServicePlanForm } from "@/components/service-plans/ServicePlanForm";
-import { ServicePlansDiagnostic } from "@/components/debug/ServicePlansDiagnostic";
 import { useServicePlans } from "@/hooks/useServicePlans";
 
 export type ServicePlan = {
@@ -27,11 +26,11 @@ export type ServicePlan = {
 };
 
 const ServicePlans = () => {
-  const [activeTab, setActiveTab] = useState<'walks' | 'extras'>('walks');
+  const [activeTab, setActiveTab] = useState<'walks' | 'extras' | 'disabled'>('walks');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingPlan, setEditingPlan] = useState<ServicePlan | null>(null);
   
-  const { data: plans = [], isLoading, refetch } = useServicePlans();
+  const { data: allPlans = [], isLoading, refetch } = useServicePlans(true);
 
   const handleNewPlan = () => {
     setEditingPlan(null);
@@ -54,18 +53,23 @@ const ServicePlans = () => {
     refetch();
   };
 
-  // Separar planos por tipo - lógica atualizada
-  const walkPlans = plans.filter(plan => {
+  // Separar planos por tipo e status - lógica atualizada
+  const activePlans = allPlans.filter(plan => plan.is_active);
+  const inactivePlans = allPlans.filter(plan => !plan.is_active);
+  
+  const walkPlans = activePlans.filter(plan => {
     // Um plano é considerado de "passeios" se tem walk_count > 0 E não tem nenhum serviço extra
     return plan.walk_count > 0 && !plan.includes_bath && !plan.includes_grooming && !plan.includes_feeding && !plan.includes_playtime;
   });
   
-  const extraPlans = plans.filter(plan => {
+  const extraPlans = activePlans.filter(plan => {
     // Um plano é considerado de "serviços extras" se tem pelo menos um serviço extra
     return plan.includes_bath || plan.includes_grooming || plan.includes_feeding || plan.includes_playtime;
   });
 
-  const currentPlans = activeTab === 'walks' ? walkPlans : extraPlans;
+  const currentPlans = activeTab === 'walks' ? walkPlans : 
+                     activeTab === 'extras' ? extraPlans : 
+                     inactivePlans;
 
   return (
     <ProtectedRoute requiredRole="walker">
@@ -84,8 +88,6 @@ const ServicePlans = () => {
             onEditPlan={handleEditPlan}
             onRefetch={refetch}
           />
-          
-          <ServicePlansDiagnostic />
         </main>
 
         {isFormOpen && (

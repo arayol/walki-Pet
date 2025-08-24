@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { AlertTriangle, X } from "lucide-react";
 import { ServicePlan } from "@/apps/walker/pages/ServicePlans";
 import { useToast } from "@/hooks/use-toast";
+import { useDeleteServicePlan } from "@/hooks/useServicePlans";
 
 interface DeletePlanModalProps {
   plan: ServicePlan;
@@ -13,16 +14,14 @@ interface DeletePlanModalProps {
 }
 
 export const DeletePlanModal = ({ plan, isOpen, onClose, onDelete }: DeletePlanModalProps) => {
-  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const deletePlanMutation = useDeleteServicePlan();
 
   if (!isOpen) return null;
 
   const handleDelete = async () => {
-    setLoading(true);
     try {
-      // Simulate successful deletion for now - can be implemented with API later
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+      await deletePlanMutation.mutateAsync(plan.id);
 
       toast({
         title: "Plano excluído!",
@@ -38,8 +37,6 @@ export const DeletePlanModal = ({ plan, isOpen, onClose, onDelete }: DeletePlanM
         description: error.message || "Não foi possível excluir o plano",
         variant: "destructive",
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -75,15 +72,15 @@ export const DeletePlanModal = ({ plan, isOpen, onClose, onDelete }: DeletePlanM
           </div>
 
           <div className="flex justify-end space-x-3 pt-4">
-            <Button variant="outline" onClick={onClose} disabled={loading}>
+            <Button variant="outline" onClick={onClose} disabled={deletePlanMutation.isPending}>
               Cancelar
             </Button>
             <Button 
               variant="destructive" 
               onClick={handleDelete} 
-              disabled={loading}
+              disabled={deletePlanMutation.isPending}
             >
-              {loading ? "Excluindo..." : "Excluir Plano"}
+              {deletePlanMutation.isPending ? "Excluindo..." : "Excluir Plano"}
             </Button>
           </div>
         </CardContent>

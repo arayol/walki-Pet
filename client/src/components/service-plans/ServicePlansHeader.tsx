@@ -4,8 +4,8 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus } from "lucide-react";
 
 interface ServicePlansHeaderProps {
-  activeTab: 'walks' | 'extras';
-  onTabChange: (tab: 'walks' | 'extras') => void;
+  activeTab: 'walks' | 'extras' | 'disabled';
+  onTabChange: (tab: 'walks' | 'extras' | 'disabled') => void;
   onNewPlan: () => void;
 }
 
@@ -33,10 +33,11 @@ export const ServicePlansHeader = ({
           </Button>
         </div>
         
-        <Tabs value={activeTab} onValueChange={(value) => onTabChange(value as 'walks' | 'extras')}>
-          <TabsList className="grid w-full max-w-md grid-cols-2">
+        <Tabs value={activeTab} onValueChange={(value) => onTabChange(value as 'walks' | 'extras' | 'disabled')}>
+          <TabsList className="grid w-full max-w-lg grid-cols-3">
             <TabsTrigger value="walks">Passeios</TabsTrigger>
             <TabsTrigger value="extras">Serviços Extras</TabsTrigger>
+            <TabsTrigger value="disabled">Serviços Desabilitados</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

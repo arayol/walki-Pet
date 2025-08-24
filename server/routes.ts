@@ -173,7 +173,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/walkers/:walkerId/service-plans", async (req, res) => {
     try {
       const { walkerId } = req.params;
-      const plans = await storage.getServicePlansByWalker(walkerId);
+      const { include_inactive } = req.query;
+      const includeInactive = include_inactive === 'true';
+      const plans = await storage.getServicePlansByWalker(walkerId, includeInactive);
       res.json(plans);
     } catch (error) {
       console.error("Error fetching service plans:", error);

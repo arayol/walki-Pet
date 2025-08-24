@@ -1,15 +1,19 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 
-export const useServicePlans = () => {
+export const useServicePlans = (includeInactive = false) => {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['service-plans', user?.id],
+    queryKey: ['service-plans', user?.id, includeInactive],
     queryFn: async () => {
       if (!user) throw new Error('User not authenticated');
       
-      const response = await fetch(`/api/walkers/${user.id}/service-plans`);
+      const url = includeInactive 
+        ? `/api/walkers/${user.id}/service-plans?include_inactive=true`
+        : `/api/walkers/${user.id}/service-plans`;
+      
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Failed to fetch service plans');
       }
@@ -84,6 +88,36 @@ export const useUpdateServicePlan = () => {
       const result = await response.json();
 
       console.log('✅ Plan updated in PostgreSQL:', result);
+      return result;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['service-plans', user?.id] });
+    },
+  });
+};
+
+export const useDeleteServicePlan = () => {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (planId: string) => {
+      if (!user) throw new Error('User not authenticated');
+
+      const response = await fetch(`/api/service-plans/${planId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to delete plan');
+      }
+
+      const result = await response.json();
+      console.log('✅ Plan deleted from PostgreSQL:', result);
       return result;
     },
     onSuccess: () => {

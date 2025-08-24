@@ -173,6 +173,7 @@ const ClientDashboard = () => {
 
           return {
             ...walk,
+            scheduled_at: walk.scheduled_date || walk.scheduled_at, // Mapear scheduled_date para scheduled_at
             locationAddress,
             notes: cleanNotes,
             paymentStatus: finalPaymentData?.status || "unknown",
@@ -218,8 +219,12 @@ const ClientDashboard = () => {
           ...processedServiceBookings
         ];
         
-        // Ordenar por data (mais recentes primeiro)
-        combinedBookings.sort((a, b) => new Date(b.scheduled_at).getTime() - new Date(a.scheduled_at).getTime());
+        // Ordenar por data (mais recentes primeiro) - com proteção para datas inválidas
+        combinedBookings.sort((a, b) => {
+          const dateA = a.scheduled_at && isValidDate(a.scheduled_at) ? new Date(a.scheduled_at).getTime() : 0;
+          const dateB = b.scheduled_at && isValidDate(b.scheduled_at) ? new Date(b.scheduled_at).getTime() : 0;
+          return dateB - dateA;
+        });
         
         console.log("🔍 [ClientDashboard] Agendamentos processados:", combinedBookings.length);
         console.log("🔍 [ClientDashboard] Dados finais:", combinedBookings.map(b => ({
@@ -276,6 +281,12 @@ const ClientDashboard = () => {
       style: 'currency',
       currency: 'BRL'
     }).format(amount);
+  };
+
+  const isValidDate = (dateString: string | Date) => {
+    if (!dateString) return false;
+    const date = new Date(dateString);
+    return !isNaN(date.getTime()) && date.getTime() > 0;
   };
 
   const getStatusColor = (status: string) => {
@@ -494,7 +505,10 @@ const ClientDashboard = () => {
                               }`}>
                                 <div className="flex items-center">
                                   <Calendar className="h-4 w-4 mr-1" />
-                                  {format(new Date(walk.scheduled_at), "dd/MM 'às' HH:mm", { locale: ptBR })}
+                                  {walk.scheduled_at && isValidDate(walk.scheduled_at) ? 
+                                    format(new Date(walk.scheduled_at), "dd/MM 'às' HH:mm", { locale: ptBR }) : 
+                                    'Data não disponível'
+                                  }
                                 </div>
                               </div>
                               {walk.locationAddress && (

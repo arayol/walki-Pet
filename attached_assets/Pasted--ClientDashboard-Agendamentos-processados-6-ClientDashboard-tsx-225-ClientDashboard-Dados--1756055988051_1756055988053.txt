@@ -1,0 +1,118 @@
+🔍 [ClientDashboard] Agendamentos processados: 6
+ClientDashboard.tsx:225 🔍 [ClientDashboard] Dados finais: (6) [{…}, {…}, {…}, {…}, {…}, {…}]
+ClientDashboard.tsx:247 🔍 [ClientDashboard] Resultado payments: {error: null, count: 10, data: Array(10)}
+date-fns.js?v=fc815506:1760 Uncaught RangeError: Invalid time value
+    at format (date-fns.js?v=fc815506:1760:11)
+    at ClientDashboard.tsx:497:36
+    at Array.map (<anonymous>)
+    at ClientDashboard (ClientDashboard.tsx:461:30)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=fc815506:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=fc815506:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=fc815506:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=fc815506:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=fc815506:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=fc815506:3733:39)
+format @ date-fns.js?v=fc815506:1760
+(anonymous) @ ClientDashboard.tsx:497
+ClientDashboard @ ClientDashboard.tsx:461
+renderWithHooks @ chunk-RPCDYKBN.js?v=fc815506:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=fc815506:14582
+beginWork @ chunk-RPCDYKBN.js?v=fc815506:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=fc815506:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=fc815506:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=fc815506:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=fc815506:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=fc815506:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=fc815506:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=fc815506:19116
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=fc815506:18678
+workLoop @ chunk-RPCDYKBN.js?v=fc815506:197
+flushWork @ chunk-RPCDYKBN.js?v=fc815506:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=fc815506:384
+date-fns.js?v=fc815506:1760 Uncaught RangeError: Invalid time value
+    at format (date-fns.js?v=fc815506:1760:11)
+    at ClientDashboard.tsx:497:36
+    at Array.map (<anonymous>)
+    at ClientDashboard (ClientDashboard.tsx:461:30)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=fc815506:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=fc815506:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=fc815506:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=fc815506:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=fc815506:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=fc815506:3733:39)
+format @ date-fns.js?v=fc815506:1760
+(anonymous) @ ClientDashboard.tsx:497
+ClientDashboard @ ClientDashboard.tsx:461
+renderWithHooks @ chunk-RPCDYKBN.js?v=fc815506:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=fc815506:14582
+beginWork @ chunk-RPCDYKBN.js?v=fc815506:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=fc815506:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=fc815506:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=fc815506:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=fc815506:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=fc815506:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=fc815506:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=fc815506:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=fc815506:18736
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=fc815506:18684
+workLoop @ chunk-RPCDYKBN.js?v=fc815506:197
+flushWork @ chunk-RPCDYKBN.js?v=fc815506:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=fc815506:384
+chunk-RPCDYKBN.js?v=fc815506:14032 The above error occurred in the <ClientDashboard> component:
+
+    at ClientDashboard (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/pages/ClientDashboard.tsx:31:29)
+    at ProtectedRoute (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/components/auth/ProtectedRoute.tsx:21:34)
+    at RenderedRoute (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-router-dom.js?v=fc815506:5525:26)
+    at Routes (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-router-dom.js?v=fc815506:6261:3)
+    at AppRoutes (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/App.tsx?v=v_TCGokMg6JiBZNsqSlXU:69:20)
+    at div
+    at PaymentMethodProvider (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/components/payments/PaymentMethodProvider.tsx:21:41)
+    at AuthProvider (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/src/shared/hooks/useAuth.tsx:36:32)
+    at Router (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-router-dom.js?v=fc815506:6204:13)
+    at BrowserRouter (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-router-dom.js?v=fc815506:9273:3)
+    at QueryClientProvider (https://ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=fc815506:2805:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+logCapturedError @ chunk-RPCDYKBN.js?v=fc815506:14032
+update.callback @ chunk-RPCDYKBN.js?v=fc815506:14052
+callCallback @ chunk-RPCDYKBN.js?v=fc815506:11248
+commitUpdateQueue @ chunk-RPCDYKBN.js?v=fc815506:11265
+commitLayoutEffectOnFiber @ chunk-RPCDYKBN.js?v=fc815506:17093
+commitLayoutMountEffects_complete @ chunk-RPCDYKBN.js?v=fc815506:17980
+commitLayoutEffects_begin @ chunk-RPCDYKBN.js?v=fc815506:17969
+commitLayoutEffects @ chunk-RPCDYKBN.js?v=fc815506:17920
+commitRootImpl @ chunk-RPCDYKBN.js?v=fc815506:19353
+commitRoot @ chunk-RPCDYKBN.js?v=fc815506:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=fc815506:18760
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=fc815506:18718
+workLoop @ chunk-RPCDYKBN.js?v=fc815506:197
+flushWork @ chunk-RPCDYKBN.js?v=fc815506:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=fc815506:384
+chunk-RPCDYKBN.js?v=fc815506:19413 Uncaught RangeError: Invalid time value
+    at format (date-fns.js?v=fc815506:1760:11)
+    at ClientDashboard.tsx:497:36
+    at Array.map (<anonymous>)
+    at ClientDashboard (ClientDashboard.tsx:461:30)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=fc815506:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=fc815506:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=fc815506:15924:22)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=fc815506:19753:22)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=fc815506:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=fc815506:19137:13)
+format @ date-fns.js?v=fc815506:1760
+(anonymous) @ ClientDashboard.tsx:497
+ClientDashboard @ ClientDashboard.tsx:461
+renderWithHooks @ chunk-RPCDYKBN.js?v=fc815506:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=fc815506:14582
+beginWork @ chunk-RPCDYKBN.js?v=fc815506:15924
+beginWork$1 @ chunk-RPCDYKBN.js?v=fc815506:19753
+performUnitOfWork @ chunk-RPCDYKBN.js?v=fc815506:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=fc815506:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=fc815506:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=fc815506:18736
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=fc815506:18684
+workLoop @ chunk-RPCDYKBN.js?v=fc815506:197
+flushWork @ chunk-RPCDYKBN.js?v=fc815506:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=fc815506:384

@@ -42,6 +42,10 @@ export interface IStorage {
   getWalksByClient(clientId: string): Promise<Walk[]>;
   getServiceBookingsByClient(clientId: string): Promise<ServiceBooking[]>;
   getPaymentsByClient(clientId: string): Promise<Payment[]>;
+  
+  // Atomic operations
+  createClientComplete(data: { profileData: InsertProfile, clientData: InsertClient }): Promise<{ profile: Profile, client: Client }>;
+  getProfileByEmail(email: string): Promise<Profile | undefined>;
 
   // Service Plan operations
   getServicePlan(id: string): Promise<ServicePlan | undefined>;
@@ -85,16 +89,6 @@ export class DatabaseStorage implements IStorage {
       return result[0];
     } catch (error) {
       console.error("Error getting profile:", error);
-      return undefined;
-    }
-  }
-
-  async getProfileByEmail(email: string): Promise<Profile | undefined> {
-    try {
-      const result = await db.select().from(schema.profiles).where(eq(schema.profiles.email, email)).limit(1);
-      return result[0];
-    } catch (error) {
-      console.error("Error getting profile by email:", error);
       return undefined;
     }
   }
@@ -303,6 +297,41 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error getting payments by client:", error);
       return [];
+    }
+  }
+
+  // Atomic operations - Manual rollback since Neon doesn't support transactions
+  async createClientComplete(data: { profileData: InsertProfile, clientData: InsertClient }): Promise<{ profile: Profile, client: Client }> {
+    let createdProfile: Profile | null = null;
+    
+    try {
+      // Create profile first
+      createdProfile = await this.createProfile(data.profileData);
+      
+      // Create client
+      const client = await this.createClient(data.clientData);
+      
+      return { profile: createdProfile, client };
+    } catch (error: any) {
+      // Manual rollback: delete profile if client creation failed
+      if (createdProfile) {
+        try {
+          await db.delete(schema.profiles).where(eq(schema.profiles.id, createdProfile.id));
+        } catch (rollbackError) {
+          console.error("Failed to rollback profile creation:", rollbackError);
+        }
+      }
+      throw new Error(`Failed to create client complete: ${error.message}`);
+    }
+  }
+
+  async getProfileByEmail(email: string): Promise<Profile | undefined> {
+    try {
+      const result = await db.select().from(schema.profiles).where(eq(schema.profiles.email, email)).limit(1);
+      return result[0];
+    } catch (error) {
+      console.error("Error getting profile by email:", error);
+      return undefined;
     }
   }
 

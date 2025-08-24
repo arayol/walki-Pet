@@ -694,32 +694,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { walker_id, name, email, password, pet_name, pet_breed, pet_age, pet_notes, emergency_contact, address } = req.body;
       
+      // Check if user already exists
+      const existingProfile = await storage.getProfileByEmail(email);
+      if (existingProfile) {
+        return res.status(400).json({ error: "Email já cadastrado" });
+      }
+      
       // Generate a unique ID for the client
       const clientId = crypto.randomUUID();
       
-      // Create profile first
-      const profile = await storage.createProfile({
-        id: clientId,
-        email,
-        name,
-        role: "client"
+      // Create BOTH profile and client in a single transaction
+      const result = await storage.createClientComplete({
+        profileData: {
+          id: clientId,
+          email,
+          name,
+          role: "client" as const
+        },
+        clientData: {
+          client_id: clientId,
+          walker_id,
+          client_name: name,
+          pet_name,
+          pet_breed: pet_breed || null,
+          pet_age: pet_age ? parseInt(pet_age) : null,
+          pet_notes: pet_notes || null,
+          emergency_contact: emergency_contact || null,
+          address: address || null,
+          is_active: true
+        }
       });
       
-      // Create client
-      const client = await storage.createClient({
-        client_id: clientId,
-        walker_id,
-        client_name: name,
-        pet_name,
-        pet_breed: pet_breed || null,
-        pet_age: pet_age ? parseInt(pet_age) : null,
-        pet_notes: pet_notes || null,
-        emergency_contact: emergency_contact || null,
-        address: address || null,
-        is_active: true
-      });
-      
-      res.json({ success: true, client_id: client.client_id });
+      res.json({ success: true, client_id: result.client.client_id });
     } catch (error) {
       console.error("Error creating client:", error);
       res.status(500).json({ error: "Failed to create client" });

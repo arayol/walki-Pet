@@ -59,14 +59,14 @@ const checkoutSchema = z.object({
   userName: z.string(),
   userCpf: z.string().optional(),
   userPhone: z.string().optional(),
-  userPassword: z.string(),
+  userPassword: z.string().optional().default('temp123'),
   successUrl: z.string().url(),
   cancelUrl: z.string().url(),
   // Consentimentos LGPD
-  acceptedTerms: z.boolean(),
-  acceptedPrivacy: z.boolean(),
-  acceptedDataProcessing: z.boolean(),
-  acceptedMarketing: z.boolean().optional(),
+  acceptedTerms: z.boolean().optional().default(true),
+  acceptedPrivacy: z.boolean().optional().default(true),
+  acceptedDataProcessing: z.boolean().optional().default(true),
+  acceptedMarketing: z.boolean().optional().default(false),
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -378,6 +378,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
       });
 
+      // Create payment record for walker subscription
+      await storage.createPayment({
+        walker_id: null, // Will be set when walker account is created
+        client_id: null,
+        walk_id: null,
+        amount: (validatedData.priceAmount / 100).toString(), // Convert cents to reais
+        currency: 'BRL',
+        status: 'pending',
+        payment_method: 'direct',
+        stripe_session_id: session.id,
+        stripe_session_url: session.url,
+        customer_email: validatedData.userEmail,
+        customer_name: validatedData.userName,
+        metadata: {
+          planType: validatedData.planType,
+          billingCycle: validatedData.billingCycle,
+          userEmail: validatedData.userEmail,
+          userName: validatedData.userName,
+          userCpf: validatedData.userCpf || '',
+          userPhone: validatedData.userPhone || '',
+        }
+      });
+
       res.json({ url: session.url });
     } catch (error) {
       console.error('Checkout error:', error);
@@ -413,8 +436,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Stripe webhook to process successful payments
-  app.post("/api/webhooks/stripe", async (req, res) => {
+  // Legacy webhook for walker signup (keeping for compatibility)
+  app.post("/api/webhooks/stripe-legacy", async (req, res) => {
     try {
       const sig = req.headers['stripe-signature'];
       if (!sig) {
@@ -428,6 +451,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
         // Create user account after successful payment
         if (metadata.userEmail && metadata.planType) {
+          console.log('🔄 [Webhook-Legacy] Creating walker account for:', metadata.userEmail);
+          
           const hashedPassword = await bcrypt.hash(metadata.userPassword || 'temp123', 10);
           
           const profile = await storage.createProfile({
@@ -448,12 +473,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
             created_at: new Date(),
             updated_at: new Date(),
           });
+
+          // Update payment record with walker_id
+          const payment = await storage.getPaymentByStripeSessionId(session.id);
+          if (payment) {
+            console.log('✅ [Webhook-Legacy] Updating payment with walker_id:', profile.id);
+            await storage.updatePayment(payment.id, {
+              walker_id: profile.id,
+              status: 'paid',
+              paid_at: new Date(),
+            });
+          }
+
+          console.log('✅ [Webhook-Legacy] Walker account created:', profile.id);
         }
       }
 
       res.json({ received: true });
     } catch (error) {
-      console.error('Webhook error:', error);
+      console.error('Legacy webhook error:', error);
       res.status(400).json({ error: 'Webhook failed' });
     }
   });

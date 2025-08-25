@@ -167,8 +167,8 @@ export const walks = pgTable('walks', {
 // Payments table
 export const payments = pgTable('payments', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
-  walker_id: uuid('walker_id').notNull().references(() => walkers.walker_id),
-  client_id: uuid('client_id').notNull().references(() => clients.client_id),
+  walker_id: uuid('walker_id').references(() => walkers.walker_id),
+  client_id: uuid('client_id').references(() => clients.client_id),
   walk_id: uuid('walk_id').references(() => walks.id),
   amount: numeric('amount', { precision: 10, scale: 2 }).notNull(),
   currency: varchar('currency', { length: 3 }).default('BRL'),

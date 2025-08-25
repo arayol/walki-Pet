@@ -26,6 +26,7 @@ interface Transaction {
   service_plan_name: string;
   scheduled_by: string;
   payment_method_label: string;
+  walker_id: string;
   clients: {
     client_name: string;
     pet_name: string;
@@ -85,6 +86,7 @@ export const TransactionHistory = () => {
           paid_at: payment.paid_at,
           created_at: payment.created_at,
           payment_method: payment.payment_method,
+          walker_id: payment.walker_id,
           clients: payment.clients || {
             client_name: payment.client_name || 'Cliente',
             pet_name: payment.pet_name || 'Pet',

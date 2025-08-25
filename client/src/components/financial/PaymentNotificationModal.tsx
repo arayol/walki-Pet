@@ -16,6 +16,7 @@ interface Transaction {
   paid_at: string | null;
   created_at: string;
   payment_method: string | null;
+  walker_id: string;
   clients: {
     client_name: string;
     pet_name: string;
@@ -39,6 +40,7 @@ export const PaymentNotificationModal = ({
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [clientPhone, setClientPhone] = useState("");
+  const [walkerName, setWalkerName] = useState("");
   const { toast } = useToast();
 
   const defaultMessage = transaction ? 
@@ -53,14 +55,20 @@ Para finalizar o pagamento, por favor acesse o link que foi enviado anteriorment
 Agradecemos a compreensão!
 
 Atenciosamente,
-Equipe de Pet Care` : "";
+${walkerName || 'Seu DogWalker'}` : "";
 
   useEffect(() => {
     if (transaction) {
-      setMessage(defaultMessage);
       fetchClientPhone();
+      fetchWalkerName();
     }
   }, [transaction]);
+
+  useEffect(() => {
+    if (transaction && walkerName) {
+      setMessage(defaultMessage);
+    }
+  }, [transaction, walkerName]);
 
   const fetchClientPhone = async () => {
     if (!transaction) return;
@@ -79,6 +87,28 @@ Equipe de Pet Care` : "";
       setClientPhone(clientData?.phone || clientData?.emergency_contact || "");
     } catch (error) {
       console.error("Erro ao buscar telefone do cliente:", error);
+    }
+  };
+
+  const fetchWalkerName = async () => {
+    if (!transaction) return;
+
+    try {
+      // Buscar dados do walker via API REST  
+      const response = await fetch(`/api/walkers/${transaction.walker_id}`);
+      
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}`);
+      }
+      
+      const walkerData = await response.json();
+      
+      // Usar o nome do walker do profile
+      const walkerFullName = walkerData?.profile?.name || walkerData?.walker_name || 'Seu DogWalker';
+      setWalkerName(`${walkerFullName} seu DogWalker`);
+    } catch (error) {
+      console.error("Erro ao buscar nome do walker:", error);
+      setWalkerName('Seu DogWalker');
     }
   };
 

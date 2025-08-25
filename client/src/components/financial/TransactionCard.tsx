@@ -16,6 +16,7 @@ interface Transaction {
   service_plan_name: string;
   scheduled_by: string;
   payment_method_label: string;
+  walker_id: string;
   clients: {
     client_name: string;
     pet_name: string;

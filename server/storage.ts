@@ -1,5 +1,5 @@
 import { db } from "./db.js";
-import { eq, and } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 import * as schema from "../shared/schema.js";
 
 // Type aliases from our schema
@@ -577,6 +577,49 @@ export class DatabaseStorage implements IStorage {
       return result;
     } catch (error) {
       console.error("Error getting payments by walker:", error);
+      return [];
+    }
+  }
+
+  async getPaymentsWithClientsByWalker(walkerId: string): Promise<any[]> {
+    try {
+      const result = await db
+        .select({
+          // Payment fields
+          id: schema.payments.id,
+          walker_id: schema.payments.walker_id,
+          client_id: schema.payments.client_id,
+          walk_id: schema.payments.walk_id,
+          amount: schema.payments.amount,
+          currency: schema.payments.currency,
+          status: schema.payments.status,
+          payment_type: schema.payments.payment_type,
+          payment_method: schema.payments.payment_method,
+          payment_method_types: schema.payments.payment_method_types,
+          stripe_payment_id: schema.payments.stripe_payment_id,
+          stripe_session_id: schema.payments.stripe_session_id,
+          stripe_session_url: schema.payments.stripe_session_url,
+          stripe_customer_id: schema.payments.stripe_customer_id,
+          payment_intent_id: schema.payments.payment_intent_id,
+          customer_name: schema.payments.customer_name,
+          customer_email: schema.payments.customer_email,
+          due_date: schema.payments.due_date,
+          paid_at: schema.payments.paid_at,
+          metadata: schema.payments.metadata,
+          created_at: schema.payments.created_at,
+          updated_at: schema.payments.updated_at,
+          // Client fields
+          client_name: schema.clients.client_name,
+          pet_name: schema.clients.pet_name,
+        })
+        .from(schema.payments)
+        .leftJoin(schema.clients, eq(schema.payments.client_id, schema.clients.client_id))
+        .where(eq(schema.payments.walker_id, walkerId))
+        .orderBy(desc(schema.payments.created_at));
+      
+      return result;
+    } catch (error) {
+      console.error("Error getting payments with clients by walker:", error);
       return [];
     }
   }

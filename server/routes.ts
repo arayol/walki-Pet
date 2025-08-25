@@ -1424,15 +1424,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const walkerId = req.params.walkerId;
       
-      // Get payments data (same as transactions for this implementation)
-      const payments = await storage.getPaymentsByWalker(walkerId);
+      // Get payments with client data
+      const payments = await storage.getPaymentsWithClientsByWalker(walkerId);
       
       // Process payments to match expected transaction format
       const transactions = payments.map((payment: any) => ({
         ...payment,
-        clients: payment.clients || {
+        clients: {
           client_name: payment.client_name || 'Cliente',
-          pet_name: payment.pet_name || 'Pet',
+          pet_name: payment.pet_name || 'Pet', 
           client_id: payment.client_id || ''
         },
         service_plan_name: payment.metadata?.service_plan_name || 'Serviço',

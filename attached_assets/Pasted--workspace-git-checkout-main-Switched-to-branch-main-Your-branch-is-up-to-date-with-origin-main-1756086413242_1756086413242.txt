@@ -1,0 +1,160 @@
+~/workspace$ git checkout main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+~/workspace$ git pull origin main
+From https://github.com/arayol/walki-Pet
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+~/workspace$ git merge dev
+Updating 8bc5082..1fd0eac
+Fast-forward
+ .replit                                                       |   2 +-
+ attached_assets/Logo Fundo Claro copy_1755961914807.png       | Bin 0 -> 64305 bytes
+ attached_assets/Logo Fundo Claro_1755962506895.png            | Bin 0 -> 63130 bytes
+ ...225-ClientDashboard-Dados--1756055988051_1756055988053.txt | 118 ++++
+ ...-50295d9de7c4-ClientServic-1755999232667_1755999232668.txt |  66 ++
+ ...4d4c-a92c-50295d9de7c4-use-1755998907060_1755998907061.txt |  36 ++
+ ...50295d9de7c4-authLoading-f-1755999641926_1755999641927.txt |  89 +++
+ ...ent-tsx-101-Walks-criados--1756049144458_1756049144459.txt |  89 +++
+ ...397-4095-a8ac-f4caf222b41b-1756047421973_1756047421974.txt |  33 +
+ ...aa-4723-b7b2-219e08ccbdbe--1755999878129_1755999878131.txt |  83 +++
+ ...Days-Array-2-BookingForm-t-1756046190777_1756046190779.txt |  33 +
+ ...ailabilityCount-9-availabi-1756046923656_1756046923656.txt |  43 ++
+ ...cePlanId-9a032810-6397-409-1756048448855_1756048448855.txt | 200 ++++++
+ ...1954-walker-id-af206421-09-1756047270353_1756047270354.txt |  52 ++
+ ...e485-walker-id-af206421-09-1756048682260_1756048682261.txt |  52 ++
+ ...or-message-slot-validation-1756044038661_1756044038664.txt |  28 +
+ ...or-message-slot-validation-1756044043067_1756044043067.txt |  28 +
+ ...e-10-00-00-useRealTimeVali-1756043314004_1756043314005.txt |  67 +++
+ ...lientLogin-hook-called-suc-1755996996254_1755996996255.txt |  40 ++
+ ...ings-Dados-finais-Array-0--1756051063943_1756051063943.txt |  18 +
+ ...5c-4d4c-a92c-50295d9de7c4--1756056235082_1756056235083.txt |  76 +++
+ ...xError-Failed-to-execute-j-1755965606342_1755965606343.txt |  45 ++
+ ...tgreSQL-Error-TypeError-su-1755964279820_1755964279821.txt | 123 ++++
+ ...rd-replit-dev-fs-home-runn-1756000303954_1756000303955.txt |  30 +
+ attached_assets/booking-hook-fix_1756048852432.ts             |  44 ++
+ attached_assets/image_1755962256523.png                       | Bin 0 -> 45183 bytes
+ attached_assets/image_1755962485128.png                       | Bin 0 -> 23021 bytes
+ attached_assets/image_1755976325543.png                       | Bin 0 -> 75225 bytes
+ attached_assets/image_1755985835990.png                       | Bin 0 -> 43116 bytes
+ attached_assets/image_1755993981720.png                       | Bin 0 -> 111030 bytes
+ attached_assets/image_1755993988438.png                       | Bin 0 -> 111030 bytes
+ attached_assets/image_1756042551370.png                       | Bin 0 -> 31150 bytes
+ attached_assets/image_1756042809980.png                       | Bin 0 -> 30500 bytes
+ attached_assets/image_1756045161746.png                       | Bin 0 -> 87041 bytes
+ attached_assets/image_1756046857872.png                       | Bin 0 -> 86664 bytes
+ attached_assets/image_1756085598226.png                       | Bin 0 -> 125837 bytes
+ attached_assets/storage-walk-fix_1756048859215.ts             |  42 ++
+ attached_assets/walks-api-fix_1756048906308.ts                |  72 +++
+ client/src/App.tsx                                            |  11 +
+ client/src/apps/client/hooks/useClientServices.tsx            | 161 +++--
+ client/src/apps/client/pages/ClientSignup.tsx                 |  29 +-
+ client/src/apps/public/pages/Index.tsx                        |   4 +-
+ client/src/apps/walker/pages/ServicePlans.tsx                 |  20 +-
+ client/src/assets/logo-small.png                              | Bin 0 -> 63130 bytes
+ client/src/assets/logo.png                                    | Bin 0 -> 64305 bytes
+ client/src/components/calendar/GoogleCalendarSync.tsx         | 152 ++---
+ client/src/components/client-booking/BookingForm.tsx          |  42 +-
+ client/src/components/client-booking/ConfirmationModal.tsx    |  97 ++-
+ client/src/components/client-services/AvailabilitySlots.tsx   |  32 +-
+ client/src/components/client-signup/ClientSignupForm.tsx      |   5 -
+ client/src/components/dashboard/StripeConnectCard.tsx         |  64 +-
+ client/src/components/financial/PaymentNotificationModal.tsx  |  64 +-
+ client/src/components/financial/TransactionCard.tsx           |  25 +-
+ client/src/components/financial/TransactionHistory.tsx        | 109 ++--
+ client/src/components/layout/WalkerLayout.tsx                 |  11 +-
+ .../src/components/marketing/AvailabilitySchedulesManager.tsx | 326 ++++++++++
+ client/src/components/service-plans/DeletePlanModal.tsx       |  15 +-
+ client/src/components/service-plans/ServicePlanCard.tsx       |  14 +-
+ client/src/components/service-plans/ServicePlanForm.tsx       |  50 ++
+ client/src/components/service-plans/ServicePlansHeader.tsx    |   9 +-
+ .../src/components/service-plans/form/RegionsManagerModal.tsx |  61 +-
+ client/src/components/service-plans/form/SchedulesSection.tsx | 209 +++++++
+ .../components/service-plans/form/ServicePlanFormContent.tsx  |  13 +-
+ client/src/components/service-regions/AddRegionForm.tsx       |   5 +
+ client/src/components/service-regions/RegionsList.tsx         |  17 +-
+ client/src/components/service-schedules/AddScheduleForm.tsx   |   3 +-
+ client/src/components/service-schedules/ScheduleCard.tsx      |   2 +-
+ client/src/components/shared/Header.tsx                       | 100 +++
+ client/src/components/stripe/StripeConnectSetup.tsx           |  69 ++-
+ client/src/components/walker/WalkerHeader.tsx                 |  12 +-
+ client/src/hooks/useBookingValidation.tsx                     |  42 +-
+ client/src/hooks/useClientLogin.tsx                           |  62 +-
+ client/src/hooks/useClientSignup.tsx                          | 102 +---
+ client/src/hooks/useFinancialStats.tsx                        |  58 +-
+ client/src/hooks/useIntegratedBookingPayment.tsx              |  75 ++-
+ client/src/hooks/usePlanAvailability.tsx                      |  21 +-
+ client/src/hooks/useRealTimeValidation.tsx                    |   2 +-
+ client/src/hooks/useServicePlans.tsx                          |  40 +-
+ client/src/hooks/useServiceRegions.tsx                        |  12 +
+ client/src/hooks/useServiceSchedules.tsx                      |  83 ++-
+ .../hybrid-payments/providers/StripeMarketplaceProvider.ts    |  30 +-
+ .../hybrid-payments/providers/StripePaymentProvider.ts        |   4 +-
+ client/src/pages/ClientBooking.tsx                            |  16 +-
+ client/src/pages/ClientDashboard.tsx                          | 139 ++---
+ client/src/pages/ClientLanding.tsx                            |   4 +-
+ client/src/pages/Clients.tsx                                  |  12 +-
+ client/src/pages/Marketing.tsx                                | 274 +++++++--
+ client/src/pages/PaymentCancel.tsx                            |  62 ++
+ client/src/pages/PaymentSuccess.tsx                           |  63 +-
+ client/src/pages/PublicProfile.tsx                            |  15 +-
+ client/src/pages/Schedule.tsx                                 | 109 ++--
+ client/src/pages/StripeConnectSuccess.tsx                     | 144 +++++
+ client/src/types/client.ts                                    |   3 -
+ package-lock.json                                             | 725 +++++++++++++++++++++-
+ package.json                                                  |  11 +-
+ server/lib/googleCalendar.ts                                  | 203 +++++++
+ server/routes.ts                                              | 867 ++++++++++++++++++++++++++-
+ server/storage.ts                                             | 422 ++++++++++++-
+ shared/schema.ts                                              |  14 +-
+ 99 files changed, 5952 insertions(+), 902 deletions(-)
+ create mode 100644 attached_assets/Logo Fundo Claro copy_1755961914807.png
+ create mode 100644 attached_assets/Logo Fundo Claro_1755962506895.png
+ create mode 100644 attached_assets/Pasted--ClientDashboard-Agendamentos-processados-6-ClientDashboard-tsx-225-ClientDashboard-Dados--1756055988051_1756055988053.txt
+ create mode 100644 attached_assets/Pasted--ClientServices-Full-pathname-client-services-af206421-095c-4d4c-a92c-50295d9de7c4-ClientServic-1755999232667_1755999232668.txt
+ create mode 100644 attached_assets/Pasted--ClientServices-fetchWalkerAndServices-started-for-slug-af206421-095c-4d4c-a92c-50295d9de7c4-use-1755998907060_1755998907061.txt
+ create mode 100644 attached_assets/Pasted--ClientServices-useEffect-triggered-slug-af206421-095c-4d4c-a92c-50295d9de7c4-authLoading-f-1755999641926_1755999641927.txt
+ create mode 100644 attached_assets/Pasted--Criando-walks-via-PostgreSQL-2-useIntegratedBookingPayment-tsx-101-Walks-criados--1756049144458_1756049144459.txt
+ create mode 100644 attached_assets/Pasted--DaySelector-Componente-inicializado-com-servicePlanId-9a032810-6397-4095-a8ac-f4caf222b41b-1756047421973_1756047421974.txt
+ create mode 100644 attached_assets/Pasted--DaySelector-Componente-inicializado-com-servicePlanId-c9d2304c-f1aa-4723-b7b2-219e08ccbdbe--1755999878129_1755999878131.txt
+ create mode 100644 attached_assets/Pasted--DaySelector-Dados-processados-em-weekDays-weekDaysCount-2-weekDays-Array-2-BookingForm-t-1756046190777_1756046190779.txt
+ create mode 100644 attached_assets/Pasted--DaySelector-Estado-da-query-isLoading-false-hasError-false-availabilityCount-9-availabi-1756046923656_1756046923656.txt
+ create mode 100644 attached_assets/Pasted--DaySelector-tsx-35-DaySelector-Componente-inicializado-com-servicePlanId-9a032810-6397-409-1756048448855_1756048448855.txt
+ create mode 100644 attached_assets/Pasted--Registro-de-pagamento-criado-id-494a7d80-ee3f-4c39-adc8-a239bf941954-walker-id-af206421-09-1756047270353_1756047270354.txt
+ create mode 100644 attached_assets/Pasted--Registro-de-pagamento-criado-id-77993fc4-9d81-4f39-a43d-07b2840ee485-walker-id-af206421-09-1756048682260_1756048682261.txt
+ create mode 100644 attached_assets/Pasted--useBookingValidation-Resultado-da-valida-o-is-valid-true-error-message-slot-validation-1756044038661_1756044038664.txt
+ create mode 100644 attached_assets/Pasted--useBookingValidation-Resultado-da-valida-o-is-valid-true-error-message-slot-validation-1756044043067_1756044043067.txt
+ create mode 100644 attached_assets/Pasted--useBookingValidation-Verificando-slot-1-date-2025-09-05-time-10-00-00-useRealTimeVali-1756043314004_1756043314005.txt
+ create mode 100644 attached_assets/Pasted--useClientLogin-hook-initialized-successfully-ClientLogin-tsx-36-useClientLogin-hook-called-suc-1755996996254_1755996996255.txt
+ create mode 100644 attached_assets/Pasted--useRecentBookings-Total-de-itens-processados-0-useRecentBookings-Dados-finais-Array-0--1756051063943_1756051063943.txt
+ create mode 100644 attached_assets/Pasted-Creating-marketplace-payment-with-amount-22500-walkerId-af206421-095c-4d4c-a92c-50295d9de7c4--1756056235082_1756056235083.txt
+ create mode 100644 attached_assets/Pasted-Current-route-financial-Console-js-61-Erro-ao-buscar-transa-es-SyntaxError-Failed-to-execute-j-1755965606342_1755965606343.txt
+ create mode 100644 attached_assets/Pasted-Current-route-service-plans-Loading-service-plans-from-PostgreSQL-Error-TypeError-su-1755964279820_1755964279821.txt
+ create mode 100644 attached_assets/Pasted-Route-https-ff821d34-ff19-4a7d-b1bb-b02cd606e926-00-3t4jino6dk5w3-picard-replit-dev-fs-home-runn-1756000303954_1756000303955.txt
+ create mode 100644 attached_assets/booking-hook-fix_1756048852432.ts
+ create mode 100644 attached_assets/image_1755962256523.png
+ create mode 100644 attached_assets/image_1755962485128.png
+ create mode 100644 attached_assets/image_1755976325543.png
+ create mode 100644 attached_assets/image_1755985835990.png
+ create mode 100644 attached_assets/image_1755993981720.png
+ create mode 100644 attached_assets/image_1755993988438.png
+ create mode 100644 attached_assets/image_1756042551370.png
+ create mode 100644 attached_assets/image_1756042809980.png
+ create mode 100644 attached_assets/image_1756045161746.png
+ create mode 100644 attached_assets/image_1756046857872.png
+ create mode 100644 attached_assets/image_1756085598226.png
+ create mode 100644 attached_assets/storage-walk-fix_1756048859215.ts
+ create mode 100644 attached_assets/walks-api-fix_1756048906308.ts
+ create mode 100644 client/src/assets/logo-small.png
+ create mode 100644 client/src/assets/logo.png
+ create mode 100644 client/src/components/marketing/AvailabilitySchedulesManager.tsx
+ create mode 100644 client/src/components/service-plans/form/SchedulesSection.tsx
+ create mode 100644 client/src/components/shared/Header.tsx
+ create mode 100644 client/src/pages/PaymentCancel.tsx
+ create mode 100644 client/src/pages/StripeConnectSuccess.tsx
+ create mode 100644 server/lib/googleCalendar.ts
+~/workspace$ git push origin main
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/arayol/walki-Pet.git
+   8bc5082..1fd0eac  main -> main
+~/workspace$ 

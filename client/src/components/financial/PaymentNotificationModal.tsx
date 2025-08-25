@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { MessageSquare, Send, X } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+// Removed supabase import - using REST APIs instead
 import { useToast } from "@/hooks/use-toast";
 
 interface Transaction {
@@ -66,16 +66,17 @@ Equipe de Pet Care` : "";
     if (!transaction) return;
 
     try {
-      const { data, error } = await supabase
-        .from("clients")
-        .select("emergency_contact")
-        .eq("client_id", transaction.clients.client_id)
-        .single();
-
-      if (error) throw error;
+      // Buscar dados do cliente via API REST
+      const response = await fetch(`/api/clients/${transaction.clients.client_id}`);
       
-      // Assumindo que o emergency_contact contém o telefone
-      setClientPhone(data?.emergency_contact || "");
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}`);
+      }
+      
+      const clientData = await response.json();
+      
+      // Usar o campo phone do cliente, ou emergency_contact se phone não existir
+      setClientPhone(clientData?.phone || clientData?.emergency_contact || "");
     } catch (error) {
       console.error("Erro ao buscar telefone do cliente:", error);
     }

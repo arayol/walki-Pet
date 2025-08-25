@@ -31,9 +31,17 @@ interface TransactionCardProps {
 }
 
 export const TransactionCard = ({ transaction, onNotifyClient, onMarkAsPaid, onDelete }: TransactionCardProps) => {
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = (status: string, paymentMethod: string | null) => {
     switch (status) {
       case 'paid':
+        if (paymentMethod === 'manual') {
+          return (
+            <div className="flex flex-col items-center">
+              <Badge className="bg-green-500 text-white">Pago</Badge>
+              <span className="text-xs text-blue-600 mt-1">Baixado Manualmente</span>
+            </div>
+          );
+        }
         return <Badge className="bg-green-500 text-white">Pago</Badge>;
       case 'pending':
         return <Badge variant="outline" className="border-orange-400 text-orange-600">Pendente</Badge>;
@@ -97,7 +105,7 @@ export const TransactionCard = ({ transaction, onNotifyClient, onMarkAsPaid, onD
             {formatCurrency(transaction.amount)}
           </p>
           <div className="flex items-center justify-end space-x-2">
-            {getStatusBadge(transaction.status)}
+            {getStatusBadge(transaction.status, transaction.payment_method)}
             {transaction.status === 'pending' && (
               <div className="flex space-x-2">
                 {/* Botão Notificar para todos os pagamentos pendentes */}
@@ -110,15 +118,15 @@ export const TransactionCard = ({ transaction, onNotifyClient, onMarkAsPaid, onD
                   <Bell className="h-3 w-3 mr-1" />
                   Notificar
                 </Button>
-                {/* Botão Marcar como Pago para agendamentos manuais */}
+                {/* Botão Baixar para agendamentos manuais */}
                 {!transaction.stripe_payment_id && onMarkAsPaid && (
                   <Button
                     size="sm"
                     onClick={() => onMarkAsPaid(transaction)}
-                    className="bg-green-600 hover:bg-green-700 text-white"
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
                   >
                     <Check className="h-3 w-3 mr-1" />
-                    Pago
+                    Baixar
                   </Button>
                 )}
               </div>

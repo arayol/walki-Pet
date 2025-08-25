@@ -549,6 +549,18 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  async deletePayment(id: string): Promise<boolean> {
+    try {
+      const result = await db.delete(schema.payments)
+        .where(eq(schema.payments.id, id))
+        .returning();
+      return result.length > 0;
+    } catch (error) {
+      console.error("Error deleting payment:", error);
+      return false;
+    }
+  }
+
   async getPaymentsByClient(clientId: string): Promise<Payment[]> {
     try {
       const result = await db.select().from(schema.payments).where(eq(schema.payments.client_id, clientId));

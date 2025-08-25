@@ -1532,19 +1532,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const paymentId = req.params.paymentId;
       
-      // For now, mark payment as cancelled instead of deleting
-      const updatedPayment = await storage.updatePayment(paymentId, { 
-        status: 'cancelled',
-        updated_at: new Date()
-      });
+      // Delete payment permanently from database
+      const deleted = await storage.deletePayment(paymentId);
       
-      if (!updatedPayment) {
+      if (!deleted) {
         return res.status(404).json({ error: "Payment not found" });
       }
 
-      res.json({ success: true, message: "Payment cancelled successfully" });
+      res.json({ success: true, message: "Payment deleted successfully" });
     } catch (error) {
-      console.error("Error cancelling payment:", error);
+      console.error("Error deleting payment:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   });

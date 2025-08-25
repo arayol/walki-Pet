@@ -118,16 +118,14 @@ export const TransactionCard = ({ transaction, onNotifyClient, onMarkAsPaid, onD
                   <Bell className="h-3 w-3 mr-1" />
                   Notificar
                 </Button>
-                {/* Botão Baixar para agendamentos manuais */}
+                {/* Badge Baixar para agendamentos manuais */}
                 {!transaction.stripe_payment_id && onMarkAsPaid && (
-                  <Button
-                    size="sm"
+                  <Badge 
+                    className="bg-blue-500 text-white cursor-pointer hover:bg-blue-600"
                     onClick={() => onMarkAsPaid(transaction)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
                   >
-                    <Check className="h-3 w-3 mr-1" />
                     Baixar
-                  </Button>
+                  </Badge>
                 )}
               </div>
             )}

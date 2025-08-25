@@ -42,9 +42,9 @@ export const PaymentNotificationModal = ({
   const { toast } = useToast();
 
   const defaultMessage = transaction ? 
-    `Olá ${transaction.clients?.client_name}!
+    `Olá ${transaction.clients?.client_name || 'Cliente'}!
 
-Esperamos que você e o ${transaction.clients?.pet_name} estejam bem!
+Esperamos que você e o ${transaction.clients?.pet_name || 'seu pet'} estejam bem!
 
 Notamos que o pagamento do serviço realizado ainda está pendente no valor de ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(transaction.amount)}.
 
@@ -132,7 +132,10 @@ Equipe de Pet Care` : "";
           {/* Detalhes da Transação */}
           <div className="bg-gray-50 p-4 rounded-lg">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="font-semibold">{transaction.clients.client_name}</h4>
+              <div>
+                <h4 className="font-semibold">{transaction.clients.client_name || 'Cliente'}</h4>
+                <p className="text-sm text-gray-600">Pet: {transaction.clients.pet_name || 'Pet'}</p>
+              </div>
               <Badge variant="outline" className="border-orange-400 text-orange-600">
                 Pendente
               </Badge>

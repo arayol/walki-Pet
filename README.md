@@ -3,7 +3,7 @@ Welcome to your DogWalker project
 ## Project info
 
 **URL**: 
-https://replit.com/@rayol/pet-pals-adventures
+https://replit.com/@rayol/Walkipet
 
 ## How can I edit this code?
 
